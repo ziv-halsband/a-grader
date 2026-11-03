@@ -1,0 +1,506 @@
+{
+  "welcome-m": {
+    "text": "שָׁלוֹם! אֲנִי הַמּוֹרָה. בּוֹא נֵצֵא יַחַד לְמַסָּע שֶׁל קְרִיאָה!",
+    "hash": "9628c9f72d",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "welcome-f": {
+    "text": "שָׁלוֹם! אֲנִי הַמּוֹרָה. בּוֹאִי נֵצֵא יַחַד לְמַסָּע שֶׁל קְרִיאָה!",
+    "hash": "b138c1959f",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "map-pick-m": {
+    "text": "לְאָן נוֹסְעִים הַיּוֹם? לְחַץ עַל הַתַּחֲנָה שֶׁמְּחַכָּה לְךָ.",
+    "hash": "5ad6126ec9",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "map-pick-f": {
+    "text": "לְאָן נוֹסְעִים הַיּוֹם? לַחֲצִי עַל הַתַּחֲנָה שֶׁמְּחַכָּה לָךְ.",
+    "hash": "e431668fba",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letters-map-m": {
+    "text": "בָּרוּךְ הַבָּא לְעוֹלַם הָאוֹתִיּוֹת! בְּכָל תַּחֲנָה נַכִּיר אוֹתִיּוֹת חֲדָשׁוֹת.",
+    "hash": "0c3292f930",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letters-map-f": {
+    "text": "בְּרוּכָה הַבָּאָה לְעוֹלַם הָאוֹתִיּוֹת! בְּכָל תַּחֲנָה נַכִּיר אוֹתִיּוֹת חֲדָשׁוֹת.",
+    "hash": "f5892b065e",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "meet-intro-m": {
+    "text": "בּוֹא נַכִּיר אוֹתִיּוֹת חֲדָשׁוֹת. לְחַץ עַל הָאוֹת כְּדֵי לִשְׁמֹעַ אוֹתָהּ שׁוּב.",
+    "hash": "351398a237",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "meet-intro-f": {
+    "text": "בּוֹאִי נַכִּיר אוֹתִיּוֹת חֲדָשׁוֹת. לַחֲצִי עַל הָאוֹת כְּדֵי לִשְׁמֹעַ אוֹתָהּ שׁוּב.",
+    "hash": "f15031c9af",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "find-intro-m": {
+    "text": "עַכְשָׁו מִשְׂחָק! אֲנִי אוֹמֶרֶת אוֹת, וְאַתָּה מוֹצֵא אוֹתָהּ.",
+    "hash": "e87a35f113",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "find-intro-f": {
+    "text": "עַכְשָׁו מִשְׂחָק! אֲנִי אוֹמֶרֶת אוֹת, וְאַתְּ מוֹצֵאת אוֹתָהּ.",
+    "hash": "d9ea9acb04",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "bubbles-intro-m": {
+    "text": "פּוֹצֵץ אֶת כָּל הַבּוּעוֹת שֶׁל הָאוֹת",
+    "hash": "b65c4e3105",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "bubbles-intro-f": {
+    "text": "פּוֹצְצִי אֶת כָּל הַבּוּעוֹת שֶׁל הָאוֹת",
+    "hash": "965e9d72fc",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "try-again-m": {
+    "text": "כִּמְעַט! נַסֵּה שׁוּב.",
+    "hash": "0a84b0d8bb",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "try-again-f": {
+    "text": "כִּמְעַט! נַסִּי שׁוּב.",
+    "hash": "d63dc6ebf4",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "your-turn-m": {
+    "text": "עַכְשָׁו אַתָּה.",
+    "hash": "efbaf279d5",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "your-turn-f": {
+    "text": "עַכְשָׁו אַתְּ.",
+    "hash": "03b5c82cf0",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "champ-m": {
+    "text": "אַלּוּף!",
+    "hash": "1421bc3666",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "champ-f": {
+    "text": "אַלּוּפָה!",
+    "hash": "529ab7b7a9",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "sticker-m": {
+    "text": "קִבַּלְתָּ מַדְבֵּקָה חֲדָשָׁה!",
+    "hash": "1d1fd49d1f",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "sticker-f": {
+    "text": "קִבַּלְתְּ מַדְבֵּקָה חֲדָשָׁה!",
+    "hash": "687379445f",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "station-done-m": {
+    "text": "סִיַּמְתָּ אֶת הַתַּחֲנָה! אֶפְשָׁר לְשַׂחֵק שׁוּב, אוֹ לְהַמְשִׁיךְ הָלְאָה.",
+    "hash": "3e1ce81bc6",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "station-done-f": {
+    "text": "סִיַּמְתְּ אֶת הַתַּחֲנָה! אֶפְשָׁר לְשַׂחֵק שׁוּב, אוֹ לְהַמְשִׁיךְ הָלְאָה.",
+    "hash": "51ba0fa8c0",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "find-prompt": {
+    "text": "אֵיפֹה הָאוֹת",
+    "hash": "1739f9d022",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "like": {
+    "text": "כְּמוֹ",
+    "hash": "978d16e69b",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "here-it-is": {
+    "text": "הִנֵּה הִיא! זֹאת הָאוֹת",
+    "hash": "69f1d11c67",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "not-this": {
+    "text": "זֹאת לֹא הָאוֹת. נְחַפֵּשׂ עוֹד.",
+    "hash": "45e5fb3193",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "praise-1": {
+    "text": "יֹפִי!",
+    "hash": "9fb0c513aa",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "praise-2": {
+    "text": "כָּל הַכָּבוֹד!",
+    "hash": "1c15e15229",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "praise-3": {
+    "text": "מְצֻיָּן!",
+    "hash": "4e4b045411",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "locked": {
+    "text": "הַתַּחֲנָה הַזֹּאת עוֹד סְגוּרָה. נִפְתַּח אוֹתָהּ בְּקָרוֹב!",
+    "hash": "cfd5177063",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-alef": {
+    "text": "אָלֶף",
+    "hash": "2e0fc6efec",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-bet": {
+    "text": "בֵּית",
+    "hash": "5d968a0d6e",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-gimel": {
+    "text": "גִּימֶל",
+    "hash": "2520817d93",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-dalet": {
+    "text": "דָּלֶת",
+    "hash": "2ebd7f1db2",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-he": {
+    "text": "הֵא",
+    "hash": "80967da2d5",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-vav": {
+    "text": "וָו",
+    "hash": "1573f736ba",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-zayin": {
+    "text": "זַיִן",
+    "hash": "58fb5390f0",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-het": {
+    "text": "חֵית",
+    "hash": "6c0a98e1dc",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-tet": {
+    "text": "טֵית",
+    "hash": "2706af40ed",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-yod": {
+    "text": "יוֹד",
+    "hash": "bba981456b",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-kaf": {
+    "text": "כַּף",
+    "hash": "e855b058e4",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-lamed": {
+    "text": "לָמֶד",
+    "hash": "4e27de9520",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-mem": {
+    "text": "מֵם",
+    "hash": "69c9eb7730",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-nun": {
+    "text": "נוּן",
+    "hash": "c406fcc7f8",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-samekh": {
+    "text": "סָמֶךְ",
+    "hash": "fc3dcaeeb0",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-ayin": {
+    "text": "עַיִן",
+    "hash": "a3c47aa828",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-pe": {
+    "text": "פֵּא",
+    "hash": "d4d775406b",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-tsadi": {
+    "text": "צָדִי",
+    "hash": "50460edf98",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-qof": {
+    "text": "קוֹף",
+    "hash": "f168d812db",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-resh": {
+    "text": "רֵישׁ",
+    "hash": "ec7a978eb8",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-shin": {
+    "text": "שִׁין",
+    "hash": "7661fcd8ff",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-tav": {
+    "text": "תָּו",
+    "hash": "b2f4f5e18d",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-kaf-sofit": {
+    "text": "כַּף סוֹפִית",
+    "hash": "b31484bb98",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-mem-sofit": {
+    "text": "מֵם סוֹפִית",
+    "hash": "e74728ff4f",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-nun-sofit": {
+    "text": "נוּן סוֹפִית",
+    "hash": "2d6247e9ee",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-pe-sofit": {
+    "text": "פֵּא סוֹפִית",
+    "hash": "1dd12aadbe",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "letter-tsadi-sofit": {
+    "text": "צָדִי סוֹפִית",
+    "hash": "a0e70c3811",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-alef": {
+    "text": "אַרְיֵה",
+    "hash": "f8aab62314",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-bet": {
+    "text": "בַּיִת",
+    "hash": "139a487551",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-gimel": {
+    "text": "גָּמָל",
+    "hash": "60cfc116ce",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-dalet": {
+    "text": "דָּג",
+    "hash": "59a2ebd746",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-he": {
+    "text": "הֶלִיקוֹפְּטֶר",
+    "hash": "abfb815814",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-vav": {
+    "text": "וֶרֶד",
+    "hash": "befb965126",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-zayin": {
+    "text": "זֶבְּרָה",
+    "hash": "767886451b",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-het": {
+    "text": "חָתוּל",
+    "hash": "d4053d9247",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-tet": {
+    "text": "טִיל",
+    "hash": "cf999d295a",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-yod": {
+    "text": "יָד",
+    "hash": "3d41ee7cec",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-kaf": {
+    "text": "כַּדּוּר",
+    "hash": "aeffca61b5",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-lamed": {
+    "text": "לִימוֹן",
+    "hash": "52f71e42fc",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-mem": {
+    "text": "מְכוֹנִית",
+    "hash": "bb72b894df",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-nun": {
+    "text": "נָחָשׁ",
+    "hash": "bd1c0af671",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-samekh": {
+    "text": "סוּס",
+    "hash": "6e63fa01fa",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-ayin": {
+    "text": "עַכְבָּר",
+    "hash": "1f20e4fcdb",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-pe": {
+    "text": "פִּיל",
+    "hash": "841ec24a88",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-tsadi": {
+    "text": "צָב",
+    "hash": "bf6855ccc2",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-qof": {
+    "text": "קוֹף",
+    "hash": "f168d812db",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-resh": {
+    "text": "רַכֶּבֶת",
+    "hash": "f9df674c3d",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-shin": {
+    "text": "שֶׁמֶשׁ",
+    "hash": "6422609028",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-tav": {
+    "text": "תַּפּוּחַ",
+    "hash": "bf3c1e1856",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-kaf-sofit": {
+    "text": "מֶלֶךְ",
+    "hash": "1de3cf3062",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-mem-sofit": {
+    "text": "יָם",
+    "hash": "d5f8068a5f",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-nun-sofit": {
+    "text": "בַּלּוֹן",
+    "hash": "03dc01ea21",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-pe-sofit": {
+    "text": "כַּף",
+    "hash": "e855b058e4",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  },
+  "word-tsadi-sofit": {
+    "text": "עֵץ",
+    "hash": "a45baf7962",
+    "status": "placeholder",
+    "source": "macos-carmit"
+  }
+}

@@ -1,12 +1,13 @@
 {
-  "name": "app-tmp",
+  "name": "grade-a-prepare",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "audio:placeholder": "node scripts/gen-placeholder-audio.ts"
   },
   "dependencies": {
     "next": "16.4.5",
