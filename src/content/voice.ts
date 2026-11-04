@@ -4,6 +4,7 @@
 
 import { KAMATZ, READ_WORDS, SYLLABLES } from "./kamatz.ts";
 import { LETTERS } from "./letters.ts";
+import { NAMES } from "./names.ts";
 import type { Gender } from "./worlds.ts";
 
 export type VoiceLine = {
@@ -113,6 +114,7 @@ export const VOICE_LINES: VoiceLine[] = [
       : [],
   ),
   ...READ_WORDS.map((w) => ({ id: `rw-${w.id}`, text: w.word, group: "read" })),
+  ...NAMES.map((n) => ({ id: `name-${n.id}`, text: `${n.text}!`, group: "name" })),
 ];
 
 /** Audio id of the picture word that starts like this syllable (reuses the letters-world word when it is the same). */

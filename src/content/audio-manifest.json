@@ -1402,5 +1402,23 @@
     "file": "good-evening.mp3",
     "heard": "ערב טוב",
     "check": "match"
+  },
+  "name-oz": {
+    "text": "עוֹז!",
+    "hash": "65406c31bf",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "name-oz.mp3",
+    "heard": "עוז",
+    "check": "match"
+  },
+  "name-eden": {
+    "text": "עֵדֶן!",
+    "hash": "9363829a8f",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "name-eden.mp3",
+    "heard": "עדן",
+    "check": "match"
   }
 }

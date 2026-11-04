@@ -8,7 +8,8 @@ import { WorldShell } from "@/components/WorldShell";
 import { TOPICS } from "@/content/curriculum";
 import { WORLDS } from "@/content/worlds";
 import { openAll, topicsDone } from "@/lib/progress";
-import { registerLine } from "@/lib/audio";
+import { nameLineId } from "@/content/names";
+import { audioUrl, registerLine } from "@/lib/audio";
 import { readNameRecording } from "@/lib/nameRecording";
 import { actions } from "@/lib/store";
 import { line } from "@/content/voice";
@@ -23,7 +24,10 @@ export default function AdventurePage() {
   const done = topicsDone(child);
   const firstVisit = child.done.length === 0;
   // "בֹּקֶר טוֹב, נוֹעָה! מוּכָנָה לָאִמּוּן הַיּוֹמִי?" (the name is spoken only if a parent recorded it).
-  registerLine("child-name", `${child.nickname}!`, readNameRecording(child.id));
+  // A parent's recording first; else the name ready-made in the guide's voice (content/names.ts); else caption only.
+  const recorded = readNameRecording(child.id);
+  const ready = nameLineId(child.nickname);
+  registerLine("child-name", `${child.nickname}!`, recorded ?? (ready ? audioUrl(ready) : undefined));
   const hour = new Date().getHours();
   const greet = hour >= 5 && hour < 12 ? "good-morning" : hour >= 12 && hour < 17 ? "good-noon" : "good-evening";
   const greeting = [greet, "child-name", line("ready-daily", child.gender)];
