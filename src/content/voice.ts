@@ -105,8 +105,8 @@ const neutral: Record<string, string> = {
   "show-end": "אֵיזוֹ הוֹפָעָה!",
   "wheel-intro": "מְסוֹבְבִים אֶת הַגַּלְגַּל!",
   "box-intro": "פּוֹתְחִים תֵּבָה!",
-  "box-which": "בְּאֵיזוֹ אוֹת זֶה מַתְחִיל?",
-  "box-which-end": "בְּאֵיזוֹ אוֹת זֶה נִגְמָר?",
+  "box-which": "מָה הָאוֹת הָרִאשׁוֹנָה?",
+  "box-which-end": "מָה הָאוֹת הָאַחֲרוֹנָה?",
   // Kamatz/patach world (paused; to be reworked with mom).
   where: "אֵיפֹה",
   "kamatz-is": "זֶה קָמָץ: קַו, וּמִתַּחְתָּיו נְקֻדָּה קְטַנָּה.",

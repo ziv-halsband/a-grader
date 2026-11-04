@@ -1539,21 +1539,21 @@
     "check": "match"
   },
   "box-which": {
-    "text": "בְּאֵיזוֹ אוֹת זֶה מַתְחִיל?",
-    "hash": "a26810232d",
+    "text": "מָה הָאוֹת הָרִאשׁוֹנָה?",
+    "hash": "fbfed13976",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "box-which.mp3",
-    "heard": "באיזה עוד זה מתחיל?",
-    "check": "differs"
+    "heard": "מה האות הראשונה?",
+    "check": "match"
   },
   "box-which-end": {
-    "text": "בְּאֵיזוֹ אוֹת זֶה נִגְמָר?",
-    "hash": "4d99acb9be",
+    "text": "מָה הָאוֹת הָאַחֲרוֹנָה?",
+    "hash": "11501932bf",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "box-which-end.mp3",
-    "heard": "באיזו עוד זה נגמר?",
-    "check": "differs"
+    "heard": "מה האות האחרונה?",
+    "check": "match"
   }
 }
