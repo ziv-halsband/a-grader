@@ -1276,5 +1276,86 @@
     "file": "nikud-map.mp3",
     "heard": "עולם הניקוד",
     "check": "match"
+  },
+  "pick-game-m": {
+    "text": "בְּחַר מִשְׂחָק!",
+    "hash": "0e90fd0e07",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "pick-game-m.mp3",
+    "heard": "בחר משחק",
+    "check": "match"
+  },
+  "pick-game-f": {
+    "text": "בַּחֲרִי מִשְׂחָק!",
+    "hash": "dcb16ed38c",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "pick-game-f.mp3",
+    "heard": "בחרי משחק",
+    "check": "match"
+  },
+  "mix-intro": {
+    "text": "כָּל הָאוֹתִיּוֹת בְּיַחַד!",
+    "hash": "655b9d7fec",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "mix-intro.mp3",
+    "heard": "כל האותיות ביחד",
+    "check": "match"
+  },
+  "almost": {
+    "text": "כִּמְעַט!",
+    "hash": "6152944d63",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "almost.mp3",
+    "heard": "כמעט",
+    "check": "match"
+  },
+  "this-is": {
+    "text": "זֹאת",
+    "hash": "e7a39f482e",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "this-is.mp3",
+    "heard": "זאת",
+    "check": "match"
+  },
+  "starts-with-m": {
+    "text": "מַתְחִיל בָּאוֹת",
+    "hash": "23348aac90",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "starts-with-m.mp3",
+    "heard": "מתחיל באות",
+    "check": "match"
+  },
+  "starts-with-f": {
+    "text": "מַתְחִילָה בָּאוֹת",
+    "hash": "080e2adfd9",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "starts-with-f.mp3",
+    "heard": "מתחילה באות",
+    "check": "match"
+  },
+  "ends-with-m": {
+    "text": "נִגְמָר בָּאוֹת",
+    "hash": "8ecde059ca",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "ends-with-m.mp3",
+    "heard": "נגמר באות.",
+    "check": "match"
+  },
+  "ends-with-f": {
+    "text": "נִגְמֶרֶת בָּאוֹת",
+    "hash": "e540a9b63c",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "ends-with-f.mp3",
+    "heard": "נגמרת באות",
+    "check": "match"
   }
 }

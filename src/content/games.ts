@@ -127,8 +127,9 @@ export type QuizItem = { kind: "find" | "starts"; target: string; options: strin
  * ("where is ב?", scored), 2 picture questions ("what starts with ב?"), and 1 review letter from before.
  */
 export function buildQuizItems(stationId: string): QuizItem[] {
-  const find = buildFindItems(stationId);
   const station = LETTER_STATIONS.find((s) => s.id === stationId)!;
+  if (station.mix) return buildMixQuizItems(station.letterIds);
+  const find = buildFindItems(stationId);
   const news = find.filter((f) => station.letterIds.includes(f.target)).map((f) => ({ ...f, kind: "find" as const }));
   const review = find.filter((f) => !station.letterIds.includes(f.target)).slice(0, 1).map((f) => ({ ...f, kind: "find" as const }));
   const starts = buildStartsItems(stationId).slice(0, 2).map((s) => ({ ...s, kind: "starts" as const }));
@@ -171,4 +172,19 @@ export function buildReviewItems(reached: string[], stats: Record<string, Stat>,
     }
     return { kind: "find" as const, target, options: shuffle([target, ...distractors(target, reached, 2)]) };
   });
+}
+
+/**
+ * A mixed station's quiz: 10 letters at random from everything learned so far. 7 by name (with lookalike
+ * distractors from the whole range) and 3 picture questions (non-final letters, so no picture is ambiguous).
+ */
+export function buildMixQuizItems(letterIds: string[], n = 10): QuizItem[] {
+  const nonFinal = letterIds.filter((id) => !LETTER_BY_ID[id].final);
+  const picks = shuffle(letterIds).slice(0, n);
+  const pictureTargets = new Set(shuffle(picks.filter((id) => !LETTER_BY_ID[id].final)).slice(0, 3));
+  return picks.map((target) =>
+    pictureTargets.has(target)
+      ? { kind: "starts" as const, target, options: shuffle([target, ...shuffle(nonFinal.filter((x) => x !== target)).slice(0, 2)]) }
+      : { kind: "find" as const, target, options: shuffle([target, ...distractors(target, letterIds, 2)]) },
+  );
 }

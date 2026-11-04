@@ -36,6 +36,7 @@ export function ChoiceGame<T extends ChoiceItem>({
   optionLabel,
   reveal,
   onSolved,
+  explainWrong,
   onAnswer,
   onDone,
   size = "big",
@@ -48,6 +49,11 @@ export function ChoiceGame<T extends ChoiceItem>({
   optionLabel: (id: string, item: T) => string;
   /** Said when the guide shows the answer (before "now you"). */
   reveal: (item: T) => string[];
+  /**
+   * After a first wrong tap: why it is wrong ("כִּמְעַט! קוֹף מַתְחִיל בָּאוֹת קוֹף"), then "try again".
+   * Without it, the question is simply asked again.
+   */
+  explainWrong?: (item: T, tapped: string) => string[];
   /** Said right after a correct tap, before the praise (e.g. the word that was read). */
   onSolved?: (item: T) => string[];
   onAnswer: (item: T, result: Result, misses: number) => void;
@@ -103,8 +109,8 @@ export function ChoiceGame<T extends ChoiceItem>({
       setDemo(true);
       setHint({ lines: [...reveal(item), line("your-turn", gender)], n });
     } else {
-      // Just the question again: the "boop" and the faded card already said "not this one".
-      setHint({ lines: item.prompt, n });
+      // Say why it was wrong, then "try again" (or, without an explanation, just the question again).
+      setHint({ lines: explainWrong ? [...explainWrong(item, id), line("try-again", gender)] : item.prompt, n });
     }
   };
 

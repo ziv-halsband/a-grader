@@ -11,6 +11,7 @@ export function StationSteps({
   current,
   reached,
   completed = reached,
+  finished,
   onPick,
 }: {
   steps: Step[];
@@ -19,6 +20,8 @@ export function StationSteps({
   reached: number;
   /** Steps before this index get a ✓ (defaults to `reached`; differs in practice mode, where all are open). */
   completed?: number;
+  /** Step ids actually finished in this visit; when given, only these get a ✓. */
+  finished?: string[];
   onPick: (id: string) => void;
 }) {
   const at = steps.findIndex((s) => s.id === current);
@@ -39,7 +42,7 @@ export function StationSteps({
           >
             <span className={`relative text-2xl transition ${isNow ? "scale-125" : ""}`} aria-hidden>
               {s.icon}
-              {i < completed && !isNow && (
+              {(finished ? finished.includes(s.id) : i < completed) && !isNow && (
                 <span className="absolute -top-1 -left-2 rounded-full bg-green-500 px-1 text-[10px] text-white">✓</span>
               )}
             </span>

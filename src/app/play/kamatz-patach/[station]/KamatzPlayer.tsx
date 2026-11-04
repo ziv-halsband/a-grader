@@ -31,6 +31,8 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
   const [phase, setPhase] = useState("learn");
   const [reached, setReached] = useState<number | null>(null);
   const [run, setRun] = useState(0);
+  /** Steps finished in this visit (✓ in the steps bar). */
+  const [finished, setFinished] = useState<string[]>([]);
   if (!child) return <WorldShell>{null}</WorldShell>;
 
   const index = KAMATZ_STATIONS.findIndex((s) => s.id === stationId);
@@ -45,12 +47,15 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
     setPhase(id);
     setRun((r) => r + 1);
   };
-  const after = (id: string) => () => go(order[order.indexOf(id) + 1]);
+  const after = (id: string) => () => {
+    setFinished((f) => (f.includes(id) ? f : [...f, id]));
+    go(order[order.indexOf(id) + 1]);
+  };
   const nextStation = KAMATZ_STATIONS[index + 1];
 
   return (
     <WorldShell child={child} back={{ href: "/play/kamatz-patach", label: "לעולם הקמץ והפתח" }}>
-      <StationSteps steps={steps} current={phase} reached={furthest} completed={PRACTICE_MODE ? (reached ?? 0) : furthest} onPick={go} />
+      <StationSteps steps={steps} current={phase} reached={furthest} finished={finished} onPick={go} />
       <div key={run} className="flex flex-1 flex-col">
         {phase === "learn" &&
           (station.kind === "words" ? (

@@ -6,10 +6,11 @@ import { StationSteps, type Step } from "@/components/StationSteps";
 import { WorldShell } from "@/components/WorldShell";
 import { LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
 import { WORLDS } from "@/content/worlds";
+import { shuffle } from "@/lib/random";
 import { useRequiredChild } from "@/lib/useChild";
-import { BubblesGame } from "./BubblesGame";
+import { GamePicker } from "./GamePicker";
+import { LetterWall } from "./LetterWall";
 import { Meet } from "./Meet";
-import { MemoryGame } from "./MemoryGame";
 import { WriteStep } from "./WriteStep";
 import { LetterQuiz } from "@/components/LetterQuiz";
 import { StationDone } from "@/components/StationDone";
@@ -25,14 +26,22 @@ const STEPS: Step[] = [
   { id: "done", icon: "🎁", label: "הַפְתָּעָה" },
 ];
 
-/** One station: learn the letters → mixed quiz → write them → a fun game → the surprise. */
+/**
+ * One station: learn the letters → mixed quiz → write them → games (the child picks) → the surprise.
+ * A mixed station (station.mix): a wall of all letters so far, a 10-question mixed quiz, 3 random letters to write.
+ */
 export function StationPlayer({ stationId }: { stationId: string }) {
   const child = useRequiredChild();
   const [phase, setPhase] = useState("meet");
   const [reached, setReached] = useState<number | null>(null);
   const [run, setRun] = useState(0);
-  /** How many times the "play" step was opened: alternates bubbles / memory. */
-  const [plays, setPlays] = useState(() => Math.floor(Math.random() * 2));
+  /** Steps finished in this visit (✓ in the steps bar). */
+  const [finished, setFinished] = useState<string[]>([]);
+  /** A mixed station writes 3 letters picked at random from everything so far. */
+  const [writeIds] = useState(() => {
+    const st = LETTER_STATIONS.find((s) => s.id === stationId);
+    return st?.mix ? shuffle(st.letterIds).slice(0, 3) : (st?.letterIds ?? []);
+  });
 
   if (!child) return <WorldShell>{null}</WorldShell>;
 
@@ -46,35 +55,40 @@ export function StationPlayer({ stationId }: { stationId: string }) {
     ? STEPS.length - 1
     : (reached ?? (child.done.includes(`letters/${stationId}`) ? STEPS.length - 2 : 0));
 
+  /** A step was completed (not just left): mark it ✓ and move on. */
+  const finish = (from: string, to: string) => {
+    setFinished((f) => (f.includes(from) ? f : [...f, from]));
+    go(to);
+  };
   const go = (id: string) => {
     const i = STEPS.findIndex((s) => s.id === id);
     setReached(Math.max(furthest, i));
     setPhase(id);
     setRun((r) => r + 1);
-    if (id === "play") setPlays((p) => p + 1);
   };
 
   return (
     <WorldShell child={child} back={{ href: "/play/letters", label: "לעולם האותיות" }}>
-      <StationSteps steps={STEPS} current={phase} reached={furthest} completed={PRACTICE_MODE ? (reached ?? 0) : furthest} onPick={go} />
+      <StationSteps steps={STEPS} current={phase} reached={furthest} finished={finished} onPick={go} />
 
       <div key={run} className="flex flex-1 flex-col">
-        {phase === "meet" && <Meet letters={letters} onDone={() => go("quiz")} />}
-        {phase === "quiz" && <LetterQuiz build={() => buildQuizItems(stationId)} child={child} onDone={() => go("write")} />}
-        {phase === "write" && <WriteStep letterIds={station.letterIds} child={child} onDone={() => go("play")} />}
-        {phase === "play" &&
-          // Alternate the fun game each time the step is played: bubbles, then memory pairs.
-          (plays % 2 === 0 ? (
-            <BubblesGame stationId={stationId} gender={child.gender} onDone={() => go("done")} />
+        {phase === "meet" &&
+          (station.mix ? (
+            <LetterWall letterIds={station.letterIds} onDone={() => finish("meet", "quiz")} />
           ) : (
-            <MemoryGame letterIds={station.letterIds} gender={child.gender} worldId={child.worldId} onDone={() => go("done")} />
+            <Meet letters={letters} onDone={() => finish("meet", "quiz")} />
           ))}
+        {phase === "quiz" && <LetterQuiz build={() => buildQuizItems(stationId)} child={child} onDone={() => finish("quiz", "write")} />}
+        {phase === "write" && <WriteStep letterIds={writeIds} child={child} onDone={() => finish("write", "play")} />}
+        {phase === "play" && (
+          <GamePicker stationId={stationId} letterIds={station.letterIds} child={child} onFinish={() => finish("play", "done")} />
+        )}
         {phase === "done" && (
           <StationDone
             child={child}
             stationKey={`letters/${stationId}`}
             sticker={world.stickers[index % world.stickers.length]}
-            items={letters.map((l) => ({ id: l.id, label: l.char }))}
+            items={station.mix ? [] : letters.map((l) => ({ id: l.id, label: l.char }))}
             mapHref="/play/letters"
             onReplay={() => go("meet")}
             next={

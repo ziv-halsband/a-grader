@@ -48,6 +48,12 @@ export function LetterQuiz({
       renderOption={(id, it) => (pic(it) ? <span aria-hidden>{LETTER_BY_ID[id].emoji}</span> : LETTER_BY_ID[id].char)}
       optionLabel={(id, it) => (pic(it) ? LETTER_BY_ID[id].word : `האות ${LETTER_BY_ID[id].name}`)}
       reveal={(it) => (pic(it) ? ["here-word", `word-${it.target}`] : ["here-it-is", `letter-${it.target}`])}
+      explainWrong={(it, tapped) => {
+        const w = LETTER_BY_ID[tapped];
+        if (!pic(it)) return ["this-is", `letter-${tapped}`];
+        const g = w.wordF ? "f" : "m";
+        return ["almost", `word-${tapped}`, `${w.final ? "ends" : "starts"}-with-${g}`, `letter-${tapped}`];
+      }}
       onSolved={(it) => (pic(it) ? [`word-${it.target}`] : [`letter-${it.target}`])}
       onAnswer={(it, result, misses) => {
         if (it.kind === "find") actions.recordLetter(child.id, it.target, result, misses);

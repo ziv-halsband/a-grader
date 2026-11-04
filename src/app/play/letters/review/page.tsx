@@ -21,7 +21,9 @@ export default function ReviewPage() {
   const [done, setDone] = useState(false);
   if (!child) return <WorldShell>{null}</WorldShell>;
 
-  const finished = LETTER_STATIONS.filter((s) => child.done.includes(`letters/${s.id}`)).flatMap((s) => s.letterIds);
+  const finished = [
+    ...new Set(LETTER_STATIONS.filter((s) => child.done.includes(`letters/${s.id}`)).flatMap((s) => s.letterIds)),
+  ];
   // Practice mode with little played yet: review the whole alphabet.
   const reached = openAll(child) && finished.length < 3 ? LETTERS.map((l) => l.id) : finished;
 

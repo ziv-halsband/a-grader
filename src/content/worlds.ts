@@ -24,7 +24,8 @@ export const WORLDS: Record<World["id"], World> = {
     name: "אִי הָאוֹצָר",
     tagline: "מַסָּע בַּסְּפִינָה בֵּין אִיִּים, וּבְכָל אִי מְחַכֶּה אוֹצָר",
     stationIcons: ["🏝️", "⛵", "🗺️", "🌋", "🏰", "⚓", "🐙", "🦈", "🧭", "🏴‍☠️"],
-    stickers: ["💎", "🪙", "🗝️", "🦜", "🧭", "⚓", "👑"],
+    // One per letters station, in map order (mixed stations: 🗺️ and the 🏆 at the end).
+    stickers: ["💎", "🪙", "🗝️", "🗺️", "🦜", "🧭", "⚓", "👑", "🏆"],
     decor: ["🌴", "🐚", "🦀", "☁️", "🐬"],
     surprise: { closed: "🎁", open: "💫", label: "תֵּבַת אוֹצָר" },
     theme: {
@@ -43,7 +44,7 @@ export const WORLDS: Record<World["id"], World> = {
     name: "גַּן הַקְּסָמִים",
     tagline: "טִיּוּל בֵּין פְּרָחִים וּבָתֵּי פְּיוֹת, וּבְכָל בַּיִת מְחַכָּה הַפְתָּעָה",
     stationIcons: ["🌷", "🍄", "🦋", "🌈", "🏡", "🌻", "🐞", "🫖", "🧚", "🏰"],
-    stickers: ["🌸", "🦋", "🌈", "🍓", "🐞", "🌻", "🧚"],
+    stickers: ["🌸", "🦋", "🌈", "🌺", "🍓", "🐞", "🌻", "🧚", "🏆"],
     decor: ["🌼", "🍀", "🐝", "☁️", "✨"],
     surprise: { closed: "🥚", open: "🐣", label: "בֵּיצַת קְסָמִים" },
     theme: {

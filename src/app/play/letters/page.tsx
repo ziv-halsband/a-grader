@@ -23,7 +23,7 @@ export default function LettersWorldPage() {
       key,
       label: s.title,
       icon: world.stationIcons[i % world.stationIcons.length],
-      badge: s.title.split(" ")[0],
+      badge: s.mix ? (i === LETTER_STATIONS.length - 1 ? "🏆" : "🔀") : s.title.split(" ")[0],
       state: done ? "done" : prevDone || openAll(child) ? "open" : "locked",
       href: `/play/letters/${s.id}`,
       sticker: world.stickers[i % world.stickers.length],
