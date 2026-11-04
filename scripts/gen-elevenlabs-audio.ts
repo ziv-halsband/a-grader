@@ -6,6 +6,7 @@
 // Run:  npm run audio:eleven                 # all lines that are missing or still placeholder
 //       npm run audio:eleven -- --dry        # only count characters (credits)
 //       npm run audio:eleven -- --only syl-bet,letter-alef   # regenerate these lines
+//       npm run audio:eleven -- --flagged --retakes 2        # re-take lines the automatic ear flagged
 //       ELEVEN_VOICE_ID=... npm run audio:eleven             # another voice (e.g. mom's clone)
 //
 // Needs ELEVENLABS_API_KEY in .env (never committed).
@@ -37,6 +38,10 @@ const MODEL = process.env.ELEVEN_MODEL ?? "eleven_v3";
 const args = process.argv.slice(2);
 const dry = args.includes("--dry");
 const only = args.includes("--only") ? new Set(args[args.indexOf("--only") + 1].split(",")) : null;
+/** Extra takes for a line the automatic ear flags (keeps the first take that matches). */
+const retakes = args.includes("--retakes") ? Number(args[args.indexOf("--retakes") + 1]) : 0;
+/** Only lines flagged "differs" in the manifest. */
+const flagged = args.includes("--flagged");
 
 const manifest: Record<string, Entry> = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, "utf8")) : {};
 const hash = (s: string) => createHash("sha1").update(s).digest("hex").slice(0, 10);
@@ -51,6 +56,7 @@ const bare = (s: string) =>
 
 const todo = VOICE_LINES.filter(({ id, text }) => {
   if (only) return only.has(id);
+  if (flagged) return manifest[id]?.check === "differs";
   const prev = manifest[id];
   if (!prev || prev.hash !== hash(text)) return true;
   return prev.status === "placeholder";
@@ -101,13 +107,18 @@ async function hear(audio: Buffer): Promise<string | undefined> {
 
 let differs = 0;
 for (const [i, l] of todo.entries()) {
-  const audio = await tts(l.spoken ?? l.text);
+  let audio = await tts(l.spoken ?? l.text);
+  let heard = await hear(audio);
+  for (let t = 0; t < retakes && !(heard !== undefined && bare(heard) === bare(l.text)); t++) {
+    console.log(`   retake ${t + 1}: heard "${heard}"`);
+    audio = await tts(l.spoken ?? l.text);
+    heard = await hear(audio);
+  }
   const file = `${l.id}.mp3`;
   writeFileSync(join(root, "public", "audio", file), audio);
   const prevFile = manifest[l.id]?.file ?? `${l.id}.m4a`;
   if (prevFile !== file) rmSync(join(root, "public", "audio", prevFile), { force: true });
 
-  const heard = await hear(audio);
   // Short items (letters, syllables) are often transcribed as abbreviations; those still need a human ear.
   const check = heard !== undefined && bare(heard) === bare(l.text) ? "match" : "differs";
   if (check === "differs") differs++;

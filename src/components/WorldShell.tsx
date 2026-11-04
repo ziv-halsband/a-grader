@@ -4,6 +4,8 @@ import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { WORLDS, type World } from "@/content/worlds";
 import type { Child } from "@/lib/store";
+import { Buddy } from "./Buddy";
+import { BuddyAvatar } from "./BuddyAvatar";
 
 /** The world's sky, ground and decorations, plus the kid top bar. */
 export function WorldShell({
@@ -45,15 +47,16 @@ export function WorldShell({
           <span className="rounded-full bg-white/70 px-4 py-1 text-lg font-bold">{child.nickname}</span>
           <Link
             href="/stickers"
-            aria-label="המדבקות שלי"
+            aria-label="החדר שלי"
             className="btn-3d flex h-14 min-w-14 items-center justify-center gap-1 bg-white px-3 text-2xl"
           >
-            <span>{world.stickers[0]}</span>
+            {child.buddy ? <BuddyAvatar buddy={child.buddy} size={32} /> : <span>{world.stickers[0]}</span>}
             <span className="text-lg font-extrabold">{child.stickers.length}</span>
           </Link>
         </header>
       )}
       <main className="relative z-10 flex flex-1 flex-col">{children}</main>
+      {child && <Buddy child={child} />}
     </div>
   );
 }

@@ -5,7 +5,8 @@ import { Confetti } from "@/components/Confetti";
 import { Guide } from "@/components/Guide";
 import { PRAISE, line } from "@/content/voice";
 import type { Gender } from "@/content/worlds";
-import { say } from "@/lib/audio";
+import { rightSound, say, wrongSound } from "@/lib/audio";
+import { cheer } from "@/lib/buddy";
 import { pick } from "@/lib/random";
 import type { Result } from "@/lib/store";
 
@@ -16,6 +17,8 @@ export type ChoiceItem = {
   prompt: string[];
   /** Shown above the options (e.g. the letter, or the word to read). */
   cue?: ReactNode;
+  /** Card style for this question (a quiz can mix letters and pictures). */
+  size?: "big" | "picture";
 };
 
 /**
@@ -25,7 +28,7 @@ export type ChoiceItem = {
  *   wrong again → the guide shows the answer and the child taps it.
  * Only a first-try answer counts as "knows"; anything after help is reported as "withHelp".
  */
-export function ChoiceGame({
+export function ChoiceGame<T extends ChoiceItem>({
   items,
   intro,
   gender,
@@ -37,17 +40,17 @@ export function ChoiceGame({
   onDone,
   size = "big",
 }: {
-  items: ChoiceItem[];
+  items: T[];
   /** Said once before the first question. */
   intro?: string[];
   gender: Gender;
-  renderOption: (id: string) => ReactNode;
-  optionLabel: (id: string) => string;
+  renderOption: (id: string, item: T) => ReactNode;
+  optionLabel: (id: string, item: T) => string;
   /** Said when the guide shows the answer (before "now you"). */
-  reveal: (target: string) => string[];
+  reveal: (item: T) => string[];
   /** Said right after a correct tap, before the praise (e.g. the word that was read). */
-  onSolved?: (target: string) => string[];
-  onAnswer: (target: string, result: Result, misses: number) => void;
+  onSolved?: (item: T) => string[];
+  onAnswer: (item: T, result: Result, misses: number) => void;
   onDone: () => void;
   size?: "big" | "picture";
 }) {
@@ -72,8 +75,12 @@ export function ChoiceGame({
     if (solved || wrong.includes(id)) return;
     if (id === item.target) {
       setSolved(true);
-      onAnswer(item.target, wrong.length === 0 && !demo ? "firstTry" : "withHelp", wrong.length);
-      await say(...(onSolved?.(item.target) ?? []), line(pick(PRAISE), gender));
+      rightSound();
+      cheer("happy");
+      onAnswer(item, wrong.length === 0 && !demo ? "firstTry" : "withHelp", wrong.length);
+      // Praise only every other answer: the chime and the buddy already say "yes".
+      const praise = idx % 2 === 1 ? [line(pick(PRAISE), gender)] : [];
+      await say(...(onSolved?.(item) ?? []), ...praise);
       await new Promise((r) => setTimeout(r, 300));
       if (!alive.current) return;
       if (idx + 1 >= items.length) return onDone();
@@ -85,6 +92,8 @@ export function ChoiceGame({
       return;
     }
     const nextWrong = [...wrong, id];
+    wrongSound();
+    cheer("oops");
     setWrong(nextWrong);
     setShaking(id);
     setTimeout(() => alive.current && setShaking(null), 420);
@@ -92,13 +101,14 @@ export function ChoiceGame({
     const left = item.options.filter((o) => o !== item.target && !nextWrong.includes(o));
     if (nextWrong.length >= 2 || left.length === 0) {
       setDemo(true);
-      setHint({ lines: [...reveal(item.target), line("your-turn", gender)], n });
+      setHint({ lines: [...reveal(item), line("your-turn", gender)], n });
     } else {
-      setHint({ lines: [line("try-again", gender), ...item.prompt], n });
+      // Just the question again: the "boop" and the faded card already said "not this one".
+      setHint({ lines: item.prompt, n });
     }
   };
 
-  const big = size === "big";
+  const big = (item.size ?? size) === "big";
   return (
     <div className="flex flex-1 flex-col gap-5 py-4">
       <Guide compact lines={hint?.lines ?? prompt} cue={idx * 100 + (hint?.n ?? 0)} />
@@ -123,14 +133,14 @@ export function ChoiceGame({
                 key={id}
                 onClick={() => tap(id)}
                 disabled={isWrong}
-                aria-label={optionLabel(id)}
+                aria-label={optionLabel(id, item)}
                 className={`btn-3d flex aspect-square items-center justify-center rounded-[2rem] bg-white font-extrabold transition-opacity ${
                   big ? "w-28 text-8xl sm:w-36 sm:text-9xl" : "w-24 text-6xl sm:w-32 sm:text-7xl"
                 } ${isWrong ? "opacity-25" : ""} ${shaking === id ? "anim-shake" : ""} ${
                   demo && isAnswer ? "anim-glow ring-4 ring-yellow-400" : ""
                 } ${solved && isAnswer ? "scale-110 bg-green-100 ring-4 ring-green-400" : ""}`}
               >
-                {renderOption(id)}
+                {renderOption(id, item)}
               </button>
             );
           })}

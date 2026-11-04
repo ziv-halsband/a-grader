@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { say } from "@/lib/audio";
+import { say, wrongSound } from "@/lib/audio";
+import { PointHand } from "./PointHand";
 
 export type MapStation = {
   key: string;
@@ -17,8 +18,12 @@ export type MapStation = {
 // Horizontal position of each station along the winding path (percent from the right).
 const XS = [50, 22, 50, 78];
 
-/** A winding path from top to bottom; stations alternate sides. */
+/**
+ * A winding path from top to bottom; stations alternate sides.
+ * A hand points at the next station to play (the first open, not-done one): one obvious "start here".
+ */
 export function AdventureMap({ stations }: { stations: MapStation[] }) {
+  const next = stations.find((s) => s.state === "open")?.key;
   return (
     <ol className="relative mx-auto w-full max-w-md px-4 pb-16">
       {stations.map((s, i) => {
@@ -45,7 +50,7 @@ export function AdventureMap({ stations }: { stations: MapStation[] }) {
               </svg>
             )}
             <div className="absolute top-0 -translate-x-1/2" style={{ left: `${100 - x}%` }}>
-              <StationButton station={s} index={i} />
+              <StationButton station={s} index={i} pointed={s.key === next} />
             </div>
           </li>
         );
@@ -54,7 +59,7 @@ export function AdventureMap({ stations }: { stations: MapStation[] }) {
   );
 }
 
-function StationButton({ station: s, index }: { station: MapStation; index: number }) {
+function StationButton({ station: s, index, pointed }: { station: MapStation; index: number; pointed: boolean }) {
   const body = (
     <>
       <span
@@ -70,6 +75,7 @@ function StationButton({ station: s, index }: { station: MapStation; index: numb
             {s.icon === s.badge ? "📍" : s.icon}
           </span>
         )}
+        {pointed && <PointHand className="-bottom-5 -left-6" />}
       </span>
       <span className="nikud mt-1 max-w-36 rounded-full bg-white/80 px-3 text-center text-sm font-bold">
         {s.label}
@@ -80,7 +86,10 @@ function StationButton({ station: s, index }: { station: MapStation; index: numb
   if (s.state === "locked" || !s.href) {
     return (
       <button
-        onClick={() => say("locked")}
+        onClick={() => {
+          wrongSound();
+          say("locked");
+        }}
         className="flex flex-col items-center"
         aria-label={`${s.label} (עוד סגור)`}
         style={{ animationDelay: `${index * 60}ms` }}

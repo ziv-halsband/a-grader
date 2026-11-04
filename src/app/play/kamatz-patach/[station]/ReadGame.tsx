@@ -31,9 +31,9 @@ export function ReadGame({ wordIds, child, onDone }: { wordIds: string[]; child:
       size="picture"
       renderOption={(id) => <span aria-hidden>{READ_WORD_BY_ID[id].emoji}</span>}
       optionLabel={(id) => `תמונה ${wordIds.indexOf(id) + 1}`}
-      reveal={(t) => ["it-says", `rw-${t}`]}
-      onSolved={(t) => [`rw-${t}`]}
-      onAnswer={(t, result, misses) => actions.recordItem(child.id, `read:${t}`, result, misses)}
+      reveal={({ target: t }) => ["it-says", `rw-${t}`]}
+      onSolved={({ target: t }) => [`rw-${t}`]}
+      onAnswer={({ target: t }, result, misses) => actions.recordItem(child.id, `read:${t}`, result, misses)}
       onDone={onDone}
     />
   );

@@ -17,6 +17,7 @@ export function WritePage({ letterId }: { letterId: string }) {
         key={letterId}
         letterId={letterId}
         gender={child.gender}
+        skipWatch={!!child.items?.[`write:${letterId}`]}
         onDone={(helped) => {
           actions.recordItem(child.id, `write:${letterId}`, helped ? "withHelp" : "firstTry", 0);
           router.push("/play/letters/write");

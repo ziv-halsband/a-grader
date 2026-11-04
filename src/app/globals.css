@@ -176,10 +176,75 @@ body {
   animation: talk 500ms ease-in-out infinite;
 }
 
+/* Alive things: a letter or the buddy reacts to a tap. */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0) scale(1); }
+  20% { transform: rotate(-12deg) scale(1.12); }
+  40% { transform: rotate(10deg) scale(1.08); }
+  60% { transform: rotate(-6deg) scale(1.04); }
+  80% { transform: rotate(3deg); }
+}
+@keyframes jump {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-38%) scale(1.1, 0.95); }
+  55% { transform: translateY(0) scale(1.1, 0.88); }
+  75% { transform: translateY(-10%) scale(1); }
+}
+@keyframes tilt {
+  0%, 100% { transform: rotate(0); }
+  30%, 70% { transform: rotate(-16deg) translateX(4%); }
+}
+@keyframes dance {
+  0%, 100% { transform: rotate(0) translateY(0); }
+  25% { transform: rotate(-14deg) translateY(-18%); }
+  50% { transform: rotate(0) translateY(0); }
+  75% { transform: rotate(14deg) translateY(-18%); }
+}
+@keyframes point {
+  0%, 100% { transform: translate(0, 0) rotate(-20deg); }
+  50% { transform: translate(-14%, -14%) rotate(-20deg) scale(0.92); }
+}
+@keyframes chest-shake {
+  0%, 100% { transform: rotate(0) scale(1); }
+  15% { transform: rotate(-8deg) scale(1.04); }
+  30% { transform: rotate(8deg) scale(1.06); }
+  45% { transform: rotate(-6deg) scale(1.08); }
+  60% { transform: rotate(6deg) scale(1.1); }
+  80% { transform: rotate(0) scale(1.25); }
+}
+@keyframes fly-out {
+  0% { transform: translateY(30%) scale(0.2); opacity: 0; }
+  60% { transform: translateY(-12%) scale(1.15); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.anim-wiggle {
+  animation: wiggle 600ms ease;
+}
+.anim-jump {
+  animation: jump 700ms ease;
+}
+.anim-tilt {
+  animation: tilt 700ms ease;
+}
+.anim-dance {
+  animation: dance 900ms ease-in-out 3;
+}
+.anim-point {
+  animation: point 1s ease-in-out infinite;
+}
+.anim-chest {
+  animation: chest-shake 900ms ease forwards;
+}
+.anim-fly {
+  animation: fly-out 700ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .anim-bob,
   .anim-glow,
-  .anim-talk {
+  .anim-talk,
+  .anim-point,
+  .anim-dance {
     animation: none;
   }
 }

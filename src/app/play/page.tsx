@@ -1,13 +1,14 @@
 "use client";
 
 import { AdventureMap, type MapStation } from "@/components/AdventureMap";
+import { BuddyPicker } from "@/components/BuddyPicker";
 import { Guide } from "@/components/Guide";
 import { WorldShell } from "@/components/WorldShell";
 import { TOPICS } from "@/content/curriculum";
 import { KAMATZ_STATIONS } from "@/content/kamatz";
 import { LETTER_STATIONS } from "@/content/letters";
 import { WORLDS } from "@/content/worlds";
-import { line } from "@/content/voice";
+import { actions } from "@/lib/store";
 import { useRequiredChild } from "@/lib/useChild";
 
 /** The whole adventure: one station per topic of mom's year. Letters and kamatz/patach are built so far. */
@@ -41,11 +42,12 @@ export default function AdventurePage() {
     <WorldShell child={child} back={{ href: "/", label: "מסך הבית" }}>
       <h1 className="nikud mt-4 text-center text-3xl font-extrabold drop-shadow-sm">{world.name}</h1>
       <div className="mt-4">
-        <Guide compact lines={[line(firstVisit ? "welcome" : "map-pick", child.gender)]} />
+        <Guide compact once lines={[firstVisit ? "welcome" : "map-pick"]} />
       </div>
       <div className="mt-8">
         <AdventureMap stations={stations} />
       </div>
+      {!child.buddy && <BuddyPicker gender={child.gender} onPick={(id) => actions.updateChild(child.id, { buddy: id })} />}
     </WorldShell>
   );
 }

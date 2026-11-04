@@ -7,7 +7,8 @@ import { LETTER_BY_ID } from "@/content/letters";
 import { PRAISE, line } from "@/content/voice";
 import { strokesFor, toPoints, type Pt } from "@/content/writing";
 import type { Gender } from "@/content/worlds";
-import { popSound, say } from "@/lib/audio";
+import { popSound, rightSound, say, sparkleSound, wrongSound } from "@/lib/audio";
+import { cheer } from "@/lib/buddy";
 import { pick } from "@/lib/random";
 
 type Mode = "watch" | "trace" | "alone" | "done";
@@ -152,10 +153,14 @@ export function LetterWriter({
 
   const finishRound = async () => {
     if (mode === "trace") {
-      await say(line(pick(PRAISE), gender));
+      rightSound();
+      cheer("happy");
+      await new Promise((r) => setTimeout(r, 500));
       reset("alone");
     } else if (mode === "alone") {
       setMode("done");
+      sparkleSound();
+      cheer("party");
       await say(`letter-${letterId}`, line(pick(PRAISE), gender));
     }
   };
@@ -168,6 +173,8 @@ export function LetterWriter({
     if (Math.hypot(start.x - pt.x, start.y - pt.y) > NEAR + 4) {
       // Started in the wrong place: show where to start (in "alone" this counts as help).
       setWobble(true);
+      wrongSound();
+      cheer("oops");
       setTimeout(() => setWobble(false), 450);
       const n = missedStarts + 1;
       setMissedStarts(n);
@@ -206,9 +213,9 @@ export function LetterWriter({
   const g = gender;
   const guideLines =
     mode === "watch"
-      ? [line("write-watch", g), `letter-${letterId}`]
+      ? ["write-watch", `letter-${letterId}`]
       : mode === "trace"
-        ? [line("write-trace", g)]
+        ? [`letter-${letterId}`, line("your-turn", g)]
         : mode === "alone"
           ? ["write-alone"]
           : [];
@@ -340,6 +347,15 @@ export function LetterWriter({
             </text>
           )}
         </svg>
+        {mode === "trace" && stroke === 0 && progress === 0 && !isDrawing && (
+          <span
+            aria-hidden
+            className="anim-point pointer-events-none absolute text-5xl drop-shadow-md"
+            style={{ left: `${strokes[0][0].x}%`, top: `${strokes[0][0].y + 4}%` }}
+          >
+            👆
+          </span>
+        )}
         {mode === "done" && (
           <span className="anim-sticker absolute -top-4 -left-4 flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-[var(--card)] text-5xl shadow-lg">
             {letter.emoji}

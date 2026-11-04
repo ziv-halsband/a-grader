@@ -12,6 +12,8 @@ export type World = {
   /** Sticker earned per station, in order. */
   stickers: string[];
   decor: string[];
+  /** The surprise at the end of a station: tapped to open (Reading Eggs-style anticipation). */
+  surprise: { closed: string; open: string; label: string };
   /** CSS variables applied to the page. */
   theme: Record<string, string>;
 };
@@ -24,6 +26,7 @@ export const WORLDS: Record<World["id"], World> = {
     stationIcons: ["🏝️", "⛵", "🗺️", "🌋", "🏰", "⚓", "🐙", "🦈", "🧭", "🏴‍☠️"],
     stickers: ["💎", "🪙", "🗝️", "🦜", "🧭", "⚓", "👑"],
     decor: ["🌴", "🐚", "🦀", "☁️", "🐬"],
+    surprise: { closed: "🎁", open: "💫", label: "תֵּבַת אוֹצָר" },
     theme: {
       "--sky": "#7dd3fc",
       "--sky-2": "#e0f2fe",
@@ -42,6 +45,7 @@ export const WORLDS: Record<World["id"], World> = {
     stationIcons: ["🌷", "🍄", "🦋", "🌈", "🏡", "🌻", "🐞", "🫖", "🧚", "🏰"],
     stickers: ["🌸", "🦋", "🌈", "🍓", "🐞", "🌻", "🧚"],
     decor: ["🌼", "🍀", "🐝", "☁️", "✨"],
+    surprise: { closed: "🥚", open: "🐣", label: "בֵּיצַת קְסָמִים" },
     theme: {
       "--sky": "#f5d0fe",
       "--sky-2": "#fdf4ff",

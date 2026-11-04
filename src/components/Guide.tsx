@@ -11,31 +11,56 @@ import { say, stopAudio } from "@/lib/audio";
  *
  * Speaks `lines` when they change; the 🔊 button repeats them.
  */
+/** Lines already said this session (for `once`). */
+const spokenOnce = new Set<string>();
+
 export function Guide({
   lines,
   compact = false,
   cue = 0,
+  once = false,
+  intro = [],
 }: {
   lines: string[];
   compact?: boolean;
   /** Change it to speak the same lines again (e.g. the same letter twice in a row). */
   cue?: number;
+  /** Intros and greetings: spoken only the first time this session (the caption and 🔊 stay). */
+  once?: boolean;
+  /** Said before `lines` only the first time this session (e.g. "new letters!" then the letter). */
+  intro?: string[];
 }) {
   const [talking, setTalking] = useState(false);
   const key = `${cue}#${lines.join("|")}`;
+  const introKey = intro.join("|");
 
   useEffect(() => {
     let alive = true;
-    const ids = key.split("#")[1].split("|").filter(Boolean);
+    let ids = key.split("#")[1].split("|").filter(Boolean);
+    const introIds = introKey.split("|").filter(Boolean);
+    if (introIds.length && !spokenOnce.has(`intro#${introKey}`)) {
+      spokenOnce.add(`intro#${introKey}`);
+      ids = [...introIds, ...ids];
+    }
     if (!ids.length) return;
+    if (once) {
+      if (spokenOnce.has(key)) return;
+      spokenOnce.add(key);
+    }
+    const started = performance.now();
     // eslint-disable-next-line react-hooks/set-state-in-effect -- reflects an external audio process
     setTalking(true);
     say(...ids).then(() => alive && setTalking(false));
     return () => {
       alive = false;
       stopAudio();
+      // Cut off right away (a remount, a fast tap away): it wasn't really heard, so say it next time.
+      if (performance.now() - started < 600) {
+        if (once) spokenOnce.delete(key);
+        if (introIds.length) spokenOnce.delete(`intro#${introKey}`);
+      }
     };
-  }, [key]);
+  }, [key, once, introKey]);
 
   const replay = () => {
     setTalking(true);

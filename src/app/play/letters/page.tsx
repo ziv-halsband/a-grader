@@ -6,7 +6,6 @@ import { Guide } from "@/components/Guide";
 import { WorldShell } from "@/components/WorldShell";
 import { LETTER_STATIONS } from "@/content/letters";
 import { WORLDS } from "@/content/worlds";
-import { line } from "@/content/voice";
 import { useRequiredChild } from "@/lib/useChild";
 
 /** The letters world: small groups of letters, opened one after another. Done stations can be replayed. */
@@ -34,7 +33,7 @@ export default function LettersWorldPage() {
     <WorldShell child={child} back={{ href: "/play", label: "למפה הגדולה" }}>
       <h1 className="nikud mt-4 text-center text-3xl font-extrabold">עוֹלַם הָאוֹתִיּוֹת</h1>
       <div className="mt-4">
-        <Guide compact lines={[line("letters-map", child.gender)]} />
+        <Guide compact once lines={["letters-map"]} />
       </div>
       <div className="mt-5 flex justify-center">
         <Link href="/play/letters/write" className="btn-3d nikud bg-white px-6 py-3 text-xl font-extrabold">

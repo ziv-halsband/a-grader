@@ -6,7 +6,8 @@ import { buildBubbleRounds } from "@/content/games";
 import { LETTER_BY_ID } from "@/content/letters";
 import { line } from "@/content/voice";
 import type { Gender } from "@/content/worlds";
-import { popSound, say } from "@/lib/audio";
+import { popSound, say, wrongSound } from "@/lib/audio";
+import { cheer } from "@/lib/buddy";
 
 /** Pop every bubble with the target letter. No timer; a wrong bubble just wobbles. Not scored. */
 export function BubblesGame({ stationId, gender, onDone }: { stationId: string; gender: Gender; onDone: () => void }) {
@@ -30,13 +31,15 @@ export function BubblesGame({ stationId, gender, onDone }: { stationId: string; 
     if (!isTarget) {
       setWobble(key);
       setTimeout(() => alive.current && setWobble(null), 420);
-      say("not-this");
+      wrongSound();
+      cheer("oops");
       return;
     }
     popSound();
     const next = [...popped, key];
     setPopped(next);
     if (next.length === targets) {
+      cheer("happy");
       await say(line("champ", gender));
       if (!alive.current) return;
       if (r + 1 >= rounds.length) return onDone();

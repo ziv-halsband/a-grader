@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Guide } from "@/components/Guide";
 import { WorldShell } from "@/components/WorldShell";
 import { LETTERS, LETTER_STATIONS } from "@/content/letters";
-import { line } from "@/content/voice";
 import { useRequiredChild } from "@/lib/useChild";
 
 const PASTELS = ["#fde2e4", "#e2ecfd", "#fdf3c4", "#dcf5e3", "#efe3fd", "#ffe6cf"];
@@ -28,7 +27,7 @@ export default function WritingNotebookPage() {
     <WorldShell child={child} back={{ href: "/play/letters", label: "לעולם האותיות" }}>
       <h1 className="nikud mt-4 text-center text-3xl font-extrabold">✍️ הַמַּחְבֶּרֶת שֶׁלִּי</h1>
       <div className="mt-3">
-        <Guide compact lines={[line("notebook", child.gender)]} />
+        <Guide compact once lines={["notebook"]} />
       </div>
       <div className="mx-auto mt-6 grid w-full max-w-3xl grid-cols-4 gap-3 px-4 pb-10 sm:grid-cols-6">
         {LETTERS.map((l, i) => {

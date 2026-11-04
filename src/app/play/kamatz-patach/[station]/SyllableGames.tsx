@@ -22,8 +22,8 @@ export function SyllableFind({ stationId, child, onDone }: { stationId: string; 
       gender={child.gender}
       renderOption={(id) => <Syllable base={SYLLABLE_BY_ID[id].base} mark={marks[id]} className="pb-4" />}
       optionLabel={(id) => SYLLABLE_BY_ID[id].base + KAMATZ}
-      reveal={(t) => ["here-sound", `syl-${t}`]}
-      onAnswer={(t, result, misses) => actions.recordItem(child.id, `syl:${t}`, result, misses)}
+      reveal={({ target: t }) => ["here-sound", `syl-${t}`]}
+      onAnswer={({ target: t }, result, misses) => actions.recordItem(child.id, `syl:${t}`, result, misses)}
       onDone={onDone}
     />
   );
@@ -49,8 +49,8 @@ export function SyllableStarts({ stationId, child, onDone }: { stationId: string
       size="picture"
       renderOption={(id) => <span aria-hidden>{SYLLABLE_BY_ID[id].starts!.emoji}</span>}
       optionLabel={(id) => SYLLABLE_BY_ID[id].starts!.word}
-      reveal={(t) => ["here-word", startsWordId(t)]}
-      onSolved={(t) => [startsWordId(t)]}
+      reveal={({ target: t }) => ["here-word", startsWordId(t)]}
+      onSolved={({ target: t }) => [startsWordId(t)]}
       onAnswer={() => {}}
       onDone={onDone}
     />

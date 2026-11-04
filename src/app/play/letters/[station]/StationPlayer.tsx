@@ -8,27 +8,29 @@ import { LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
 import { WORLDS } from "@/content/worlds";
 import { useRequiredChild } from "@/lib/useChild";
 import { BubblesGame } from "./BubblesGame";
-import { FindGame } from "./FindGame";
 import { Meet } from "./Meet";
-import { StartsGame } from "./StartsGame";
+import { MemoryGame } from "./MemoryGame";
+import { QuizGame } from "./QuizGame";
 import { WriteStep } from "./WriteStep";
 import { StationDone } from "@/components/StationDone";
 
+// 5 short steps (a station ≈ 5–8 minutes).
 const STEPS: Step[] = [
   { id: "meet", icon: "📖", label: "לוֹמְדִים" },
-  { id: "find", icon: "🎯", label: "מוֹצְאִים" },
+  { id: "quiz", icon: "🎯", label: "מוֹצְאִים" },
   { id: "write", icon: "✍️", label: "כּוֹתְבִים" },
-  { id: "starts", icon: "🖼️", label: "מִלִּים" },
-  { id: "bubbles", icon: "🫧", label: "בּוּעוֹת" },
-  { id: "done", icon: "🎁", label: "פְּרָס" },
+  { id: "play", icon: "🎮", label: "מְשַׂחֲקִים" },
+  { id: "done", icon: "🎁", label: "הַפְתָּעָה" },
 ];
 
-/** One station: learn the letters → find the letter → write it → which word starts with it → bubbles → sticker. */
+/** One station: learn the letters → mixed quiz → write them → a fun game → the surprise. */
 export function StationPlayer({ stationId }: { stationId: string }) {
   const child = useRequiredChild();
   const [phase, setPhase] = useState("meet");
   const [reached, setReached] = useState<number | null>(null);
   const [run, setRun] = useState(0);
+  /** How many times the "play" step was opened: alternates bubbles / memory. */
+  const [plays, setPlays] = useState(() => Math.floor(Math.random() * 2));
 
   if (!child) return <WorldShell>{null}</WorldShell>;
 
@@ -44,6 +46,7 @@ export function StationPlayer({ stationId }: { stationId: string }) {
     setReached(Math.max(furthest, i));
     setPhase(id);
     setRun((r) => r + 1);
+    if (id === "play") setPlays((p) => p + 1);
   };
 
   return (
@@ -51,11 +54,16 @@ export function StationPlayer({ stationId }: { stationId: string }) {
       <StationSteps steps={STEPS} current={phase} reached={furthest} onPick={go} />
 
       <div key={run} className="flex flex-1 flex-col">
-        {phase === "meet" && <Meet letters={letters} gender={child.gender} onDone={() => go("find")} />}
-        {phase === "find" && <FindGame stationId={stationId} child={child} onDone={() => go("write")} />}
-        {phase === "write" && <WriteStep letterIds={station.letterIds} child={child} onDone={() => go("starts")} />}
-        {phase === "starts" && <StartsGame stationId={stationId} child={child} onDone={() => go("bubbles")} />}
-        {phase === "bubbles" && <BubblesGame stationId={stationId} gender={child.gender} onDone={() => go("done")} />}
+        {phase === "meet" && <Meet letters={letters} onDone={() => go("quiz")} />}
+        {phase === "quiz" && <QuizGame stationId={stationId} child={child} onDone={() => go("write")} />}
+        {phase === "write" && <WriteStep letterIds={station.letterIds} child={child} onDone={() => go("play")} />}
+        {phase === "play" &&
+          // Alternate the fun game each time the step is played: bubbles, then memory pairs.
+          (plays % 2 === 0 ? (
+            <BubblesGame stationId={stationId} gender={child.gender} onDone={() => go("done")} />
+          ) : (
+            <MemoryGame letterIds={station.letterIds} gender={child.gender} worldId={child.worldId} onDone={() => go("done")} />
+          ))}
         {phase === "done" && (
           <StationDone
             child={child}

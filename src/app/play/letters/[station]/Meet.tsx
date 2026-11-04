@@ -2,29 +2,39 @@
 
 import { useState } from "react";
 import { Guide } from "@/components/Guide";
+import { PointHand } from "@/components/PointHand";
 import type { Letter } from "@/content/letters";
-import { line } from "@/content/voice";
-import type { Gender } from "@/content/worlds";
-import { say } from "@/lib/audio";
+import { boingSound, say } from "@/lib/audio";
+import { cheer } from "@/lib/buddy";
 
 /** Introduces each letter: big shape, its name, and a word that starts (or, for finals, ends) with it. */
-export function Meet({ letters, gender, onDone }: { letters: Letter[]; gender: Gender; onDone: () => void }) {
+export function Meet({ letters, onDone }: { letters: Letter[]; onDone: () => void }) {
   const [i, setI] = useState(0);
+  /** Letters come alive: every tap wiggles (counter restarts the animation). */
+  const [taps, setTaps] = useState(0);
   const l = letters[i];
   const last = i === letters.length - 1;
   const intro = [`letter-${l.id}`, "like", `word-${l.id}`];
 
   return (
     <div className="flex flex-1 flex-col gap-4 py-4">
-      <Guide compact lines={i === 0 ? [line("meet-intro", gender), ...intro] : intro} />
+      <Guide compact intro={["meet-intro"]} lines={intro} />
 
       <div key={l.id} className="anim-rise mx-auto flex w-[calc(100%-2rem)] max-w-xl flex-1 flex-col items-center justify-center gap-4 rounded-[2.5rem] bg-[var(--card)]/90 p-6 shadow-xl">
         <button
-          onClick={() => say(`letter-${l.id}`)}
+          onClick={() => {
+            boingSound();
+            cheer("giggle");
+            setTaps((t) => t + 1);
+            say(`letter-${l.id}`);
+          }}
           aria-label={`האות ${l.name}`}
-          className="btn-3d flex h-48 w-48 items-center justify-center rounded-[2rem] bg-white text-[9rem] leading-none font-extrabold text-accent-2 sm:h-56 sm:w-56 sm:text-[11rem]"
+          className="btn-3d relative flex h-48 w-48 items-center justify-center rounded-[2rem] bg-white text-[9rem] leading-none font-extrabold text-accent-2 sm:h-56 sm:w-56 sm:text-[11rem]"
         >
-          {l.char}
+          <span key={taps} className={taps ? "anim-wiggle inline-block" : "inline-block"}>
+            {l.char}
+          </span>
+          {i === 0 && taps === 0 && <PointHand className="-bottom-4 -left-4" />}
         </button>
         <p className="nikud text-3xl font-extrabold">{l.name}</p>
         <button

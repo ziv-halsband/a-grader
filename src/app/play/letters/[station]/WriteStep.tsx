@@ -26,6 +26,7 @@ export function WriteStep({ letterIds, child, onDone }: { letterIds: string[]; c
         key={letterIds[i]}
         letterId={letterIds[i]}
         gender={child.gender}
+        skipWatch={!!child.items?.[`write:${letterIds[i]}`]}
         onDone={(helped) => {
           actions.recordItem(child.id, `write:${letterIds[i]}`, helped ? "withHelp" : "firstTry", 0);
           if (i + 1 < letterIds.length) setI(i + 1);

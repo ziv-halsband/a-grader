@@ -119,3 +119,24 @@ export function buildReadItems(wordIds: string[]) {
     options: shuffle([target, ...shuffle(wordIds.filter((x) => x !== target)).slice(0, 2)]),
   }));
 }
+
+export type QuizItem = { kind: "find" | "starts"; target: string; options: string[] };
+
+/**
+ * One mixed quiz per station (Matific-style variety instead of a drill): every new letter once by name
+ * ("where is ב?", scored), 2 picture questions ("what starts with ב?"), and 1 review letter from before.
+ */
+export function buildQuizItems(stationId: string): QuizItem[] {
+  const find = buildFindItems(stationId);
+  const station = LETTER_STATIONS.find((s) => s.id === stationId)!;
+  const news = find.filter((f) => station.letterIds.includes(f.target)).map((f) => ({ ...f, kind: "find" as const }));
+  const review = find.filter((f) => !station.letterIds.includes(f.target)).slice(0, 1).map((f) => ({ ...f, kind: "find" as const }));
+  const starts = buildStartsItems(stationId).slice(0, 2).map((s) => ({ ...s, kind: "starts" as const }));
+  // find, find, starts, find, starts, find…, review last.
+  const out: QuizItem[] = [];
+  news.forEach((f, i) => {
+    out.push(f);
+    if ((i === 1 || i === 2) && starts.length) out.push(starts.shift()!);
+  });
+  return [...out, ...starts, ...review];
+}

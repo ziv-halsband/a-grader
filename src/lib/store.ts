@@ -26,6 +26,10 @@ export type Child = {
   letters: Record<string, LetterStat>;
   /** Same stats for everything after letters, keyed by kind: "syl:bet", "read:dag". Missing in older saves. */
   items?: Record<string, LetterStat>;
+  /** The buddy the child picked (content/buddies.ts), its wardrobe and what it wears now. */
+  buddy?: string;
+  wardrobe?: string[];
+  wearing?: string[];
   /** Parent switch: open every world now (e.g. a child who already knows the letters). */
   unlockAll?: boolean;
   /** Station ids completed (e.g. "letters/s1"). */
@@ -124,7 +128,10 @@ export const actions = {
   setActive(id: string | null) {
     write({ ...read(), activeChildId: id });
   },
-  updateChild(id: string, patch: Partial<Pick<Child, "nickname" | "gender" | "worldId" | "unlockAll">>) {
+  updateChild(
+    id: string,
+    patch: Partial<Pick<Child, "nickname" | "gender" | "worldId" | "unlockAll" | "buddy" | "wearing">>,
+  ) {
     updateChild(id, (c) => ({ ...c, ...patch }));
   },
   removeChild(id: string) {
@@ -133,7 +140,7 @@ export const actions = {
     write({ ...s, children, activeChildId: s.activeChildId === id ? null : s.activeChildId });
   },
   resetProgress(id: string) {
-    updateChild(id, (c) => ({ ...c, letters: {}, items: {}, done: [], stickers: [] }));
+    updateChild(id, (c) => ({ ...c, letters: {}, items: {}, done: [], stickers: [], wardrobe: [], wearing: [] }));
   },
   recordLetter(childId: string, letterId: string, result: Result, misses: number) {
     updateChild(childId, (c) => ({
@@ -150,18 +157,25 @@ export const actions = {
       items: { ...c.items, [key]: bump(c.items?.[key], result, misses) },
     }));
   },
-  /** Marks a station done; returns the sticker earned the first time, or null on replays. */
-  completeStation(childId: string, stationKey: string, sticker: string): string | null {
+  /**
+   * Marks a station done. The first time, the child gets the sticker and the accessory (which the buddy
+   * also puts on). Replays give nothing new.
+   */
+  completeStation(childId: string, stationKey: string, sticker: string, accessory: string) {
     const c = read().children.find((x) => x.id === childId);
-    if (!c) return null;
-    const first = !c.done.includes(stationKey);
-    updateChild(childId, (x) => ({
-      ...x,
-      done: first ? [...x.done, stationKey] : x.done,
-      stickers: first ? [...x.stickers, sticker] : x.stickers,
-      lastPlayedAt: new Date().toISOString(),
-    }));
-    return first ? sticker : null;
+    if (!c || c.done.includes(stationKey)) return;
+    updateChild(childId, (x) => {
+      const wardrobe = x.wardrobe ?? [];
+      const has = wardrobe.includes(accessory);
+      return {
+        ...x,
+        done: [...x.done, stationKey],
+        stickers: [...x.stickers, sticker],
+        wardrobe: has ? wardrobe : [...wardrobe, accessory],
+        wearing: has ? x.wearing : [accessory],
+        lastPlayedAt: new Date().toISOString(),
+      };
+    });
   },
 };
 
