@@ -1267,5 +1267,14 @@
     "file": "review-intro.mp3",
     "heard": "סיבוב הפתעה",
     "check": "match"
+  },
+  "nikud-map": {
+    "text": "עוֹלַם הַנִּקּוּד!",
+    "hash": "64d229a035",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "nikud-map.mp3",
+    "heard": "עולם הניקוד",
+    "check": "match"
   }
 }

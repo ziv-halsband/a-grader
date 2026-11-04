@@ -5,23 +5,18 @@ import { BuddyPicker } from "@/components/BuddyPicker";
 import { Guide } from "@/components/Guide";
 import { WorldShell } from "@/components/WorldShell";
 import { TOPICS } from "@/content/curriculum";
-import { KAMATZ_STATIONS } from "@/content/kamatz";
-import { LETTER_STATIONS } from "@/content/letters";
 import { WORLDS } from "@/content/worlds";
+import { topicsDone } from "@/lib/progress";
 import { actions } from "@/lib/store";
 import { useRequiredChild } from "@/lib/useChild";
 
-/** The whole adventure: one station per topic of mom's year. Letters and kamatz/patach are built so far. */
+/** The whole adventure: one station per topic of mom's year; all the vowels are one "nikud" station. */
 export default function AdventurePage() {
   const child = useRequiredChild();
   if (!child) return <WorldShell>{null}</WorldShell>;
 
   const world = WORLDS[child.worldId];
-  const allDone = (prefix: string, ids: { id: string }[]) => ids.every((s) => child.done.includes(`${prefix}/${s.id}`));
-  const done: Record<string, boolean> = {
-    letters: allDone("letters", LETTER_STATIONS),
-    "kamatz-patach": allDone("kamatz-patach", KAMATZ_STATIONS),
-  };
+  const done = topicsDone(child);
   const firstVisit = child.done.length === 0;
 
   // A topic opens when the one before it is done (or a parent opened all worlds). Topics not built yet stay locked.

@@ -30,7 +30,7 @@ export default function KamatzWorldPage() {
   });
 
   return (
-    <WorldShell child={child} back={{ href: "/play", label: "למפה הגדולה" }}>
+    <WorldShell child={child} back={{ href: "/play/nikud", label: "לעולם הניקוד" }}>
       <h1 className="nikud mt-4 text-center text-3xl font-extrabold">עוֹלַם הַקָּמָץ וְהַפַּתָּח</h1>
       <div className="mt-4">
         <Guide compact lines={[line("kp-world", child.gender)]} />

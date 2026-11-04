@@ -52,6 +52,7 @@ const neutral: Record<string, string> = {
   welcome: "שָׁלוֹם! אֲנִי הַמּוֹרָה. יוֹצְאִים לְמַסָּע!",
   "map-pick": "לְאָן הַיּוֹם?",
   "letters-map": "עוֹלַם הָאוֹתִיּוֹת!",
+  "nikud-map": "עוֹלַם הַנִּקּוּד!",
   "meet-intro": "אוֹתִיּוֹת חֲדָשׁוֹת!",
   "find-prompt": "אֵיפֹה הָאוֹת",
   like: "כְּמוֹ",
