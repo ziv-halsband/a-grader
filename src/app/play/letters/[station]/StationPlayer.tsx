@@ -5,7 +5,6 @@ import { useState } from "react";
 import { StationSteps, type Step } from "@/components/StationSteps";
 import { WorldShell } from "@/components/WorldShell";
 import { LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
-import { WORLDS } from "@/content/worlds";
 import { shuffle } from "@/lib/random";
 import { useRequiredChild } from "@/lib/useChild";
 import { GamePicker } from "./GamePicker";
@@ -48,7 +47,6 @@ export function StationPlayer({ stationId }: { stationId: string }) {
   const index = LETTER_STATIONS.findIndex((s) => s.id === stationId);
   const station = LETTER_STATIONS[index];
   const letters = station.letterIds.map((id) => LETTER_BY_ID[id]);
-  const world = WORLDS[child.worldId];
   // A station done before: every game is open right away (replay any part).
   // Practice mode: every step is open, in any order. Otherwise: a station done before opens all its games.
   const furthest = PRACTICE_MODE
@@ -87,7 +85,6 @@ export function StationPlayer({ stationId }: { stationId: string }) {
           <StationDone
             child={child}
             stationKey={`letters/${stationId}`}
-            sticker={world.stickers[index % world.stickers.length]}
             items={station.mix ? [] : letters.map((l) => ({ id: l.id, label: l.char }))}
             mapHref="/play/letters"
             onReplay={() => go("meet")}

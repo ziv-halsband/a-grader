@@ -32,6 +32,10 @@ export type Child = {
   buddy?: string;
   wardrobe?: string[];
   wearing?: string[];
+  /** The buddy picked first (an earned hero can become `buddy` later). Missing in older saves: then it is `buddy`. */
+  starter?: string;
+  /** Saw the short tour (the buddy, the surprises, the heroes): once per child. */
+  tourSeen?: boolean;
   /** Parent switch: open every world now (e.g. a child who already knows the letters). */
   unlockAll?: boolean;
   /** Station ids completed (e.g. "letters/s1"). */
@@ -133,9 +137,13 @@ export const actions = {
   },
   updateChild(
     id: string,
-    patch: Partial<Pick<Child, "nickname" | "gender" | "worldId" | "unlockAll" | "buddy" | "wearing">>,
+    patch: Partial<Pick<Child, "nickname" | "gender" | "worldId" | "unlockAll" | "buddy" | "wearing" | "starter" | "tourSeen">>,
   ) {
     updateChild(id, (c) => ({ ...c, ...patch }));
+  },
+  /** Makes another friend the child owns (the first pick or an earned hero) the active buddy. */
+  switchBuddy(id: string, buddy: string) {
+    updateChild(id, (c) => ({ ...c, starter: c.starter ?? c.buddy, buddy }));
   },
   removeChild(id: string) {
     const s = read();
@@ -143,7 +151,17 @@ export const actions = {
     write({ ...s, children, activeChildId: s.activeChildId === id ? null : s.activeChildId });
   },
   resetProgress(id: string) {
-    updateChild(id, (c) => ({ ...c, letters: {}, items: {}, done: [], stickers: [], wardrobe: [], wearing: [] }));
+    // Heroes are earned by stations, so they go too: back to the buddy picked first.
+    updateChild(id, (c) => ({
+      ...c,
+      letters: {},
+      items: {},
+      done: [],
+      stickers: [],
+      wardrobe: [],
+      wearing: [],
+      buddy: c.starter ?? c.buddy,
+    }));
   },
   recordLetter(childId: string, letterId: string, result: Result, misses: number) {
     updateChild(childId, (c) => ({

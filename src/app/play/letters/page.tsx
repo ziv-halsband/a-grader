@@ -5,6 +5,7 @@ import { AdventureMap, type MapStation } from "@/components/AdventureMap";
 import { Guide } from "@/components/Guide";
 import { WorldShell } from "@/components/WorldShell";
 import { LETTER_STATIONS } from "@/content/letters";
+import { rewardFor } from "@/content/rewards";
 import { WORLDS } from "@/content/worlds";
 import { useRequiredChild } from "@/lib/useChild";
 import { openAll } from "@/lib/progress";
@@ -18,6 +19,8 @@ export default function LettersWorldPage() {
   const stations: MapStation[] = LETTER_STATIONS.map((s, i) => {
     const key = `letters/${s.id}`;
     const done = child.done.includes(key);
+    const reward = rewardFor(world, key);
+    const hero = reward?.hero;
     const prevDone = i === 0 || child.done.includes(`letters/${LETTER_STATIONS[i - 1].id}`);
     return {
       key,
@@ -26,7 +29,8 @@ export default function LettersWorldPage() {
       badge: s.mix ? (i === LETTER_STATIONS.length - 1 ? "🏆" : "🔀") : s.title.split(" ")[0],
       state: done ? "done" : prevDone || openAll(child) ? "open" : "locked",
       href: `/play/letters/${s.id}`,
-      sticker: world.stickers[i % world.stickers.length],
+      sticker: reward?.sticker,
+      hero: hero && { emoji: hero.emoji, owned: done },
     };
   });
 

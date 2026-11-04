@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { BuddyAvatar } from "@/components/BuddyAvatar";
 import { Confetti } from "@/components/Confetti";
 import { Guide } from "@/components/Guide";
 import { PointHand } from "@/components/PointHand";
-import { ACCESSORY_BY_ID, accessoryForCount } from "@/content/buddies";
+import { ACCESSORY_BY_ID, type Hero } from "@/content/buddies";
+import { rewardFor } from "@/content/rewards";
 import { line } from "@/content/voice";
 import { WORLDS } from "@/content/worlds";
 import { sparkleSound } from "@/lib/audio";
@@ -14,12 +16,12 @@ import { actions, type Child } from "@/lib/store";
 
 /**
  * End of a station. The first time: a chest (island) / an egg (garden) to tap open, out fly the sticker
- * and a gift for the buddy. Replays: straight to the choices. Stopping is always fine.
+ * and a gift for the buddy; on a milestone station a new hero then joins. Replays: the sticker this station
+ * gave (already collected ✓) and the buddy dancing, then the choices. Stopping is always fine.
  */
 export function StationDone({
   child,
   stationKey,
-  sticker,
   items,
   mapHref,
   onReplay,
@@ -27,7 +29,6 @@ export function StationDone({
 }: {
   child: Child;
   stationKey: string;
-  sticker: string;
   /** What we practiced in this station (letters, syllables…). */
   items: { id: string; label: string }[];
   mapHref: string;
@@ -36,10 +37,19 @@ export function StationDone({
 }) {
   // Read once, before completing, so a replay doesn't pretend to give a new sticker.
   const [isNew] = useState(() => !child.done.includes(stationKey));
-  const [gift] = useState(() => accessoryForCount(child.done.length).id);
   const [stage, setStage] = useState<"closed" | "opening" | "open">(isNew ? "closed" : "open");
+  const [heroArrives, setHeroArrives] = useState(false);
   const world = WORLDS[child.worldId];
   const g = child.gender;
+  // This station's own pair (content/rewards.ts): the same sticker + gift the map and my room show.
+  const reward = rewardFor(world, stationKey);
+  const sticker = reward?.sticker ?? "⭐";
+  const gift = reward?.gift ?? "star";
+  const hero = reward?.hero;
+
+  useEffect(() => {
+    if (!isNew) cheer("party");
+  }, [isNew]);
 
   const open = () => {
     if (stage !== "closed") return;
@@ -49,6 +59,7 @@ export function StationDone({
       actions.completeStation(child.id, stationKey, sticker, gift);
       setStage("open");
       cheer("party");
+      if (hero) setTimeout(() => setHeroArrives(true), 1800);
     }, 900);
   };
 
@@ -72,7 +83,7 @@ export function StationDone({
 
   return (
     <div className="flex flex-1 flex-col items-center gap-6 px-6 py-6">
-      <Confetti count={60} />
+      {isNew && <Confetti count={60} />}
       <Guide
         compact
         lines={isNew ? [line("station-done", g), "buddy-gift"] : [line("station-done", g)]}
@@ -92,8 +103,27 @@ export function StationDone({
           </div>
         </div>
       ) : (
-        <div className="anim-sticker flex h-40 w-40 items-center justify-center rounded-full border-8 border-white bg-[var(--card)] text-[6rem] shadow-2xl">
-          {world.surprise.open}
+        // Replay: what this station gave, already in the collection, and the buddy dancing.
+        <div className="flex items-end gap-6">
+          <div className="anim-sticker relative flex h-40 w-40 items-center justify-center rounded-full border-8 border-white bg-[var(--card)] text-[6rem] shadow-2xl">
+            {sticker}
+            <span
+              className="absolute -top-1 -left-1 flex h-12 w-12 items-center justify-center rounded-full border-4 border-white bg-green-500 text-2xl font-extrabold text-white shadow"
+              aria-label="כבר אספת"
+            >
+              ✓
+            </span>
+          </div>
+          {child.buddy && (
+            <span className="anim-dance-loop inline-block origin-bottom">
+              <BuddyAvatar buddy={child.buddy} wearing={child.wearing} size={100} />
+            </span>
+          )}
+          {hero && child.buddy !== hero.id && (
+            <span className="anim-dance-loop inline-block origin-bottom" style={{ animationDelay: "300ms" }}>
+              <BuddyAvatar buddy={hero.id} size={80} />
+            </span>
+          )}
         </div>
       )}
 
@@ -118,6 +148,66 @@ export function StationDone({
             🗺️ לַמַּפָּה
           </Link>
         </div>
+      </div>
+
+      {heroArrives && hero && <HeroArrives child={child} hero={hero} onClose={() => setHeroArrives(false)} />}
+    </div>
+  );
+}
+
+/**
+ * A milestone: a new hero joins. First a silhouette to tap (one more surprise), then the hero, colored,
+ * with confetti. 🙌 takes the hero along as the buddy; 👍 keeps the current one (switch any time in my room).
+ */
+function HeroArrives({ child, hero, onClose }: { child: Child; hero: Hero; onClose: () => void }) {
+  const [shown, setShown] = useState(false);
+  const reveal = () => {
+    if (shown) return;
+    sparkleSound();
+    setShown(true);
+    cheer("party");
+  };
+
+  return (
+    <div className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-black/30 p-4 backdrop-blur-sm">
+      {shown && <Confetti count={80} />}
+      <div className="anim-rise flex w-full max-w-md flex-col items-center gap-5 rounded-[2.5rem] bg-[var(--card)] p-6 shadow-2xl">
+        <Guide compact lines={shown ? ["new-hero"] : []} />
+        <button
+          onClick={reveal}
+          aria-label={shown ? hero.name : "חבר חדש"}
+          className={`relative flex h-52 w-52 items-center justify-center rounded-full border-8 border-white bg-white/70 shadow-xl ${
+            shown ? "" : "anim-bob"
+          }`}
+        >
+          <span
+            key={shown ? "on" : "off"}
+            className={`inline-block text-[8rem] leading-none ${shown ? "anim-sticker" : "brightness-0 opacity-40"}`}
+          >
+            {hero.emoji}
+          </span>
+          {!shown && <PointHand className="-bottom-2 -left-2" />}
+        </button>
+        {shown && <p className="nikud text-3xl font-extrabold">{hero.name}</p>}
+        {shown && (
+          <div className="anim-rise flex w-full gap-3">
+            <button
+              onClick={() => {
+                actions.switchBuddy(child.id, hero.id);
+                cheer("party");
+                onClose();
+              }}
+              aria-label={`${hero.name} בא איתי`}
+              className="btn-3d relative flex-1 bg-accent px-5 py-4 text-4xl text-white"
+            >
+              🙌 {hero.emoji}
+              <PointHand className="-bottom-6 left-2" />
+            </button>
+            <button onClick={onClose} aria-label="סגור" className="btn-3d flex-1 bg-white px-5 py-4 text-4xl">
+              👍
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

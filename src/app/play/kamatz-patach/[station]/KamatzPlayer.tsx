@@ -6,7 +6,6 @@ import { StationDone } from "@/components/StationDone";
 import { StationSteps, type Step } from "@/components/StationSteps";
 import { WorldShell } from "@/components/WorldShell";
 import { KAMATZ, KAMATZ_STATIONS, READ_WORD_BY_ID, SYLLABLE_BY_ID } from "@/content/kamatz";
-import { WORLDS } from "@/content/worlds";
 import { useRequiredChild } from "@/lib/useChild";
 import { ReadGame } from "./ReadGame";
 import { SyllableFind, SyllableStarts } from "./SyllableGames";
@@ -39,7 +38,6 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
   const station = KAMATZ_STATIONS[index];
   const steps = station.kind === "words" ? WORD_STEPS : SYLLABLE_STEPS;
   const key = `kamatz-patach/${stationId}`;
-  const world = WORLDS[child.worldId];
   const furthest = PRACTICE_MODE ? steps.length - 1 : (reached ?? (child.done.includes(key) ? steps.length - 2 : 0));
   const order = steps.map((s) => s.id);
   const go = (id: string) => {
@@ -75,7 +73,6 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
           <StationDone
             child={child}
             stationKey={key}
-            sticker={world.stickers[(index + 7) % world.stickers.length]}
             items={station.itemIds.map((id) =>
               station.kind === "words"
                 ? { id, label: READ_WORD_BY_ID[id].emoji }

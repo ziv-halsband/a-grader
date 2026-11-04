@@ -34,6 +34,7 @@
 - [x] **A buddy for the trip:** the child picks one (6 animals) at the start; it sits in the corner of every game, cheers when right, tilts "hmm" when wrong, dances at the end, and giggles when tapped.
 - [x] **Dress the buddy:** every station also gives an accessory (hat, crown, glasses…). "My room" (the sticker page) shows the buddy, stickers, and the wardrobe.
 - [x] **Surprise at the end of a station:** tap a chest (island) / an egg (garden) → it shakes, opens, the sticker and the accessory fly out.
+- [x] **Rewards are part of the game (founder, 4 Nov):** a 4-card tour right after picking the buddy (friend → surprise per station → heroes → let's go); each station gives one fixed pair (sticker + gift, `content/rewards.ts`); heroes (owl 🔀, lion 🏆, whale בָּ) join at milestone stations with a second reveal; the maps show each station's sticker faintly and the hero silhouette; replays show the collected sticker ✓ and the buddy dancing; "my room" is one collection path in map order.
 - [x] **Shorter stations: 5 steps instead of 6:** 📖 learn → 🎯 quiz (mixed: "where is ב?" + "what starts with ב?") → ✍️ write → 🎮 play (bubbles **or** the new memory game) → 🎁 surprise.
 - [x] **New game: memory pairs** (letter ↔ its picture).
 - [x] **Letters come alive** in "learn": a tap makes the letter wiggle, boing, say its name, and the buddy giggles. (Not yet on every screen.)

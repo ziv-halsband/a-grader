@@ -11,6 +11,8 @@ export type World = {
   stationIcons: string[];
   /** Sticker earned per station, in order. */
   stickers: string[];
+  /** Sticker per kamatz/patach station, in order. */
+  kpStickers: string[];
   decor: string[];
   /** The surprise at the end of a station: tapped to open (Reading Eggs-style anticipation). */
   surprise: { closed: string; open: string; label: string };
@@ -25,7 +27,8 @@ export const WORLDS: Record<World["id"], World> = {
     tagline: "מַסָּע בַּסְּפִינָה בֵּין אִיִּים, וּבְכָל אִי מְחַכֶּה אוֹצָר",
     stationIcons: ["🏝️", "⛵", "🗺️", "🌋", "🏰", "⚓", "🐙", "🦈", "🧭", "🏴‍☠️"],
     // One per letters station, in map order (mixed stations: 🗺️ and the 🏆 at the end).
-    stickers: ["💎", "🪙", "🗝️", "🗺️", "🦜", "🧭", "⚓", "👑", "🏆"],
+    stickers: ["💎", "🪙", "🗝️", "🗺️", "🦜", "🧭", "⚓", "🏺", "🏆"],
+    kpStickers: ["🐢", "🦑", "🪸", "🐠", "📜"],
     decor: ["🌴", "🐚", "🦀", "☁️", "🐬"],
     surprise: { closed: "🎁", open: "💫", label: "תֵּבַת אוֹצָר" },
     theme: {
@@ -45,6 +48,7 @@ export const WORLDS: Record<World["id"], World> = {
     tagline: "טִיּוּל בֵּין פְּרָחִים וּבָתֵּי פְּיוֹת, וּבְכָל בַּיִת מְחַכָּה הַפְתָּעָה",
     stationIcons: ["🌷", "🍄", "🦋", "🌈", "🏡", "🌻", "🐞", "🫖", "🧚", "🏰"],
     stickers: ["🌸", "🦋", "🌈", "🌺", "🍓", "🐞", "🌻", "🧚", "🏆"],
+    kpStickers: ["🐛", "🦔", "🍒", "🌙", "📜"],
     decor: ["🌼", "🍀", "🐝", "☁️", "✨"],
     surprise: { closed: "🥚", open: "🐣", label: "בֵּיצַת קְסָמִים" },
     theme: {
