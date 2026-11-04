@@ -244,7 +244,9 @@ body {
   .anim-glow,
   .anim-talk,
   .anim-point,
-  .anim-dance {
+  .anim-dance,
+  .anim-rise,
+  .anim-sticker {
     animation: none;
   }
 }
