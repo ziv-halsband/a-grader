@@ -100,6 +100,13 @@ const neutral: Record<string, string> = {
   "tour-heroes": "וְעוֹד חֲבֵרִים מְחַכִּים!",
   "tour-go": "יוֹצְאִים לַדֶּרֶךְ!",
   "new-hero": "חָבֵר חָדָשׁ הִצְטָרֵף!",
+  // Games menu: quiz show, wheel of luck, surprise boxes.
+  "show-intro": "מַתְחִילִים אֶת הַשַּׁעֲשׁוּעוֹן!",
+  "show-end": "אֵיזוֹ הוֹפָעָה!",
+  "wheel-intro": "מְסוֹבְבִים אֶת הַגַּלְגַּל!",
+  "box-intro": "פּוֹתְחִים תֵּבָה!",
+  "box-which": "בְּאֵיזוֹ אוֹת זֶה מַתְחִיל?",
+  "box-which-end": "בְּאֵיזוֹ אוֹת זֶה נִגְמָר?",
   // Kamatz/patach world (paused; to be reworked with mom).
   where: "אֵיפֹה",
   "kamatz-is": "זֶה קָמָץ: קַו, וּמִתַּחְתָּיו נְקֻדָּה קְטַנָּה.",
