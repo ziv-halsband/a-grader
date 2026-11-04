@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { AdventureMap, type MapStation } from "@/components/AdventureMap";
 import { Guide } from "@/components/Guide";
 import { WorldShell } from "@/components/WorldShell";
@@ -35,7 +36,12 @@ export default function LettersWorldPage() {
       <div className="mt-4">
         <Guide compact lines={[line("letters-map", child.gender)]} />
       </div>
-      <div className="mt-8">
+      <div className="mt-5 flex justify-center">
+        <Link href="/play/letters/write" className="btn-3d nikud bg-white px-6 py-3 text-xl font-extrabold">
+          ✍️ הַמַּחְבֶּרֶת שֶׁלִּי
+        </Link>
+      </div>
+      <div className="mt-6">
         <AdventureMap stations={stations} />
       </div>
     </WorldShell>

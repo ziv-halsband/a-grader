@@ -41,3 +41,14 @@
 1. Listen in `/studio` → "לבדוק באוזן" (10 minutes). Re-take bad lines: `npm run audio:eleven -- --only <id>`.
 2. Mom's voice: 1–3 minutes of clean recording → clone → `ELEVEN_VOICE_ID=<her id> npm run audio:eleven -- --only …` (needs a paid plan for a professional clone; an instant clone may be enough to test).
 3. Next nikud worlds (צֵירֵה/סֶגּוֹל, חִירִיק…) reuse the same pieces: content file + syllable builder + ChoiceGame.
+
+## Writing letters (added 4 Nov, inspired by כפר אותיות "מציירים אותיות"; our own design, nothing copied)
+- **In every letters station, a new step ✍️ "כּוֹתְבִים"** (after "find"). Each letter in 3 rounds:
+  - 👀 **Watch:** a pencil writes the letter by itself, stroke by stroke.
+  - ✏️ **Trace:** a green start dot with the stroke number, dotted path and arrows.
+  - ✍️ **Write alone:** only a faint shape, no arrows, no numbers. This is the real check. If the child starts in the wrong place twice, the start dot appears and it counts as "with help".
+- **How the ink works:** it only grows **forward along the right stroke, from the right start**, with a generous margin for small fingers. A shaky hand still makes a neat letter, while the stroke order and direction are learned. Writing from the wrong end draws nothing: the box shakes and the voice says "start here, at the green dot".
+- 7 crayon colors, an erase/restart button, and 👀 to watch again. Writing lines like a grade-1 notebook (descenders of ק and final letters go below the line).
+- **✍️ My notebook** (`/play/letters/write`, button on the letters map): all reached letters as colorful cards, a ✓ on letters written alone, tap to write any letter again.
+- **Mom must check the strokes.** `/studio` → "איך כותבים כל אות" shows all 27 letters with numbered start points. The order and direction are my draft based on common print-letter teaching; children will learn exactly what's there. The file is `src/content/writing.ts`, one line per letter.
+- Possible next step: a printable worksheet per letter (trace on paper) for the parent.

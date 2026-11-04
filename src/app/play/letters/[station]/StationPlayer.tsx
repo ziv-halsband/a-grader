@@ -11,17 +11,19 @@ import { BubblesGame } from "./BubblesGame";
 import { FindGame } from "./FindGame";
 import { Meet } from "./Meet";
 import { StartsGame } from "./StartsGame";
+import { WriteStep } from "./WriteStep";
 import { StationDone } from "@/components/StationDone";
 
 const STEPS: Step[] = [
   { id: "meet", icon: "📖", label: "לוֹמְדִים" },
   { id: "find", icon: "🎯", label: "מוֹצְאִים" },
+  { id: "write", icon: "✍️", label: "כּוֹתְבִים" },
   { id: "starts", icon: "🖼️", label: "מִלִּים" },
   { id: "bubbles", icon: "🫧", label: "בּוּעוֹת" },
   { id: "done", icon: "🎁", label: "פְּרָס" },
 ];
 
-/** One station: learn the letters → find the letter → which word starts with it → bubbles → sticker. */
+/** One station: learn the letters → find the letter → write it → which word starts with it → bubbles → sticker. */
 export function StationPlayer({ stationId }: { stationId: string }) {
   const child = useRequiredChild();
   const [phase, setPhase] = useState("meet");
@@ -50,7 +52,8 @@ export function StationPlayer({ stationId }: { stationId: string }) {
 
       <div key={run} className="flex flex-1 flex-col">
         {phase === "meet" && <Meet letters={letters} gender={child.gender} onDone={() => go("find")} />}
-        {phase === "find" && <FindGame stationId={stationId} child={child} onDone={() => go("starts")} />}
+        {phase === "find" && <FindGame stationId={stationId} child={child} onDone={() => go("write")} />}
+        {phase === "write" && <WriteStep letterIds={station.letterIds} child={child} onDone={() => go("starts")} />}
         {phase === "starts" && <StartsGame stationId={stationId} child={child} onDone={() => go("bubbles")} />}
         {phase === "bubbles" && <BubblesGame stationId={stationId} gender={child.gender} onDone={() => go("done")} />}
         {phase === "done" && (

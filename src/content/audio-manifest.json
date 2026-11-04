@@ -1249,5 +1249,77 @@
     "file": "rw-kad.mp3",
     "heard": "כד",
     "check": "match"
+  },
+  "write-watch-m": {
+    "text": "תִּסְתַּכֵּל אֵיךְ כּוֹתְבִים אֶת הָאוֹת",
+    "hash": "2eca170484",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-watch-m.mp3",
+    "heard": "תסתכל איך כותבים את האות",
+    "check": "match"
+  },
+  "write-watch-f": {
+    "text": "תִּסְתַּכְּלִי אֵיךְ כּוֹתְבִים אֶת הָאוֹת",
+    "hash": "7f1cbc1135",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-watch-f.mp3",
+    "heard": "תסתכלי איך כותבים את האות",
+    "check": "match"
+  },
+  "write-trace-m": {
+    "text": "עַכְשָׁו אַתָּה! שִׂים אֶצְבַּע עַל הַנְּקֻדָּה הַיְּרֻקָּה, וְצַיֵּר עִם הַחִצִּים.",
+    "hash": "1fccd0ac6e",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-trace-m.mp3",
+    "heard": "עכשיו אתה שים אצבע על הנקודה הירוקה וצייר עם החיצים",
+    "check": "match"
+  },
+  "write-trace-f": {
+    "text": "עַכְשָׁו אַתְּ! שִׂימִי אֶצְבַּע עַל הַנְּקֻדָּה הַיְּרֻקָּה, וְצַיְּרִי עִם הַחִצִּים.",
+    "hash": "d7d695078e",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-trace-f.mp3",
+    "heard": "עכשיו את. שימי אצבע על הנקודה הירוקה וציירי עם החיצים",
+    "check": "match"
+  },
+  "notebook-m": {
+    "text": "זֹאת הַמַּחְבֶּרֶת שֶׁלְּךָ. בְּאֵיזוֹ אוֹת תִּרְצֶה לִכְתֹּב?",
+    "hash": "389a0438b4",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "notebook-m.mp3",
+    "heard": "זאת המחברת שלך. באיזו אות תרצה לכתוב?",
+    "check": "match"
+  },
+  "notebook-f": {
+    "text": "זֹאת הַמַּחְבֶּרֶת שֶׁלָּךְ. בְּאֵיזוֹ אוֹת תִּרְצִי לִכְתֹּב?",
+    "hash": "9110d263b4",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "notebook-f.mp3",
+    "heard": "זאת המחברת שלך. באיזו אות תרצי לכתוב?",
+    "check": "match"
+  },
+  "write-alone": {
+    "text": "וְעַכְשָׁו לְבַד, בְּלִי חִצִּים!",
+    "hash": "75e7d647bf",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-alone.mp3",
+    "heard": "ועכשיו לבד בלי חיצים",
+    "check": "match"
+  },
+  "write-start-here": {
+    "text": "מַתְחִילִים כָּאן, בַּנְּקֻדָּה הַיְּרֻקָּה.",
+    "hash": "df7b70c34b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-start-here.mp3",
+    "heard": "מתחילים כאן בנקודה הירוקה",
+    "check": "match"
   }
 }

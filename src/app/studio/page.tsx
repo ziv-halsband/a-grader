@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import manifest from "@/content/audio-manifest.json";
 import { LETTERS } from "@/content/letters";
 import { VOICE_LINES } from "@/content/voice";
+import { strokesFor, toPoints } from "@/content/writing";
 import { say } from "@/lib/audio";
 
 type Status = "placeholder" | "generated" | "approved";
@@ -135,6 +136,36 @@ export default function StudioPage() {
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </section>
+        <section className="rounded-2xl bg-white p-5 shadow-sm">
+          <h2 className="mb-1 text-lg font-bold">איך כותבים כל אות (טיוטה)</h2>
+          <p className="mb-4 text-sm text-stone-500">
+            המספר = סדר הקווים, הנקודה הירוקה = איפה מתחילים, הקו הכהה = כיוון הכתיבה. צריך את בדיקת המורה: הילדים ילמדו
+            לכתוב בדיוק כך. הקובץ: <code dir="ltr">src/content/writing.ts</code>
+          </p>
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+            {LETTERS.map((l) => (
+              <figure key={l.id} className="rounded-xl border p-2">
+                <svg viewBox="0 0 100 100" className="w-full" role="img" aria-label={l.name}>
+                  <line x1="4" x2="96" y1="22" y2="22" stroke="#e7e5e4" strokeWidth="0.6" />
+                  <line x1="4" x2="96" y1="80" y2="80" stroke="#d6d3d1" strokeWidth="0.8" />
+                  {strokesFor(l.id).map((pts, i) => (
+                    <g key={i}>
+                      <polyline points={toPoints(pts)} fill="none" stroke="#cbd5e1" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" />
+                      <polyline points={toPoints(pts)} fill="none" stroke="#334155" strokeWidth="1.5" />
+                      <circle cx={pts[0].x} cy={pts[0].y} r="5" fill="#22c55e" />
+                      <text x={pts[0].x} y={pts[0].y} textAnchor="middle" dominantBaseline="central" fontSize="6" fontWeight="800" fill="white">
+                        {i + 1}
+                      </text>
+                    </g>
+                  ))}
+                </svg>
+                <figcaption className="text-center text-sm font-bold">
+                  {l.char} · {l.name}
+                </figcaption>
+              </figure>
             ))}
           </div>
         </section>
