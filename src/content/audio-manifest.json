@@ -1420,5 +1420,32 @@
     "file": "name-eden.mp3",
     "heard": "עדן",
     "check": "match"
+  },
+  "it-is": {
+    "text": "זֶה",
+    "hash": "9eacda6935",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "it-is.mp3",
+    "heard": "זה",
+    "check": "match"
+  },
+  "starts-like-m": {
+    "text": "מַתְחִיל בַּצְּלִיל",
+    "hash": "f4006c8b6b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "starts-like-m.mp3",
+    "heard": "מתחיל בצליל",
+    "check": "match"
+  },
+  "starts-like-f": {
+    "text": "מַתְחִילָה בַּצְּלִיל",
+    "hash": "3a51b2b322",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "starts-like-f.mp3",
+    "heard": "מתחילה בצליל",
+    "check": "match"
   }
 }

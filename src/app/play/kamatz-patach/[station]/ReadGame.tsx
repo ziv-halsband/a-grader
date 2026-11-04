@@ -32,6 +32,7 @@ export function ReadGame({ wordIds, child, onDone }: { wordIds: string[]; child:
       renderOption={(id) => <span aria-hidden>{READ_WORD_BY_ID[id].emoji}</span>}
       optionLabel={(id) => `תמונה ${wordIds.indexOf(id) + 1}`}
       reveal={({ target: t }) => ["it-says", `rw-${t}`]}
+      explainWrong={(_, tapped) => ["almost", READ_WORD_BY_ID[tapped].f ? "this-is" : "it-is", `rw-${tapped}`]}
       onSolved={({ target: t }) => [`rw-${t}`]}
       onAnswer={({ target: t }, result, misses) => actions.recordItem(child.id, `read:${t}`, result, misses)}
       onDone={onDone}

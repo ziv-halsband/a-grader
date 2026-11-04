@@ -19,8 +19,8 @@ export type Syllable = {
   base: string;
   /** What the voice reads. A bare "בָּ" is often read as the letter name, so a word that sounds the same is used. */
   spoken: string;
-  /** A picture word whose first sound is this syllable (for "which word starts like בָּ?"). */
-  starts?: { word: string; emoji: string };
+  /** A picture word whose first sound is this syllable (for "which word starts like בָּ?"). f = feminine word. */
+  starts?: { word: string; emoji: string; f?: boolean };
 };
 
 // spoken: the vowel sound "a" closed with a silent ה makes TTS read just the syllable ("בָּה" → "ba").
@@ -31,19 +31,19 @@ const S = (letterId: string, marks: string, starts?: Syllable["starts"]): Syllab
 
 export const SYLLABLES: Syllable[] = [
   S("alef", "", { word: "אַרְיֵה", emoji: "🦁" }),
-  S("mem", "", { word: "מַפָּה", emoji: "🗺️" }),
+  S("mem", "", { word: "מַפָּה", emoji: "🗺️", f: true }),
   S("lamed", "", { word: "לַהַב", emoji: "🔥" }),
-  S("bet", DAGESH, { word: "בַּנָּנָה", emoji: "🍌" }),
+  S("bet", DAGESH, { word: "בַּנָּנָה", emoji: "🍌", f: true }),
   S("dalet", DAGESH, { word: "דָּג", emoji: "🐟" }),
   S("gimel", DAGESH, { word: "גָּמָל", emoji: "🐫" }),
-  S("resh", "", { word: "רַכֶּבֶת", emoji: "🚂" }),
+  S("resh", "", { word: "רַכֶּבֶת", emoji: "🚂", f: true }),
   S("nun", "", { word: "נָחָשׁ", emoji: "🐍" }),
   S("shin", SHIN_DOT, { word: "שָׁעוֹן", emoji: "⏰" }),
   S("tav", DAGESH, { word: "תַּפּוּחַ", emoji: "🍎" }),
   S("samekh", "", { word: "סַבָּא", emoji: "👴" }),
   S("kaf", DAGESH, { word: "כַּדּוּר", emoji: "⚽" }),
   S("pe", DAGESH, { word: "פַּרְפַּר", emoji: "🦋" }),
-  S("yod", "", { word: "יָד", emoji: "✋" }),
+  S("yod", "", { word: "יָד", emoji: "✋", f: true }),
   S("het", "", { word: "חָתוּל", emoji: "🐱" }),
   S("tsadi", "", { word: "צָב", emoji: "🐢" }),
 ];
@@ -59,18 +59,25 @@ export function shown(s: Syllable, mark: "kamatz" | "patach") {
  * First words to read alone: only kamatz/patach, only letters from the letters world.
  * Each part is a syllable chip; `syl` = the open syllable it sounds like (so tapping it plays that sound).
  */
-export type ReadWord = { id: string; word: string; emoji: string; parts: { text: string; syl?: string }[] };
+export type ReadWord = {
+  id: string;
+  word: string;
+  emoji: string;
+  parts: { text: string; syl?: string }[];
+  /** Feminine word ("זֹאת יָד" rather than "זֶה"). */
+  f?: boolean;
+};
 
 export const READ_WORDS: ReadWord[] = [
   { id: "aba", word: "אַבָּא", emoji: "👨", parts: [{ text: "אַ", syl: "alef" }, { text: "בָּא", syl: "bet" }] },
   { id: "saba", word: "סַבָּא", emoji: "👴", parts: [{ text: "סַ", syl: "samekh" }, { text: "בָּא", syl: "bet" }] },
-  { id: "mapa", word: "מַפָּה", emoji: "🗺️", parts: [{ text: "מַ", syl: "mem" }, { text: "פָּה", syl: "pe" }] },
-  { id: "banana", word: "בַּנָּנָה", emoji: "🍌", parts: [{ text: "בַּ", syl: "bet" }, { text: "נָּ", syl: "nun" }, { text: "נָה", syl: "nun" }] },
+  { id: "mapa", word: "מַפָּה", emoji: "🗺️", f: true, parts: [{ text: "מַ", syl: "mem" }, { text: "פָּה", syl: "pe" }] },
+  { id: "banana", word: "בַּנָּנָה", emoji: "🍌", f: true, parts: [{ text: "בַּ", syl: "bet" }, { text: "נָּ", syl: "nun" }, { text: "נָה", syl: "nun" }] },
   { id: "dag", word: "דָּג", emoji: "🐟", parts: [{ text: "דָּ", syl: "dalet" }, { text: "ג" }] },
-  { id: "yad", word: "יָד", emoji: "✋", parts: [{ text: "יָ", syl: "yod" }, { text: "ד" }] },
+  { id: "yad", word: "יָד", emoji: "✋", f: true, parts: [{ text: "יָ", syl: "yod" }, { text: "ד" }] },
   { id: "yam", word: "יָם", emoji: "🌊", parts: [{ text: "יָ", syl: "yod" }, { text: "ם" }] },
   { id: "tsav", word: "צָב", emoji: "🐢", parts: [{ text: "צָ", syl: "tsadi" }, { text: "ב" }] },
-  { id: "kaf", word: "כַּף", emoji: "🥄", parts: [{ text: "כַּ", syl: "kaf" }, { text: "ף" }] },
+  { id: "kaf", word: "כַּף", emoji: "🥄", f: true, parts: [{ text: "כַּ", syl: "kaf" }, { text: "ף" }] },
   { id: "kad", word: "כַּד", emoji: "🏺", parts: [{ text: "כַּ", syl: "kaf" }, { text: "ד" }] },
 ];
 

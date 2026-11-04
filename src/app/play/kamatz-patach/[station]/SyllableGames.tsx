@@ -23,6 +23,7 @@ export function SyllableFind({ stationId, child, onDone }: { stationId: string; 
       renderOption={(id) => <Syllable base={SYLLABLE_BY_ID[id].base} mark={marks[id]} className="pb-4" />}
       optionLabel={(id) => SYLLABLE_BY_ID[id].base + KAMATZ}
       reveal={({ target: t }) => ["here-sound", `syl-${t}`]}
+      explainWrong={(_, tapped) => ["it-is", `syl-${tapped}`]}
       onAnswer={({ target: t }, result, misses) => actions.recordItem(child.id, `syl:${t}`, result, misses)}
       onDone={onDone}
     />
@@ -50,6 +51,10 @@ export function SyllableStarts({ stationId, child, onDone }: { stationId: string
       renderOption={(id) => <span aria-hidden>{SYLLABLE_BY_ID[id].starts!.emoji}</span>}
       optionLabel={(id) => SYLLABLE_BY_ID[id].starts!.word}
       reveal={({ target: t }) => ["here-word", startsWordId(t)]}
+      explainWrong={(_, tapped) => {
+        const x = SYLLABLE_BY_ID[tapped];
+        return ["almost", startsWordId(tapped), x.starts?.f ? "starts-like-f" : "starts-like-m", `syl-${tapped}`];
+      }}
       onSolved={({ target: t }) => [startsWordId(t)]}
       onAnswer={() => {}}
       onDone={onDone}

@@ -81,6 +81,9 @@ const neutral: Record<string, string> = {
   // Explaining a wrong tap (founder, 5 Nov): "כִּמְעַט! קוֹף מַתְחִיל בָּאוֹת קוֹף. נַסֵּה שׁוּב".
   almost: "כִּמְעַט!",
   "this-is": "זֹאת",
+  "it-is": "זֶה",
+  "starts-like-m": "מַתְחִיל בַּצְּלִיל",
+  "starts-like-f": "מַתְחִילָה בַּצְּלִיל",
   "starts-with-m": "מַתְחִיל בָּאוֹת",
   "starts-with-f": "מַתְחִילָה בָּאוֹת",
   "ends-with-m": "נִגְמָר בָּאוֹת",
