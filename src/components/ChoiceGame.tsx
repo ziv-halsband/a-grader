@@ -40,6 +40,7 @@ export function ChoiceGame<T extends ChoiceItem>({
   onAnswer,
   onDone,
   size = "big",
+  progress = true,
 }: {
   items: T[];
   /** Said once before the first question. */
@@ -59,6 +60,8 @@ export function ChoiceGame<T extends ChoiceItem>({
   onAnswer: (item: T, result: Result, misses: number) => void;
   onDone: () => void;
   size?: "big" | "picture";
+  /** The "question n of N" dots (off when a game shows its own progress, one question at a time). */
+  progress?: boolean;
 }) {
   const [idx, setIdx] = useState(0);
   const [wrong, setWrong] = useState<string[]>([]);
@@ -119,14 +122,16 @@ export function ChoiceGame<T extends ChoiceItem>({
     <div className="flex flex-1 flex-col gap-5 py-4">
       <Guide compact lines={hint?.lines ?? prompt} cue={idx * 100 + (hint?.n ?? 0)} />
 
-      <div className="flex justify-center gap-2" aria-label={`שאלה ${idx + 1} מתוך ${items.length}`}>
-        {items.map((_, i) => (
-          <span
-            key={i}
-            className={`h-3 w-3 rounded-full ${i < idx ? "bg-accent" : i === idx ? "bg-white ring-2 ring-accent" : "bg-white/60"}`}
-          />
-        ))}
-      </div>
+      {progress && (
+        <div className="flex justify-center gap-2" aria-label={`שאלה ${idx + 1} מתוך ${items.length}`}>
+          {items.map((_, i) => (
+            <span
+              key={i}
+              className={`h-3 w-3 rounded-full ${i < idx ? "bg-accent" : i === idx ? "bg-white ring-2 ring-accent" : "bg-white/60"}`}
+            />
+          ))}
+        </div>
+      )}
 
       <div key={idx} className="anim-rise flex flex-1 flex-col items-center justify-center gap-6 px-4">
         {item.cue}

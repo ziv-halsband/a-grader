@@ -188,3 +188,66 @@ export function buildMixQuizItems(letterIds: string[], n = 10): QuizItem[] {
       : { kind: "find" as const, target, options: shuffle([target, ...distractors(target, letterIds, 2)]) },
   );
 }
+
+/**
+ * Up to `n` targets for a game: the station's letters first (a mix station: a random handful of everything),
+ * then review letters from earlier stations, then repeats when the child knows only a few letters so far.
+ */
+function gameTargets(stationId: string, n: number): string[] {
+  const station = LETTER_STATIONS.find((s) => s.id === stationId)!;
+  const known = lettersUpTo(stationId);
+  const own = shuffle(station.letterIds).slice(0, n);
+  const earlier = shuffle(known.filter((x) => !own.includes(x)));
+  const out = [...own, ...earlier].slice(0, n);
+  for (let i = 0; out.length < n; i++) out.push(out[i]);
+  return out;
+}
+
+/** 3 pictures for "what starts with X?" (or "ends with", for a final letter: then only final-letter words). */
+export function picturesFor(target: string, known: string[]): string[] {
+  const finals = !!LETTER_BY_ID[target].final;
+  const pool = known.filter((id) => id !== target && !!LETTER_BY_ID[id].final === finals);
+  return shuffle([target, ...shuffle(pool).slice(0, 2)]);
+}
+
+/** 3 letters for "which letter does this picture start with?": a lookalike when there is one, same kind (final or not). */
+export function lettersFor(target: string, known: string[]): string[] {
+  const finals = !!LETTER_BY_ID[target].final;
+  return shuffle([target, ...distractors(target, known.filter((id) => !!LETTER_BY_ID[id].final === finals), 2)]);
+}
+
+/**
+ * 📺 The quiz show: 6 questions, "where is X?" and "what starts with X?" taking turns,
+ * never the same letter twice in a row.
+ */
+export function buildShowItems(stationId: string, n = 6): QuizItem[] {
+  const known = lettersUpTo(stationId);
+  const targets = gameTargets(stationId, n);
+  for (let i = 1; i < targets.length - 1; i++) {
+    if (targets[i] === targets[i - 1]) [targets[i], targets[i + 1]] = [targets[i + 1], targets[i]];
+  }
+  return targets.map((target, i) =>
+    i % 2 === 1
+      ? { kind: "starts" as const, target, options: picturesFor(target, known) }
+      : { kind: "find" as const, target, options: shuffle([target, ...distractors(target, known, 2)]) },
+  );
+}
+
+/** 🎡 The wheel's slices (up to 8): the station's letters, topped up to at least 6 so the wheel looks full. */
+export function buildWheelSlices(stationId: string): string[] {
+  const station = LETTER_STATIONS.find((s) => s.id === stationId)!;
+  const own = Math.min(8, Math.max(6, station.letterIds.length));
+  const letters = [...new Set(gameTargets(stationId, own))];
+  // Only a few letters known (the first station): each one twice, alternating, for 8 slices.
+  return letters.length < 6 ? [...letters, ...letters] : letters;
+}
+
+/** 🎁 The boxes: 6 letters hidden as pictures; the child names the first (or last) letter. */
+export function buildBoxItems(stationId: string, n = 6) {
+  const known = lettersUpTo(stationId);
+  return shuffle(gameTargets(stationId, n)).map((target, i) => ({
+    key: `box-${i}`,
+    target,
+    options: lettersFor(target, known),
+  }));
+}

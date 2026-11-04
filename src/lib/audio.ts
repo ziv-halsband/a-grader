@@ -108,3 +108,49 @@ export function sparkleSound() {
 export function boingSound() {
   tone(300, 0, 0.18, { to: 600, type: "sine", gain: 0.15 });
 }
+
+/** A short burst of filtered noise (a clap, a snare hit). */
+function noise(start: number, dur: number, gain: number, freq = 1800) {
+  try {
+    ctx ??= new AudioContext();
+    const len = Math.max(1, Math.floor(ctx.sampleRate * dur));
+    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    const filter = ctx.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.value = freq;
+    const g = ctx.createGain();
+    const t = ctx.currentTime + start;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(gain, t + 0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(filter).connect(g).connect(ctx.destination);
+    src.start(t);
+    src.stop(t + dur + 0.02);
+  } catch {
+    // No Web Audio: silence is fine.
+  }
+}
+
+/** The quiz show, before each question: a soft snare roll that grows, then a "ta-da" (~1.4s). */
+export function drumrollSound() {
+  for (let i = 0; i < 22; i++) noise(i * 0.05, 0.06, 0.05 + i * 0.008, 1200);
+  tone(523, 1.15, 0.2, { type: "triangle", gain: 0.15 });
+  tone(784, 1.25, 0.35, { type: "triangle", gain: 0.15 });
+}
+
+/** The end of the show: a small crowd clapping for ~2 seconds. */
+export function applauseSound() {
+  for (let i = 0; i < 80; i++) {
+    const at = Math.random() * 2;
+    noise(at, 0.03 + Math.random() * 0.03, 0.14 * (1 - at / 2.4), 1400 + Math.random() * 1600);
+  }
+}
+
+/** A peg of the wheel passing the pointer. */
+export function tickSound() {
+  tone(1500, 0, 0.03, { type: "square", gain: 0.05 });
+}
