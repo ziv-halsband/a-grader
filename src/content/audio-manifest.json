@@ -1429,5 +1429,32 @@
     "file": "starts-like-f.mp3",
     "heard": "מתחילה בצליל",
     "check": "match"
+  },
+  "write-free-m": {
+    "text": "כְּתֹב אֶת הָאוֹת",
+    "hash": "d591937293",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-free-m.mp3",
+    "heard": "כטוב את האות",
+    "check": "differs"
+  },
+  "write-free-f": {
+    "text": "כִּתְבִי אֶת הָאוֹת",
+    "hash": "d0d55ff77a",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-free-f.mp3",
+    "heard": "כתבי את האות",
+    "check": "match"
+  },
+  "write-free-almost": {
+    "text": "כִּמְעַט! עוֹד פַּעַם",
+    "hash": "b0fd759133",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-free-almost.mp3",
+    "heard": "כמעט עוד פעם",
+    "check": "match"
   }
 }
