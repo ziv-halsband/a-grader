@@ -1456,5 +1456,50 @@
     "file": "write-free-almost.mp3",
     "heard": "כמעט עוד פעם",
     "check": "match"
+  },
+  "tour-friend": {
+    "text": "הִנֵּה הֶחָבֵר לַמַּסָּע!",
+    "hash": "919f04f00f",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "tour-friend.mp3",
+    "heard": "הנה החבר למסע",
+    "check": "match"
+  },
+  "tour-surprise": {
+    "text": "בְּכָל תַּחֲנָה הַפְתָּעָה!",
+    "hash": "133f14c8ec",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "tour-surprise.mp3",
+    "heard": "בכל תחנה הפתעה",
+    "check": "match"
+  },
+  "tour-heroes": {
+    "text": "וְעוֹד חֲבֵרִים מְחַכִּים!",
+    "hash": "3825b90241",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "tour-heroes.mp3",
+    "heard": "ועוד חברים מחכים",
+    "check": "match"
+  },
+  "tour-go": {
+    "text": "יוֹצְאִים לַדֶּרֶךְ!",
+    "hash": "bf8d098e6d",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "tour-go.mp3",
+    "heard": "יוצאים לדרך",
+    "check": "match"
+  },
+  "new-hero": {
+    "text": "חָבֵר חָדָשׁ הִצְטָרֵף!",
+    "hash": "42704a1e92",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "new-hero.mp3",
+    "heard": "חבר חדש הצטרף",
+    "check": "match"
   }
 }
