@@ -432,30 +432,30 @@
     "check": "match"
   },
   "word-he": {
-    "text": "הֶלִיקוֹפְּטֶר",
-    "hash": "abfb815814",
+    "text": "הַר",
+    "hash": "d5c9170bd7",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "word-he.mp3",
-    "heard": "הליקופטר",
+    "heard": "הר",
     "check": "match"
   },
   "word-vav": {
-    "text": "וֶרֶד",
-    "hash": "befb965126",
+    "text": "וָפֶל",
+    "hash": "b0dcd88612",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "word-vav.mp3",
-    "heard": "ורד",
+    "heard": "וופל",
     "check": "match"
   },
   "word-zayin": {
-    "text": "זֶבְּרָה",
-    "hash": "767886451b",
+    "text": "זַיִת",
+    "hash": "3c47c54ead",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "word-zayin.mp3",
-    "heard": "זברה",
+    "heard": "זית",
     "check": "match"
   },
   "word-het": {
@@ -468,13 +468,13 @@
     "check": "match"
   },
   "word-tet": {
-    "text": "טִיל",
-    "hash": "cf999d295a",
+    "text": "טָרַקְטוֹר",
+    "hash": "d47b73c9ff",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "word-tet.mp3",
-    "heard": "תיל",
-    "check": "differs"
+    "heard": "טרקטור",
+    "check": "match"
   },
   "word-yod": {
     "text": "יָד",
@@ -495,21 +495,21 @@
     "check": "match"
   },
   "word-lamed": {
-    "text": "לִימוֹן",
-    "hash": "52f71e42fc",
+    "text": "לַוְיָתָן",
+    "hash": "7fe1819bad",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "word-lamed.mp3",
-    "heard": "לימון",
+    "heard": "לווייתן",
     "check": "match"
   },
   "word-mem": {
-    "text": "מְכוֹנִית",
-    "hash": "bb72b894df",
+    "text": "מַטְרִיָּה",
+    "hash": "e3e33f9404",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "word-mem.mp3",
-    "heard": "מכונית",
+    "heard": "מטריה",
     "check": "match"
   },
   "word-nun": {
@@ -522,12 +522,12 @@
     "check": "match"
   },
   "word-samekh": {
-    "text": "סוּס",
-    "hash": "6e63fa01fa",
+    "text": "סַנְדָּל",
+    "hash": "b9867d9ef0",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "word-samekh.mp3",
-    "heard": "סוס",
+    "heard": "סנדל",
     "check": "match"
   },
   "word-ayin": {
@@ -540,13 +540,13 @@
     "check": "differs"
   },
   "word-pe": {
-    "text": "פִּיל",
-    "hash": "841ec24a88",
+    "text": "פַּרְפַּר",
+    "hash": "0020a765a4",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "word-pe.mp3",
-    "heard": "Peel",
-    "check": "differs"
+    "heard": "פרפר",
+    "check": "match"
   },
   "word-tsadi": {
     "text": "צָב",
@@ -558,12 +558,12 @@
     "check": "differs"
   },
   "word-qof": {
-    "text": "קוֹף",
-    "hash": "f168d812db",
+    "text": "קַקְטוּס",
+    "hash": "c403059da3",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "word-qof.mp3",
-    "heard": "קוף",
+    "heard": "קקטוס",
     "check": "match"
   },
   "word-resh": {
@@ -576,12 +576,12 @@
     "check": "differs"
   },
   "word-shin": {
-    "text": "שֶׁמֶשׁ",
-    "hash": "6422609028",
+    "text": "שָׁעוֹן",
+    "hash": "35918e69de",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "word-shin.mp3",
-    "heard": "שמש",
+    "heard": "שעון",
     "check": "match"
   },
   "word-tav": {
@@ -980,15 +980,6 @@
     "heard": "בנה",
     "check": "differs"
   },
-  "sw-shin": {
-    "text": "שָׁעוֹן",
-    "hash": "35918e69de",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "sw-shin.mp3",
-    "heard": "שאון",
-    "check": "differs"
-  },
   "sw-samekh": {
     "text": "סַבָּא",
     "hash": "f247190501",
@@ -996,15 +987,6 @@
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "sw-samekh.mp3",
     "heard": "סבא",
-    "check": "match"
-  },
-  "sw-pe": {
-    "text": "פַּרְפַּר",
-    "hash": "0020a765a4",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "sw-pe.mp3",
-    "heard": "פרפר",
     "check": "match"
   },
   "rw-aba": {

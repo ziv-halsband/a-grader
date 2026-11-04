@@ -1,5 +1,8 @@
 // The letters world. DRAFT content: the order, names, example words and confusable
 // pairs are placeholders until mom fills in her topic card (docs/02-topic-card-template.md).
+// Example words (founder, 5 Nov): the letter's first syllable has kamatz/patach ("אָ"), the first nikud
+// children learn next, so the start of the word sounds the same way it will be read later.
+// Final letters are taught at the END of the word, so that rule doesn't apply to them.
 
 export type Letter = {
   id: string;
@@ -19,23 +22,23 @@ export const LETTERS: Letter[] = [
   { id: "bet", char: "ב", name: "בֵּית", word: "בַּיִת", emoji: "🏠" },
   { id: "gimel", char: "ג", name: "גִּימֶל", word: "גָּמָל", emoji: "🐫" },
   { id: "dalet", char: "ד", name: "דָּלֶת", word: "דָּג", emoji: "🐟" },
-  { id: "he", char: "ה", name: "הֵא", word: "הֶלִיקוֹפְּטֶר", emoji: "🚁" },
-  { id: "vav", char: "ו", name: "וָו", word: "וֶרֶד", emoji: "🌹" },
-  { id: "zayin", char: "ז", name: "זַיִן", word: "זֶבְּרָה", emoji: "🦓", wordF: true },
+  { id: "he", char: "ה", name: "הֵא", word: "הַר", emoji: "⛰️" },
+  { id: "vav", char: "ו", name: "וָו", word: "וָפֶל", emoji: "🧇" },
+  { id: "zayin", char: "ז", name: "זַיִן", word: "זַיִת", emoji: "🫒" },
   { id: "het", char: "ח", name: "חֵית", word: "חָתוּל", emoji: "🐱" },
-  { id: "tet", char: "ט", name: "טֵית", word: "טִיל", emoji: "🚀" },
+  { id: "tet", char: "ט", name: "טֵית", word: "טָרַקְטוֹר", emoji: "🚜" },
   { id: "yod", char: "י", name: "יוֹד", word: "יָד", emoji: "✋", wordF: true },
   { id: "kaf", char: "כ", name: "כַּף", word: "כַּדּוּר", emoji: "⚽" },
-  { id: "lamed", char: "ל", name: "לָמֶד", word: "לִימוֹן", emoji: "🍋" },
-  { id: "mem", char: "מ", name: "מֵם", word: "מְכוֹנִית", emoji: "🚗", wordF: true },
+  { id: "lamed", char: "ל", name: "לָמֶד", word: "לַוְיָתָן", emoji: "🐋" },
+  { id: "mem", char: "מ", name: "מֵם", word: "מַטְרִיָּה", emoji: "☂️", wordF: true },
   { id: "nun", char: "נ", name: "נוּן", word: "נָחָשׁ", emoji: "🐍" },
-  { id: "samekh", char: "ס", name: "סָמֶךְ", word: "סוּס", emoji: "🐴" },
+  { id: "samekh", char: "ס", name: "סָמֶךְ", word: "סַנְדָּל", emoji: "🩴" },
   { id: "ayin", char: "ע", name: "עַיִן", word: "עַכְבָּר", emoji: "🐭" },
-  { id: "pe", char: "פ", name: "פֵּא", word: "פִּיל", emoji: "🐘" },
+  { id: "pe", char: "פ", name: "פֵּא", word: "פַּרְפַּר", emoji: "🦋" },
   { id: "tsadi", char: "צ", name: "צָדִי", word: "צָב", emoji: "🐢" },
-  { id: "qof", char: "ק", name: "קוֹף", word: "קוֹף", emoji: "🐒" },
+  { id: "qof", char: "ק", name: "קוֹף", word: "קַקְטוּס", emoji: "🌵" },
   { id: "resh", char: "ר", name: "רֵישׁ", word: "רַכֶּבֶת", emoji: "🚂", wordF: true },
-  { id: "shin", char: "ש", name: "שִׁין", word: "שֶׁמֶשׁ", emoji: "☀️", wordF: true },
+  { id: "shin", char: "ש", name: "שִׁין", word: "שָׁעוֹן", emoji: "⏰" },
   { id: "tav", char: "ת", name: "תָּו", word: "תַּפּוּחַ", emoji: "🍎" },
   { id: "kaf-sofit", char: "ך", name: "כַּף סוֹפִית", word: "מֶלֶךְ", emoji: "👑", final: true },
   { id: "mem-sofit", char: "ם", name: "מֵם סוֹפִית", word: "יָם", emoji: "🌊", final: true },
