@@ -4,6 +4,7 @@ import { AdventureMap, type MapStation } from "@/components/AdventureMap";
 import { Guide } from "@/components/Guide";
 import { WorldShell } from "@/components/WorldShell";
 import { KAMATZ_STATIONS } from "@/content/kamatz";
+import { rewardFor } from "@/content/rewards";
 import { WORLDS } from "@/content/worlds";
 import { line } from "@/content/voice";
 import { useRequiredChild } from "@/lib/useChild";
@@ -18,6 +19,8 @@ export default function KamatzWorldPage() {
   const stations: MapStation[] = KAMATZ_STATIONS.map((s, i) => {
     const key = `kamatz-patach/${s.id}`;
     const done = child.done.includes(key);
+    const reward = rewardFor(world, key);
+    const hero = reward?.hero;
     const prevDone = i === 0 || child.done.includes(`kamatz-patach/${KAMATZ_STATIONS[i - 1].id}`);
     return {
       key,
@@ -26,7 +29,8 @@ export default function KamatzWorldPage() {
       badge: s.kind === "words" ? "📖" : s.title.split(" ")[0],
       state: done ? "done" : prevDone || openAll(child) ? "open" : "locked",
       href: `/play/kamatz-patach/${s.id}`,
-      sticker: world.stickers[(i + 7) % world.stickers.length],
+      sticker: reward?.sticker,
+      hero: hero && { emoji: hero.emoji, owned: done },
     };
   });
 

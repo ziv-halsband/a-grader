@@ -91,6 +91,12 @@ const neutral: Record<string, string> = {
   "mix-intro": "כָּל הָאוֹתִיּוֹת בְּיַחַד!",
   "buddy-gift": "וְגַם מַתָּנָה לֶחָבֵר!",
   "here-word": "הִנֵּה!",
+  // The tour right after picking the buddy (once per child), and a hero joining at a milestone.
+  "tour-friend": "הִנֵּה הֶחָבֵר לַמַּסָּע!",
+  "tour-surprise": "בְּכָל תַּחֲנָה הַפְתָּעָה!",
+  "tour-heroes": "וְעוֹד חֲבֵרִים מְחַכִּים!",
+  "tour-go": "יוֹצְאִים לַדֶּרֶךְ!",
+  "new-hero": "חָבֵר חָדָשׁ הִצְטָרֵף!",
   // Kamatz/patach world (paused; to be reworked with mom).
   where: "אֵיפֹה",
   "kamatz-is": "זֶה קָמָץ: קַו, וּמִתַּחְתָּיו נְקֻדָּה קְטַנָּה.",
