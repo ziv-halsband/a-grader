@@ -42,7 +42,7 @@ export default function LettersWorldPage() {
         </Link>
         {(openAll(child) || child.done.some((d) => d.startsWith("letters/"))) && (
           <Link href="/play/letters/review" className="btn-3d nikud anim-glow bg-white px-6 py-3 text-xl font-extrabold">
-            🎲 סִבּוּב הַפְתָּעָה
+            🎲 הָאִמּוּן הַיּוֹמִי
           </Link>
         )}
       </div>

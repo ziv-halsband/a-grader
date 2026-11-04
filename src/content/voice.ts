@@ -27,6 +27,7 @@ const gendered: Record<string, { m: string; f: string }> = {
   "pick-buddy": { m: "בְּחַר חָבֵר לַמַּסָּע!", f: "בַּחֲרִי חָבֵר לַמַּסָּע!" },
   "memory-intro": { m: "מְצָא זוּגוֹת!", f: "מִצְאִי זוּגוֹת!" },
   "pick-game": { m: "בְּחַר מִשְׂחָק!", f: "בַּחֲרִי מִשְׂחָק!" },
+  "ready-daily": { m: "מוּכָן לָאִמּוּן הַיּוֹמִי?", f: "מוּכָנָה לָאִמּוּן הַיּוֹמִי?" },
   "kp-world": {
     m: "בָּרוּךְ הַבָּא לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
     f: "בְּרוּכָה הַבָּאָה לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
@@ -71,7 +72,11 @@ const neutral: Record<string, string> = {
   "write-start-here": "מַתְחִילִים כָּאן!",
   notebook: "אֵיזוֹ אוֹת נִכְתֹּב?",
   "chest-what": "מָה יֵשׁ בִּפְנִים?",
-  "review-intro": "סִבּוּב הַפְתָּעָה!",
+  "review-intro": "יוֹצְאִים לָאִמּוּן הַיּוֹמִי!",
+  // Greeting by time of day, then the child's name (recorded by a parent, on the device only).
+  "good-morning": "בֹּקֶר טוֹב!",
+  "good-noon": "צָהֳרַיִם טוֹבִים!",
+  "good-evening": "עֶרֶב טוֹב!",
   // Explaining a wrong tap (founder, 5 Nov): "כִּמְעַט! קוֹף מַתְחִיל בָּאוֹת קוֹף. נַסֵּה שׁוּב".
   almost: "כִּמְעַט!",
   "this-is": "זֹאת",

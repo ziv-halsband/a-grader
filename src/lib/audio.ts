@@ -19,12 +19,26 @@ export function stopAudio() {
 
 const files = manifest as Record<string, { file?: string }>;
 
+/**
+ * Lines made on the device at runtime (e.g. the child's name, recorded by a parent): id → caption + audio URL.
+ * They play like any other line; they never leave the device.
+ */
+const dynamic = new Map<string, { text: string; url?: string }>();
+
+export function registerLine(id: string, text: string, url?: string) {
+  dynamic.set(id, { text, url });
+}
+
+export function dynamicText(id: string): string | undefined {
+  return dynamic.get(id)?.text;
+}
+
 export function hasAudio(id: string) {
-  return id in files;
+  return id in files || !!dynamic.get(id)?.url;
 }
 
 export function audioUrl(id: string) {
-  return `/audio/${files[id]?.file ?? `${id}.m4a`}`;
+  return dynamic.get(id)?.url ?? `/audio/${files[id]?.file ?? `${id}.m4a`}`;
 }
 
 /** Resolves when the whole sequence finished or was interrupted by another call. */

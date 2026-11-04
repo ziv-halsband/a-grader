@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { KAMATZ, READ_WORDS, SYLLABLES } from "@/content/kamatz";
 import { LETTERS, LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
+import { NameRecorder } from "@/components/NameRecorder";
 import { WORLDS } from "@/content/worlds";
 import { actions, letterMastery, useAppState, type Child, type Mastery } from "@/lib/store";
 
@@ -240,6 +241,7 @@ function Settings({ child }: { child: Child }) {
           className="flex-1 rounded-xl border-2 border-slate-200 px-3 py-2"
         />
       </label>
+      <NameRecorder childId={child.id} nickname={child.nickname} />
       <div className="flex items-center gap-3">
         <span className="w-24 text-sm">פנייה</span>
         {(["m", "f"] as const).map((g) => (

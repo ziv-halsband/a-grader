@@ -1260,12 +1260,12 @@
     "check": "match"
   },
   "review-intro": {
-    "text": "סִבּוּב הַפְתָּעָה!",
-    "hash": "3e66bde865",
+    "text": "יוֹצְאִים לָאִמּוּן הַיּוֹמִי!",
+    "hash": "27deba549c",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "review-intro.mp3",
-    "heard": "סיבוב הפתעה",
+    "heard": "יוצאים לאימון היומי",
     "check": "match"
   },
   "nikud-map": {
@@ -1356,6 +1356,51 @@
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "ends-with-f.mp3",
     "heard": "נגמרת באות",
+    "check": "match"
+  },
+  "ready-daily-m": {
+    "text": "מוּכָן לָאִמּוּן הַיּוֹמִי?",
+    "hash": "9038e94a6b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "ready-daily-m.mp3",
+    "heard": "מוכן לאימון היומי?",
+    "check": "match"
+  },
+  "ready-daily-f": {
+    "text": "מוּכָנָה לָאִמּוּן הַיּוֹמִי?",
+    "hash": "44e4aecc16",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "ready-daily-f.mp3",
+    "heard": "מוכנה לאימון היומי?",
+    "check": "match"
+  },
+  "good-morning": {
+    "text": "בֹּקֶר טוֹב!",
+    "hash": "8ddec40e6e",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "good-morning.mp3",
+    "heard": "בוקר טוב",
+    "check": "match"
+  },
+  "good-noon": {
+    "text": "צָהֳרַיִם טוֹבִים!",
+    "hash": "25ce911ab1",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "good-noon.mp3",
+    "heard": "צהריים טובים",
+    "check": "match"
+  },
+  "good-evening": {
+    "text": "עֶרֶב טוֹב!",
+    "hash": "6d961be5ae",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "good-evening.mp3",
+    "heard": "ערב טוב",
     "check": "match"
   }
 }

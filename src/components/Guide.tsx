@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { GUIDE_NAME } from "@/content/worlds";
 import { VOICE_BY_ID } from "@/content/voice";
-import { say, stopAudio } from "@/lib/audio";
+import { dynamicText, say, stopAudio } from "@/lib/audio";
 
 /**
  * Mom, the guide. Placeholder portrait for now: later this becomes her photo,
@@ -67,7 +67,10 @@ export function Guide({
     say(...lines).then(() => setTalking(false));
   };
 
-  const caption = lines.map((id) => VOICE_BY_ID[id]?.text ?? "").join(" ");
+  const caption = lines
+    .map((id) => VOICE_BY_ID[id]?.text ?? dynamicText(id) ?? "")
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div className="mx-auto flex w-full max-w-2xl items-end gap-3 px-4">
