@@ -101,6 +101,9 @@ function Dashboard() {
           ההתקדמות נשמרת רק בדפדפן הזה. אין חשבון, אין מיקרופון ואין שליחת מידע לשום מקום. הקולות במשחק הם
           כרגע קול זמני ממוחשב לבדיקה בלבד, עד שיוקלט הקול של המורה.
           <div className="mt-2">
+            <Link href="/print" className="ml-4 font-medium text-indigo-700 underline">
+              🖨️ דפי כתיבה להדפסה
+            </Link>
             <Link href="/studio" className="font-medium text-indigo-700 underline">
               לסטודיו של המורה: בדיקת תוכן וקול
             </Link>

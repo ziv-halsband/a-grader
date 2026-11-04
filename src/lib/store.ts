@@ -15,6 +15,8 @@ export type LetterStat = {
   misses: number;
   /** Was the most recent answer a first-try success? */
   lastFirstTry: boolean;
+  /** When it was last practiced (ms). Missing in older saves. */
+  at?: number;
 };
 
 export type Child = {
@@ -108,6 +110,7 @@ function bump(prev: LetterStat | undefined, result: Result, misses: number): Let
     withHelp: p.withHelp + (result === "withHelp" ? 1 : 0),
     misses: p.misses + misses,
     lastFirstTry: result === "firstTry",
+    at: Date.now(),
   };
 }
 

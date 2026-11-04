@@ -1258,5 +1258,14 @@
     "file": "buddy-gift.mp3",
     "heard": "וגם מתנה לחבר",
     "check": "match"
+  },
+  "review-intro": {
+    "text": "סִבּוּב הַפְתָּעָה!",
+    "hash": "3e66bde865",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "review-intro.mp3",
+    "heard": "סיבוב הפתעה",
+    "check": "match"
   }
 }

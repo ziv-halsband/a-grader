@@ -47,8 +47,8 @@ Notes:
 - The kamatz/patach world is paused: it opens only with the parents' "all worlds" switch.
 
 ### Phase 2: next
-- **Surprise round / daily mix** (Matific's adaptive adventure): a 2-minute round mixing the letters this child got wrong lately, plus spaced review of known ones.
-- **Printable page per letter** from our stroke data (trace with a pencil), in the parents' area.
+- [x] **🎲 Surprise round** (Matific's adaptive adventure), on the letters map after the first station: 6 questions for this child. Letters that needed help last time come first, then letters not practiced for a while, plus some randomness; every third question is a picture question.
+- [x] **🖨️ Printable page per letter** (`/print`, linked from the parents' area): the model with numbered start dots and arrows, 2 rows to trace with a pencil, 1 row to write alone.
 - **Letter mnemonics from mom** (ג "walks", ב "a house with a door"…), shown in "learn".
 - **Mom's videos, songs and a movement for each letter** (Nikudy's body-movement idea, in mom's words).
 - **Short stories** with tap-to-hear words, built only from letters already learned.

@@ -140,3 +140,35 @@ export function buildQuizItems(stationId: string): QuizItem[] {
   });
   return [...out, ...starts, ...review];
 }
+
+type Stat = { firstTry: number; withHelp: number; misses: number; lastFirstTry: boolean; at?: number };
+
+/**
+ * The surprise round (Matific-style adaptive review): 6 quick questions for THIS child.
+ * Letters that needed help last time come first, then letters not seen for a while (spaced review),
+ * then a little randomness so it never feels the same. Only letters the child has already reached.
+ */
+export function buildReviewItems(reached: string[], stats: Record<string, Stat>, now: number, n = 6): QuizItem[] {
+  const day = 86_400_000;
+  const weight = (id: string) => {
+    const s = stats[id];
+    if (!s) return 2 + Math.random();
+    const struggled = s.lastFirstTry ? 0 : 3;
+    const stale = Math.min(3, s.at ? (now - s.at) / day : 2);
+    return struggled + Math.min(3, s.misses) * 0.5 + stale + Math.random() * 1.5;
+  };
+  const picks = [...reached].sort((a, b) => weight(b) - weight(a)).slice(0, n);
+  const nonFinal = reached.filter((id) => !LETTER_BY_ID[id].final);
+  return shuffle(picks).map((target, i) => {
+    // Every third question is a picture question, when there are enough pictures to choose from.
+    const pictures = !LETTER_BY_ID[target].final && nonFinal.length >= 3 && i % 3 === 2;
+    if (pictures) {
+      return {
+        kind: "starts" as const,
+        target,
+        options: shuffle([target, ...shuffle(nonFinal.filter((x) => x !== target)).slice(0, 2)]),
+      };
+    }
+    return { kind: "find" as const, target, options: shuffle([target, ...distractors(target, reached, 2)]) };
+  });
+}

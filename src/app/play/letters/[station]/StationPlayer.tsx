@@ -10,9 +10,10 @@ import { useRequiredChild } from "@/lib/useChild";
 import { BubblesGame } from "./BubblesGame";
 import { Meet } from "./Meet";
 import { MemoryGame } from "./MemoryGame";
-import { QuizGame } from "./QuizGame";
 import { WriteStep } from "./WriteStep";
+import { LetterQuiz } from "@/components/LetterQuiz";
 import { StationDone } from "@/components/StationDone";
+import { buildQuizItems } from "@/content/games";
 
 // 5 short steps (a station ≈ 5–8 minutes).
 const STEPS: Step[] = [
@@ -55,7 +56,7 @@ export function StationPlayer({ stationId }: { stationId: string }) {
 
       <div key={run} className="flex flex-1 flex-col">
         {phase === "meet" && <Meet letters={letters} onDone={() => go("quiz")} />}
-        {phase === "quiz" && <QuizGame stationId={stationId} child={child} onDone={() => go("write")} />}
+        {phase === "quiz" && <LetterQuiz build={() => buildQuizItems(stationId)} child={child} onDone={() => go("write")} />}
         {phase === "write" && <WriteStep letterIds={station.letterIds} child={child} onDone={() => go("play")} />}
         {phase === "play" &&
           // Alternate the fun game each time the step is played: bubbles, then memory pairs.

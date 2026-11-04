@@ -248,3 +248,11 @@ body {
     animation: none;
   }
 }
+
+/* Printable pages: A4, no browser margins wasted. */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}

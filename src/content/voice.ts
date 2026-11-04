@@ -69,6 +69,7 @@ const neutral: Record<string, string> = {
   "write-start-here": "מַתְחִילִים כָּאן!",
   notebook: "אֵיזוֹ אוֹת נִכְתֹּב?",
   "chest-what": "מָה יֵשׁ בִּפְנִים?",
+  "review-intro": "סִבּוּב הַפְתָּעָה!",
   "buddy-gift": "וְגַם מַתָּנָה לֶחָבֵר!",
   "here-word": "הִנֵּה!",
   // Kamatz/patach world (paused; to be reworked with mom).

@@ -2,18 +2,29 @@
 
 import { useState } from "react";
 import { ChoiceGame } from "@/components/ChoiceGame";
-import { buildQuizItems, type QuizItem } from "@/content/games";
+import type { QuizItem } from "@/content/games";
 import { LETTER_BY_ID } from "@/content/letters";
 import { actions, type Child } from "@/lib/store";
 
 /**
- * The station quiz, mixing two kinds of questions:
+ * A letters quiz (station quiz, surprise round), mixing two kinds of questions:
  *  🎯 "where is ב?" (letter by its name; scored, it feeds "knows on their own")
  *  🖼️ "what starts with ב?" (letter → the sound at the start of a word; practice)
  */
-export function QuizGame({ stationId, child, onDone }: { stationId: string; child: Child; onDone: () => void }) {
+export function LetterQuiz({
+  build,
+  child,
+  intro,
+  onDone,
+}: {
+  build: () => QuizItem[];
+  child: Child;
+  /** Said before the first question. */
+  intro?: string[];
+  onDone: () => void;
+}) {
   const [items] = useState(() =>
-    buildQuizItems(stationId).map((it) => {
+    build().map((it) => {
       const l = LETTER_BY_ID[it.target];
       if (it.kind === "find") return { ...it, prompt: ["find-prompt", `letter-${it.target}`], size: "big" as const };
       return {
@@ -32,6 +43,7 @@ export function QuizGame({ stationId, child, onDone }: { stationId: string; chil
   return (
     <ChoiceGame
       items={items}
+      intro={intro}
       gender={child.gender}
       renderOption={(id, it) => (pic(it) ? <span aria-hidden>{LETTER_BY_ID[id].emoji}</span> : LETTER_BY_ID[id].char)}
       optionLabel={(id, it) => (pic(it) ? LETTER_BY_ID[id].word : `האות ${LETTER_BY_ID[id].name}`)}

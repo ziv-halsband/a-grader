@@ -35,10 +35,15 @@ export default function LettersWorldPage() {
       <div className="mt-4">
         <Guide compact once lines={["letters-map"]} />
       </div>
-      <div className="mt-5 flex justify-center">
+      <div className="mt-5 flex flex-wrap justify-center gap-3">
         <Link href="/play/letters/write" className="btn-3d nikud bg-white px-6 py-3 text-xl font-extrabold">
           ✍️ הַמַּחְבֶּרֶת שֶׁלִּי
         </Link>
+        {child.done.some((d) => d.startsWith("letters/")) && (
+          <Link href="/play/letters/review" className="btn-3d nikud anim-glow bg-white px-6 py-3 text-xl font-extrabold">
+            🎲 סִבּוּב הַפְתָּעָה
+          </Link>
+        )}
       </div>
       <div className="mt-6">
         <AdventureMap stations={stations} />
