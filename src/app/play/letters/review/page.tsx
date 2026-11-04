@@ -7,11 +7,12 @@ import { Guide } from "@/components/Guide";
 import { LetterQuiz } from "@/components/LetterQuiz";
 import { WorldShell } from "@/components/WorldShell";
 import { buildReviewItems } from "@/content/games";
-import { LETTER_STATIONS } from "@/content/letters";
+import { LETTERS, LETTER_STATIONS } from "@/content/letters";
 import { line } from "@/content/voice";
 import { sparkleSound } from "@/lib/audio";
 import { cheer } from "@/lib/buddy";
 import { useRequiredChild } from "@/lib/useChild";
+import { openAll } from "@/lib/progress";
 
 /** 🎲 The surprise round: 6 quick questions chosen for this child (struggles first, then spaced review). */
 export default function ReviewPage() {
@@ -20,7 +21,9 @@ export default function ReviewPage() {
   const [done, setDone] = useState(false);
   if (!child) return <WorldShell>{null}</WorldShell>;
 
-  const reached = LETTER_STATIONS.filter((s) => child.done.includes(`letters/${s.id}`)).flatMap((s) => s.letterIds);
+  const finished = LETTER_STATIONS.filter((s) => child.done.includes(`letters/${s.id}`)).flatMap((s) => s.letterIds);
+  // Practice mode with little played yet: review the whole alphabet.
+  const reached = openAll(child) && finished.length < 3 ? LETTERS.map((l) => l.id) : finished;
 
   return (
     <WorldShell child={child} back={{ href: "/play/letters", label: "לעולם האותיות" }}>

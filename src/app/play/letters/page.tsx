@@ -7,6 +7,7 @@ import { WorldShell } from "@/components/WorldShell";
 import { LETTER_STATIONS } from "@/content/letters";
 import { WORLDS } from "@/content/worlds";
 import { useRequiredChild } from "@/lib/useChild";
+import { openAll } from "@/lib/progress";
 
 /** The letters world: small groups of letters, opened one after another. Done stations can be replayed. */
 export default function LettersWorldPage() {
@@ -23,7 +24,7 @@ export default function LettersWorldPage() {
       label: s.title,
       icon: world.stationIcons[i % world.stationIcons.length],
       badge: s.title.split(" ")[0],
-      state: done ? "done" : prevDone ? "open" : "locked",
+      state: done ? "done" : prevDone || openAll(child) ? "open" : "locked",
       href: `/play/letters/${s.id}`,
       sticker: world.stickers[i % world.stickers.length],
     };
@@ -39,7 +40,7 @@ export default function LettersWorldPage() {
         <Link href="/play/letters/write" className="btn-3d nikud bg-white px-6 py-3 text-xl font-extrabold">
           ✍️ הַמַּחְבֶּרֶת שֶׁלִּי
         </Link>
-        {child.done.some((d) => d.startsWith("letters/")) && (
+        {(openAll(child) || child.done.some((d) => d.startsWith("letters/"))) && (
           <Link href="/play/letters/review" className="btn-3d nikud anim-glow bg-white px-6 py-3 text-xl font-extrabold">
             🎲 סִבּוּב הַפְתָּעָה
           </Link>

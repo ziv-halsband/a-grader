@@ -12,6 +12,7 @@ import { ReadGame } from "./ReadGame";
 import { SyllableFind, SyllableStarts } from "./SyllableGames";
 import { SyllableLearn } from "./SyllableLearn";
 import { WordsLearn } from "./WordsLearn";
+import { PRACTICE_MODE } from "@/lib/progress";
 
 const SYLLABLE_STEPS: Step[] = [
   { id: "learn", icon: "📖", label: "לוֹמְדִים" },
@@ -37,7 +38,7 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
   const steps = station.kind === "words" ? WORD_STEPS : SYLLABLE_STEPS;
   const key = `kamatz-patach/${stationId}`;
   const world = WORLDS[child.worldId];
-  const furthest = reached ?? (child.done.includes(key) ? steps.length - 2 : 0);
+  const furthest = PRACTICE_MODE ? steps.length - 1 : (reached ?? (child.done.includes(key) ? steps.length - 2 : 0));
   const order = steps.map((s) => s.id);
   const go = (id: string) => {
     setReached(Math.max(furthest, order.indexOf(id)));
@@ -49,7 +50,7 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
 
   return (
     <WorldShell child={child} back={{ href: "/play/kamatz-patach", label: "לעולם הקמץ והפתח" }}>
-      <StationSteps steps={steps} current={phase} reached={furthest} onPick={go} />
+      <StationSteps steps={steps} current={phase} reached={furthest} completed={PRACTICE_MODE ? (reached ?? 0) : furthest} onPick={go} />
       <div key={run} className="flex flex-1 flex-col">
         {phase === "learn" &&
           (station.kind === "words" ? (

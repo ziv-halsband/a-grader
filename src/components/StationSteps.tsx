@@ -10,12 +10,15 @@ export function StationSteps({
   steps,
   current,
   reached,
+  completed = reached,
   onPick,
 }: {
   steps: Step[];
   current: string;
-  /** Index of the furthest step reached (all steps before it can be revisited). */
+  /** Index of the furthest step open (all steps up to it can be picked). */
   reached: number;
+  /** Steps before this index get a ✓ (defaults to `reached`; differs in practice mode, where all are open). */
+  completed?: number;
   onPick: (id: string) => void;
 }) {
   const at = steps.findIndex((s) => s.id === current);
@@ -36,7 +39,7 @@ export function StationSteps({
           >
             <span className={`relative text-2xl transition ${isNow ? "scale-125" : ""}`} aria-hidden>
               {s.icon}
-              {i < reached && !isNow && (
+              {i < completed && !isNow && (
                 <span className="absolute -top-1 -left-2 rounded-full bg-green-500 px-1 text-[10px] text-white">✓</span>
               )}
             </span>

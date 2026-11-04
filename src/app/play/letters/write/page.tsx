@@ -5,6 +5,7 @@ import { Guide } from "@/components/Guide";
 import { WorldShell } from "@/components/WorldShell";
 import { LETTERS, LETTER_STATIONS } from "@/content/letters";
 import { useRequiredChild } from "@/lib/useChild";
+import { openAll } from "@/lib/progress";
 
 const PASTELS = ["#fde2e4", "#e2ecfd", "#fdf3c4", "#dcf5e3", "#efe3fd", "#ffe6cf"];
 
@@ -18,7 +19,7 @@ export default function WritingNotebookPage() {
 
   const firstOpen = LETTER_STATIONS.findIndex((s) => !child.done.includes(`letters/${s.id}`));
   const reached = new Set(
-    child.unlockAll || firstOpen === -1
+    openAll(child) || firstOpen === -1
       ? LETTERS.map((l) => l.id)
       : LETTER_STATIONS.slice(0, firstOpen + 1).flatMap((s) => s.letterIds),
   );

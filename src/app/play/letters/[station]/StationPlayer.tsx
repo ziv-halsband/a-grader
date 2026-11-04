@@ -14,6 +14,7 @@ import { WriteStep } from "./WriteStep";
 import { LetterQuiz } from "@/components/LetterQuiz";
 import { StationDone } from "@/components/StationDone";
 import { buildQuizItems } from "@/content/games";
+import { PRACTICE_MODE } from "@/lib/progress";
 
 // 5 short steps (a station ≈ 5–8 minutes).
 const STEPS: Step[] = [
@@ -40,7 +41,10 @@ export function StationPlayer({ stationId }: { stationId: string }) {
   const letters = station.letterIds.map((id) => LETTER_BY_ID[id]);
   const world = WORLDS[child.worldId];
   // A station done before: every game is open right away (replay any part).
-  const furthest = reached ?? (child.done.includes(`letters/${stationId}`) ? STEPS.length - 2 : 0);
+  // Practice mode: every step is open, in any order. Otherwise: a station done before opens all its games.
+  const furthest = PRACTICE_MODE
+    ? STEPS.length - 1
+    : (reached ?? (child.done.includes(`letters/${stationId}`) ? STEPS.length - 2 : 0));
 
   const go = (id: string) => {
     const i = STEPS.findIndex((s) => s.id === id);
@@ -52,7 +56,7 @@ export function StationPlayer({ stationId }: { stationId: string }) {
 
   return (
     <WorldShell child={child} back={{ href: "/play/letters", label: "לעולם האותיות" }}>
-      <StationSteps steps={STEPS} current={phase} reached={furthest} onPick={go} />
+      <StationSteps steps={STEPS} current={phase} reached={furthest} completed={PRACTICE_MODE ? (reached ?? 0) : furthest} onPick={go} />
 
       <div key={run} className="flex flex-1 flex-col">
         {phase === "meet" && <Meet letters={letters} onDone={() => go("quiz")} />}

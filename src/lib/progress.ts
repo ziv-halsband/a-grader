@@ -13,3 +13,15 @@ export function topicsDone(child: Child): Record<string, boolean> {
   done.nikud = NIKUD_TOPICS.every((t) => done[t.id]);
   return done;
 }
+
+/**
+ * Practice mode (founder, 5 Nov): while we build and test, everything that is built is open:
+ * every world, every station, and every step inside a station, in any order.
+ * Set to false to bring back the learning order for children (each station opens after the previous one).
+ */
+export const PRACTICE_MODE = true;
+
+/** Worlds and stations open regardless of order (practice mode, or the parents' "all worlds" switch). */
+export function openAll(child: Child): boolean {
+  return PRACTICE_MODE || !!child.unlockAll;
+}

@@ -6,7 +6,7 @@ import { Guide } from "@/components/Guide";
 import { WorldShell } from "@/components/WorldShell";
 import { TOPICS } from "@/content/curriculum";
 import { WORLDS } from "@/content/worlds";
-import { topicsDone } from "@/lib/progress";
+import { openAll, topicsDone } from "@/lib/progress";
 import { actions } from "@/lib/store";
 import { useRequiredChild } from "@/lib/useChild";
 
@@ -22,7 +22,7 @@ export default function AdventurePage() {
   // A topic opens when the one before it is done (or a parent opened all worlds). Topics not built yet stay locked.
   const stations: MapStation[] = TOPICS.map((t, i) => {
     const prev = TOPICS[i - 1];
-    const open = !!t.href && (i === 0 || done[prev.id] || !!child.unlockAll);
+    const open = !!t.href && (i === 0 || done[prev.id] || openAll(child));
     return {
       key: t.id,
       label: t.title,

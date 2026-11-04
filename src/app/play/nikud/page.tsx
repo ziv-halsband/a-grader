@@ -5,7 +5,7 @@ import { Guide } from "@/components/Guide";
 import { WorldShell } from "@/components/WorldShell";
 import { NIKUD_TOPICS } from "@/content/curriculum";
 import { WORLDS } from "@/content/worlds";
-import { topicsDone } from "@/lib/progress";
+import { openAll, topicsDone } from "@/lib/progress";
 import { useRequiredChild } from "@/lib/useChild";
 
 /** The nikud station opened up: every vowel world on its own small map, in teaching order. */
@@ -17,7 +17,7 @@ export default function NikudMapPage() {
   const done = topicsDone(child);
   const stations: MapStation[] = NIKUD_TOPICS.map((t, i) => {
     const prev = NIKUD_TOPICS[i - 1];
-    const open = !!t.href && (i === 0 || done[prev.id] || !!child.unlockAll);
+    const open = !!t.href && (i === 0 || done[prev.id] || openAll(child));
     return {
       key: t.id,
       label: t.title,

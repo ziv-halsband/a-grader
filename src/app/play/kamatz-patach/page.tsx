@@ -7,6 +7,7 @@ import { KAMATZ_STATIONS } from "@/content/kamatz";
 import { WORLDS } from "@/content/worlds";
 import { line } from "@/content/voice";
 import { useRequiredChild } from "@/lib/useChild";
+import { openAll } from "@/lib/progress";
 
 /** The kamatz/patach world: syllables in small groups, then first words to read alone. */
 export default function KamatzWorldPage() {
@@ -23,7 +24,7 @@ export default function KamatzWorldPage() {
       label: s.title,
       icon: world.stationIcons[(i + 2) % world.stationIcons.length],
       badge: s.kind === "words" ? "📖" : s.title.split(" ")[0],
-      state: done ? "done" : prevDone || child.unlockAll ? "open" : "locked",
+      state: done ? "done" : prevDone || openAll(child) ? "open" : "locked",
       href: `/play/kamatz-patach/${s.id}`,
       sticker: world.stickers[(i + 7) % world.stickers.length],
     };
