@@ -5,24 +5,38 @@ import { Confetti } from "@/components/Confetti";
 import { Guide } from "@/components/Guide";
 import { LETTER_BY_ID } from "@/content/letters";
 import { PRAISE, line } from "@/content/voice";
-import { strokesFor, toPoints, type Pt } from "@/content/writing";
+import { scoreFreehand, strokesFor, toPoints, type Pt } from "@/content/writing";
 import type { Gender } from "@/content/worlds";
 import { popSound, rightSound, say, sparkleSound, wrongSound } from "@/lib/audio";
 import { cheer } from "@/lib/buddy";
 import { pick } from "@/lib/random";
 
-type Mode = "watch" | "trace" | "alone" | "done";
+type Mode = "watch" | "trace" | "alone" | "free" | "done";
+const ROUNDS = [
+  ["watch", "👀"],
+  ["trace", "✏️"],
+  ["alone", "✍️"],
+  ["free", "🖍️"],
+] as const;
+const ORDER: Mode[] = ["watch", "trace", "alone", "free", "done"];
+
+/** How free writing went: passed the check first time, or after a miss / a trip back to tracing. */
+export type FreeResult = { result: "firstTry" | "withHelp"; misses: number };
 
 const CRAYONS = ["#ef4444", "#f97316", "#eab308", "#22c55e", "#0ea5e9", "#8b5cf6", "#ec4899"];
 /** How far (in the 100×100 box) a finger may be from the path and still count. Generous: 5-year-old fingers. */
 const NEAR = 11;
 /** How far ahead along the path one move may jump (stops shortcuts across the letter). */
 const LOOKAHEAD = 14;
+/** Free writing: after this many "not yet"s, offer going back to tracing (and moving on). */
+const OFFER_HELP_AFTER = 2;
 
 /**
- * Writing one letter, three rounds: 👀 watch the pencil write it → ✏️ trace it (green start dot, arrows,
- * numbers) → ✍️ write it alone (only a faint shape). The ink only grows forward along the right stroke,
- * in the right direction, so a shaky finger still makes a neat letter, but the order and direction are learned.
+ * Writing one letter, four rounds: 👀 watch the pencil write it → ✏️ trace it (green start dot, arrows,
+ * numbers) → ✍️ write it alone (only a faint shape) → 🖍️ write it freely (empty notebook lines, real ink).
+ * In the first three the ink only grows forward along the right stroke, in the right direction, so a shaky
+ * finger still makes a neat letter, but the order and direction are learned. In the last one the ink is the
+ * child's own; "סִיַּמְתִּי" checks it against the letter (scoreFreehand) and shows the letter over it.
  */
 export function LetterWriter({
   letterId,
@@ -33,8 +47,11 @@ export function LetterWriter({
   letterId: string;
   gender: Gender;
   skipWatch?: boolean;
-  /** helped = needed the start-dot hint while writing alone. */
-  onDone: (helped: boolean) => void;
+  /**
+   * helped = needed the start-dot hint while writing alone.
+   * free = how free writing went; null when the child moved on without passing it.
+   */
+  onDone: (helped: boolean, free: FreeResult | null) => void;
 }) {
   const letter = LETTER_BY_ID[letterId];
   const strokes = useMemo(() => strokesFor(letterId), [letterId]);
@@ -56,11 +73,30 @@ export function LetterWriter({
     setProgress(p);
   };
 
+  // 🖍️ Free writing: the child's own strokes, the "not yet" hint (which letter points were missed) and the result.
+  const [ink, setInk] = useState<{ color: string; pts: Pt[] }[]>([]);
+  const [hint, setHint] = useState<boolean[][] | null>(null);
+  const [freeMisses, setFreeMisses] = useState(0);
+  const [backToTrace, setBackToTrace] = useState(false);
+  const [free, setFree] = useState<FreeResult | null>(null);
+  /** The one finger that writes (a palm or a second finger on the screen is ignored). */
+  const pointer = useRef<number | null>(null);
+
   const reset = (next: Mode) => {
     setMode(next);
     moveTo(0, 0);
     setMissedStarts(0);
+    setInk([]);
+    setHint(null);
+    pointer.current = null;
   };
+
+  // The "not yet" hint shows for a moment, then the board is the child's again.
+  useEffect(() => {
+    if (!hint) return;
+    const t = setTimeout(() => setHint(null), 2600);
+    return () => clearTimeout(t);
+  }, [hint]);
 
   // 👀 Watch: the pencil writes the letter by itself, then the child's turn.
   useEffect(() => {
@@ -158,14 +194,56 @@ export function LetterWriter({
       await new Promise((r) => setTimeout(r, 500));
       reset("alone");
     } else if (mode === "alone") {
-      setMode("done");
-      sparkleSound();
-      cheer("party");
-      await say(`letter-${letterId}`, line(pick(PRAISE), gender));
+      rightSound();
+      cheer("happy");
+      await new Promise((r) => setTimeout(r, 500));
+      reset("free");
     }
   };
 
+  /** ✓ "סִיַּמְתִּי": check the free ink. Pass → the letter fades in under it; not yet → show what was missed. */
+  const checkFree = () => {
+    if (!ink.length) return;
+    const score = scoreFreehand(
+      letterId,
+      ink.map((s) => s.pts),
+    );
+    if (score.pass) {
+      setFree((f) => f ?? { result: freeMisses || backToTrace ? "withHelp" : "firstTry", misses: freeMisses });
+      setHint(null);
+      setMode("done");
+      sparkleSound();
+      cheer("party");
+      say(`letter-${letterId}`, line(pick(PRAISE), gender));
+    } else {
+      setFreeMisses((n) => n + 1);
+      setHint(score.covered);
+      wrongSound();
+      cheer("oops");
+      say("write-free-almost");
+    }
+  };
+
+  const toBoxClamped = (x: number, y: number, m: DOMMatrix): Pt => {
+    const p = new DOMPoint(x, y).matrixTransform(m);
+    return { x: Math.min(100, Math.max(0, p.x)), y: Math.min(100, Math.max(0, p.y)) };
+  };
+
   const onDown = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (mode === "free") {
+      if (pointer.current !== null) return;
+      const m = svgRef.current?.getScreenCTM()?.inverse();
+      if (!m) return;
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch {
+        // Some pens/emulators don't support capture: drawing still works while over the box.
+      }
+      pointer.current = e.pointerId;
+      setHint(null);
+      setInk((k) => [...k, { color, pts: [toBoxClamped(e.clientX, e.clientY, m)] }]);
+      return;
+    }
     if (mode !== "trace" && mode !== "alone") return;
     const pt = toBox(e);
     if (!pt) return;
@@ -193,23 +271,42 @@ export function LetterWriter({
   };
 
   const onMove = (e: React.PointerEvent<SVGSVGElement>) => {
-    if (!drawing.current) return;
+    const isFree = mode === "free" && pointer.current === e.pointerId;
+    if (!drawing.current && !isFree) return;
     // Coalesced events give the full finger path on fast moves; the list can be empty on some browsers.
     const coalesced = e.nativeEvent.getCoalescedEvents?.() ?? [];
     const events = coalesced.length ? coalesced : [e.nativeEvent];
     const svg = svgRef.current;
     const m = svg?.getScreenCTM()?.inverse();
     if (!m) return;
+    if (isFree) {
+      const pts = events.map((ev) => toBoxClamped(ev.clientX, ev.clientY, m));
+      setInk((k) => {
+        if (!k.length) return k; // cleared mid-stroke
+        const cur = [...k[k.length - 1].pts];
+        // Skip points closer than ~1 unit: a resting finger trembles, and they add nothing to the line.
+        for (const p of pts) {
+          const last = cur[cur.length - 1];
+          if (Math.hypot(p.x - last.x, p.y - last.y) >= 0.8) cur.push(p);
+        }
+        return [...k.slice(0, -1), { ...k[k.length - 1], pts: cur }];
+      });
+      return;
+    }
     advance(events.map((ev) => new DOMPoint(ev.clientX, ev.clientY).matrixTransform(m)));
   };
 
-  const onUp = () => {
+  const onUp = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (pointer.current === e.pointerId) pointer.current = null;
     drawing.current = false;
     setIsDrawing(false);
   };
 
   const showHints = mode === "trace" || mode === "watch";
   const showStart = mode === "trace" || (mode === "alone" && (stroke > 0 || progress > 0 || missedStarts >= 2));
+  /** Free writing and its result: the child's own ink, no letter track. */
+  const freehand = mode === "free" || (mode === "done" && ink.length > 0);
+  const offerHelp = mode === "free" && freeMisses >= OFFER_HELP_AFTER;
   const g = gender;
   const guideLines =
     mode === "watch"
@@ -218,21 +315,17 @@ export function LetterWriter({
         ? [`letter-${letterId}`, line("your-turn", g)]
         : mode === "alone"
           ? ["write-alone"]
-          : [];
+          : mode === "free"
+            ? [line("write-free", g), `letter-${letterId}`]
+            : [];
 
   return (
     <div className="flex flex-1 flex-col items-center gap-3 py-3">
-      <Guide compact lines={guideLines} cue={mode === "done" ? 0 : ["watch", "trace", "alone"].indexOf(mode) + 1} />
+      <Guide compact lines={guideLines} cue={mode === "done" ? 0 : ORDER.indexOf(mode) + 1} />
 
       <div className="flex items-center gap-2" aria-label="שלבי הכתיבה">
-        {(
-          [
-            ["watch", "👀"],
-            ["trace", "✏️"],
-            ["alone", "✍️"],
-          ] as const
-        ).map(([m, icon], i) => {
-          const at = ["watch", "trace", "alone", "done"].indexOf(mode);
+        {ROUNDS.map(([m, icon], i) => {
+          const at = ORDER.indexOf(mode);
           return (
             <span
               key={m}
@@ -246,7 +339,12 @@ export function LetterWriter({
         })}
       </div>
 
-      <div className={`relative w-full max-w-[min(26rem,calc(100dvh-20rem))] ${wobble ? "anim-shake" : ""}`}>
+      <div
+        className={`relative w-full ${
+          // Free writing has one more row of buttons (✓) under the crayons.
+          mode === "free" ? "max-w-[min(26rem,calc(100dvh-24rem))]" : "max-w-[min(26rem,calc(100dvh-20rem))]"
+        } ${wobble ? "anim-shake" : ""}`}
+      >
         <svg
           ref={svgRef}
           viewBox="0 0 100 100"
@@ -255,6 +353,7 @@ export function LetterWriter({
           onPointerMove={onMove}
           onPointerUp={onUp}
           onPointerCancel={onUp}
+          onLostPointerCapture={onUp}
           role="img"
           aria-label={`כתיבת האות ${letter.name}`}
         >
@@ -262,18 +361,19 @@ export function LetterWriter({
           <line x1="6" x2="94" y1="22" y2="22" stroke="#e2e8f0" strokeWidth="0.6" strokeDasharray="2 2" />
           <line x1="6" x2="94" y1="80" y2="80" stroke="#cbd5e1" strokeWidth="0.8" />
 
-          {/* The letter's track. */}
-          {strokes.map((pts, i) => (
-            <polyline
-              key={`track-${i}`}
-              points={toPoints(pts)}
-              fill="none"
-              stroke={mode === "alone" ? "#f1f5f9" : "#e9eef5"}
-              strokeWidth="13"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          ))}
+          {/* The letter's track (free writing has none: only the notebook lines). */}
+          {!freehand &&
+            strokes.map((pts, i) => (
+              <polyline
+                key={`track-${i}`}
+                points={toPoints(pts)}
+                fill="none"
+                stroke={mode === "alone" ? "#f1f5f9" : "#e9eef5"}
+                strokeWidth="13"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            ))}
 
           {/* Dotted guide + arrows for the strokes still to write. */}
           {showHints &&
@@ -300,30 +400,86 @@ export function LetterWriter({
               ),
             )}
 
-          {/* Ink: finished strokes + the current one up to the finger. */}
-          {strokes.map((pts, i) => {
-            const upto = i < stroke ? pts.length : i === stroke ? progress + 1 : 0;
-            if (upto < 2) return null;
-            return (
+          {/* Passed free writing: the letter fades in under the child's ink. */}
+          {mode === "done" &&
+            freehand &&
+            strokes.map((pts, i) => (
               <polyline
-                key={`ink-${i}`}
-                points={toPoints(pts.slice(0, upto))}
+                key={`model-${i}`}
+                points={toPoints(pts)}
                 fill="none"
-                stroke={mode === "done" ? "var(--accent)" : color}
-                strokeWidth="9"
+                stroke="var(--accent)"
+                strokeOpacity="0.3"
+                strokeWidth="13"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className={mode === "done" ? "transition-colors duration-700" : ""}
+                className="anim-fade"
               />
-            );
-          })}
+            ))}
+
+          {/* Free ink: the child's own strokes, each in the crayon it was written with. */}
+          {freehand &&
+            ink.map((s, i) => (
+              <path
+                key={`free-${i}`}
+                d={smoothPath(s.pts)}
+                fill="none"
+                stroke={s.color}
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            ))}
+
+          {/* Not yet: the letter faintly over the ink, the parts still missing in the accent color. */}
+          {mode === "free" && hint && (
+            <g className="anim-fade" style={{ pointerEvents: "none" }}>
+              {strokes.flatMap((pts, i) =>
+                runs(pts, hint[i]).map((r, k) => (
+                  <polyline
+                    key={`miss-${i}-${k}`}
+                    points={toPoints(r.pts)}
+                    fill="none"
+                    stroke={r.covered ? "#94a3b8" : "var(--accent)"}
+                    strokeOpacity={r.covered ? 0.4 : 0.85}
+                    strokeWidth={r.covered ? 4 : 6}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                )),
+              )}
+            </g>
+          )}
+
+          {/* Ink: finished strokes + the current one up to the finger. */}
+          {!freehand &&
+            strokes.map((pts, i) => {
+              const upto = i < stroke ? pts.length : i === stroke ? progress + 1 : 0;
+              if (upto < 2) return null;
+              return (
+                <polyline
+                  key={`ink-${i}`}
+                  points={toPoints(pts.slice(0, upto))}
+                  fill="none"
+                  stroke={mode === "done" ? "var(--accent)" : color}
+                  strokeWidth="9"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={mode === "done" ? "transition-colors duration-700" : ""}
+                />
+              );
+            })}
 
           {/* Start dots with the stroke number. */}
           {showHints &&
             strokes.map((pts, i) =>
               i < stroke || (i === stroke && progress > 0) ? null : (
                 <g key={`start-${i}`} transform={`translate(${pts[0].x} ${pts[0].y})`}>
-                  <circle r="5.5" fill={i === stroke ? "#22c55e" : "#fb923c"} className={i === stroke ? "anim-glow" : ""} />
+                  <circle
+                    r="5.5"
+                    fill={i === stroke ? "#22c55e" : "#fb923c"}
+                    className={i === stroke ? "anim-glow" : ""}
+                  />
                   <text textAnchor="middle" dominantBaseline="central" fontSize="6.5" fontWeight="800" fill="white">
                     {i + 1}
                   </text>
@@ -365,10 +521,13 @@ export function LetterWriter({
 
       {mode === "done" ? (
         <div className="flex gap-3">
-          <button onClick={() => reset("alone")} className="btn-3d bg-white px-5 py-3 text-xl font-bold">
+          <button onClick={() => reset("free")} className="btn-3d bg-white px-5 py-3 text-xl font-bold">
             🔁 עוֹד פַּעַם
           </button>
-          <button onClick={() => onDone(helped)} className="btn-3d bg-accent px-6 py-3 text-xl font-extrabold text-white">
+          <button
+            onClick={() => onDone(helped, free)}
+            className="btn-3d bg-accent px-6 py-3 text-xl font-extrabold text-white"
+          >
             הָלְאָה ←
           </button>
         </div>
@@ -403,6 +562,34 @@ export function LetterWriter({
           )}
         </div>
       )}
+      {mode === "free" && (
+        <div className="flex items-center gap-3">
+          {offerHelp && (
+            <button
+              onClick={() => {
+                setBackToTrace(true);
+                reset("trace");
+              }}
+              aria-label="חזרה למעקב על האות"
+              className="btn-3d anim-glow flex h-14 w-14 items-center justify-center bg-white text-2xl"
+            >
+              ✏️
+            </button>
+          )}
+          <button
+            onClick={checkFree}
+            disabled={!ink.length}
+            className="btn-3d bg-accent px-6 py-3 text-xl font-extrabold text-white disabled:opacity-40"
+          >
+            ✓ סִיַּמְתִּי
+          </button>
+          {offerHelp && (
+            <button onClick={() => onDone(helped, null)} className="btn-3d bg-white px-4 py-3 text-lg font-bold">
+              הָלְאָה ←
+            </button>
+          )}
+        </div>
+      )}
       {mode === "done" && <Confetti count={40} />}
     </div>
   );
@@ -423,5 +610,33 @@ function arrows(pts: Pt[]) {
     const b = pts[Math.min(pts.length - 1, i + 2)];
     out.push({ x: a.x, y: a.y, deg: (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI });
   }
+  return out;
+}
+
+/** A soft line through the finger's points: straight to each midpoint, curving around the points between. */
+function smoothPath(pts: Pt[]) {
+  const f = (n: number) => n.toFixed(1);
+  if (pts.length === 1) return `M ${f(pts[0].x)} ${f(pts[0].y)} l 0.01 0`; // a tap: a round dot
+  let d = `M ${f(pts[0].x)} ${f(pts[0].y)}`;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const a = pts[i];
+    const b = pts[i + 1];
+    d += ` Q ${f(a.x)} ${f(a.y)} ${f((a.x + b.x) / 2)} ${f((a.y + b.y) / 2)}`;
+  }
+  const last = pts[pts.length - 1];
+  return `${d} L ${f(last.x)} ${f(last.y)}`;
+}
+
+/** Splits a stroke into runs of covered / missed points (each run overlaps the next by a point, so no gaps). */
+function runs(pts: Pt[], covered: boolean[]) {
+  const out: { covered: boolean; pts: Pt[] }[] = [];
+  pts.forEach((p, i) => {
+    const run = out[out.length - 1];
+    if (run && run.covered === covered[i]) run.pts.push(p);
+    else {
+      if (run) run.pts.push(p);
+      out.push({ covered: covered[i], pts: [p] });
+    }
+  });
   return out;
 }

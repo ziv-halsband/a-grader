@@ -11,7 +11,8 @@ const PASTELS = ["#fde2e4", "#e2ecfd", "#fdf3c4", "#dcf5e3", "#efe3fd", "#ffe6cf
 
 /**
  * My writing notebook: every letter the child has reached, to write again any time.
- * A letter written alone (no hint) gets a ✓. Letters of stations not reached yet stay closed.
+ * A letter written alone (no hint) gets a ✓; written freely (🖍️ round, passed the check) it gets a ⭐.
+ * Letters of stations not reached yet stay closed.
  */
 export default function WritingNotebookPage() {
   const child = useRequiredChild();
@@ -34,6 +35,7 @@ export default function WritingNotebookPage() {
         {LETTERS.map((l, i) => {
           const open = reached.has(l.id);
           const st = child.items?.[`write:${l.id}`];
+          const freeSt = child.items?.[`write-free:${l.id}`];
           const card = (
             <>
               <span className="text-5xl font-extrabold sm:text-6xl" style={{ color: open ? "var(--ink)" : undefined }}>
@@ -42,7 +44,14 @@ export default function WritingNotebookPage() {
               <span className="text-2xl" aria-hidden>
                 {open ? l.emoji : "🔒"}
               </span>
-              {st?.firstTry ? (
+              {freeSt?.firstTry || freeSt?.withHelp ? (
+                <span
+                  className="absolute -top-2 -left-2 rounded-full bg-amber-400 px-1 text-sm"
+                  aria-label="נכתבה בכתיבה חופשית"
+                >
+                  ⭐
+                </span>
+              ) : st?.firstTry ? (
                 <span className="absolute -top-2 -left-2 rounded-full bg-green-500 px-1.5 text-sm text-white">✓</span>
               ) : null}
             </>

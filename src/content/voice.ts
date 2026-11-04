@@ -25,6 +25,8 @@ const gendered: Record<string, { m: string; f: string }> = {
   "your-turn": { m: "תּוֹרְךָ!", f: "תּוֹרֵךְ!" },
   champ: { m: "אַלּוּף!", f: "אַלּוּפָה!" },
   "station-done": { m: "סִיַּמְתָּ! כָּל הַכָּבוֹד!", f: "סִיַּמְתְּ! כָּל הַכָּבוֹד!" },
+  // Free writing (🖍️ round), followed by the letter's name.
+  "write-free": { m: "כְּתֹב אֶת הָאוֹת", f: "כִּתְבִי אֶת הָאוֹת" },
   "pick-buddy": { m: "בְּחַר חָבֵר לַמַּסָּע!", f: "בַּחֲרִי חָבֵר לַמַּסָּע!" },
   "memory-intro": { m: "מְצָא זוּגוֹת!", f: "מִצְאִי זוּגוֹת!" },
   "pick-game": { m: "בְּחַר מִשְׂחָק!", f: "בַּחֲרִי מִשְׂחָק!" },
@@ -71,6 +73,7 @@ const neutral: Record<string, string> = {
   "write-watch": "כָּכָה כּוֹתְבִים",
   "write-alone": "עַכְשָׁו לְבַד!",
   "write-start-here": "מַתְחִילִים כָּאן!",
+  "write-free-almost": "כִּמְעַט! עוֹד פַּעַם",
   notebook: "אֵיזוֹ אוֹת נִכְתֹּב?",
   "chest-what": "מָה יֵשׁ בִּפְנִים?",
   "review-intro": "יוֹצְאִים לָאִמּוּן הַיּוֹמִי!",
