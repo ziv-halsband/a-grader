@@ -24,6 +24,10 @@ export type Child = {
   worldId: World["id"];
   createdAt: string;
   letters: Record<string, LetterStat>;
+  /** Same stats for everything after letters, keyed by kind: "syl:bet", "read:dag". Missing in older saves. */
+  items?: Record<string, LetterStat>;
+  /** Parent switch: open every world now (e.g. a child who already knows the letters). */
+  unlockAll?: boolean;
   /** Station ids completed (e.g. "letters/s1"). */
   done: string[];
   /** Sticker emojis collected, in order. */
@@ -91,6 +95,18 @@ function updateChild(id: string, fn: (c: Child) => Child) {
   write({ ...s, children: s.children.map((c) => (c.id === id ? fn(c) : c)) });
 }
 
+export type Result = "firstTry" | "withHelp";
+
+function bump(prev: LetterStat | undefined, result: Result, misses: number): LetterStat {
+  const p = prev ?? { firstTry: 0, withHelp: 0, misses: 0, lastFirstTry: false };
+  return {
+    firstTry: p.firstTry + (result === "firstTry" ? 1 : 0),
+    withHelp: p.withHelp + (result === "withHelp" ? 1 : 0),
+    misses: p.misses + misses,
+    lastFirstTry: result === "firstTry",
+  };
+}
+
 export const actions = {
   addChild(input: Pick<Child, "nickname" | "gender" | "worldId">) {
     const s = read();
@@ -108,7 +124,7 @@ export const actions = {
   setActive(id: string | null) {
     write({ ...read(), activeChildId: id });
   },
-  updateChild(id: string, patch: Partial<Pick<Child, "nickname" | "gender" | "worldId">>) {
+  updateChild(id: string, patch: Partial<Pick<Child, "nickname" | "gender" | "worldId" | "unlockAll">>) {
     updateChild(id, (c) => ({ ...c, ...patch }));
   },
   removeChild(id: string) {
@@ -117,25 +133,22 @@ export const actions = {
     write({ ...s, children, activeChildId: s.activeChildId === id ? null : s.activeChildId });
   },
   resetProgress(id: string) {
-    updateChild(id, (c) => ({ ...c, letters: {}, done: [], stickers: [] }));
+    updateChild(id, (c) => ({ ...c, letters: {}, items: {}, done: [], stickers: [] }));
   },
-  recordLetter(childId: string, letterId: string, result: "firstTry" | "withHelp", misses: number) {
-    updateChild(childId, (c) => {
-      const prev = c.letters[letterId] ?? { firstTry: 0, withHelp: 0, misses: 0, lastFirstTry: false };
-      return {
-        ...c,
-        lastPlayedAt: new Date().toISOString(),
-        letters: {
-          ...c.letters,
-          [letterId]: {
-            firstTry: prev.firstTry + (result === "firstTry" ? 1 : 0),
-            withHelp: prev.withHelp + (result === "withHelp" ? 1 : 0),
-            misses: prev.misses + misses,
-            lastFirstTry: result === "firstTry",
-          },
-        },
-      };
-    });
+  recordLetter(childId: string, letterId: string, result: Result, misses: number) {
+    updateChild(childId, (c) => ({
+      ...c,
+      lastPlayedAt: new Date().toISOString(),
+      letters: { ...c.letters, [letterId]: bump(c.letters[letterId], result, misses) },
+    }));
+  },
+  /** Syllables, words…: key is "<kind>:<id>". */
+  recordItem(childId: string, key: string, result: Result, misses: number) {
+    updateChild(childId, (c) => ({
+      ...c,
+      lastPlayedAt: new Date().toISOString(),
+      items: { ...c.items, [key]: bump(c.items?.[key], result, misses) },
+    }));
   },
   /** Marks a station done; returns the sticker earned the first time, or null on replays. */
   completeStation(childId: string, stationKey: string, sticker: string): string | null {

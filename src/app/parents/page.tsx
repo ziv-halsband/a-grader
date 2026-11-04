@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { KAMATZ, READ_WORDS, SYLLABLES } from "@/content/kamatz";
 import { LETTERS, LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
 import { WORLDS } from "@/content/worlds";
 import { actions, letterMastery, useAppState, type Child, type Mastery } from "@/lib/store";
@@ -91,6 +92,7 @@ function Dashboard() {
             )}
             <Summary child={child} />
             <LetterGrid child={child} />
+            <KamatzGrid child={child} />
             <Settings key={child.id} child={child} />
           </>
         )}
@@ -190,6 +192,35 @@ function LetterGrid({ child }: { child: Child }) {
   );
 }
 
+function KamatzGrid({ child }: { child: Child }) {
+  const cells = [
+    ...SYLLABLES.map((x) => ({ key: `syl:${x.id}`, label: x.base + KAMATZ })),
+    ...READ_WORDS.map((w) => ({ key: `read:${w.id}`, label: w.word })),
+  ];
+  if (!cells.some((c) => child.items?.[c.key])) return null;
+  return (
+    <section className="rounded-2xl bg-white p-5 shadow-sm">
+      <h2 className="mb-1 text-lg font-bold">קמץ ופתח: צירופים ומילים</h2>
+      <p className="mb-4 text-xs text-slate-500">צירוף = שמע צליל ובחר אותו. מילה = קרא לבד (בלי שמיעה) ובחר תמונה.</p>
+      <div className="flex flex-wrap gap-2">
+        {cells.map((c) => {
+          const st = child.items?.[c.key];
+          const m = MASTERY[letterMastery(st)];
+          return (
+            <div
+              key={c.key}
+              title={st ? `ניסיון ראשון: ${st.firstTry} · עם עזרה: ${st.withHelp} · טעויות: ${st.misses}` : m.label}
+              className={`nikud flex h-14 min-w-14 items-center justify-center rounded-xl px-2 text-2xl font-extrabold ${m.cls}`}
+            >
+              {c.label}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function Settings({ child }: { child: Child }) {
   const [nickname, setNickname] = useState(child.nickname);
   const [confirm, setConfirm] = useState<"reset" | "remove" | null>(null);
@@ -230,6 +261,16 @@ function Settings({ child }: { child: Child }) {
           </button>
         ))}
       </div>
+      <label className="flex items-center gap-3">
+        <span className="w-24 text-sm">כל העולמות</span>
+        <input
+          type="checkbox"
+          checked={!!child.unlockAll}
+          onChange={(e) => actions.updateChild(child.id, { unlockAll: e.target.checked })}
+          className="h-5 w-5 accent-indigo-600"
+        />
+        <span className="text-sm text-slate-600">פתוחים מיד, בלי לסיים קודם את העולם הקודם (לילד/ה שכבר מכיר/ה אותיות)</span>
+      </label>
       <div className="flex flex-wrap gap-3 border-t pt-4">
         {confirm ? (
           <>

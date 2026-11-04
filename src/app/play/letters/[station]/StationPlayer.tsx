@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { StationSteps, type Step } from "@/components/StationSteps";
 import { WorldShell } from "@/components/WorldShell";
 import { LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
 import { WORLDS } from "@/content/worlds";
@@ -9,20 +10,22 @@ import { useRequiredChild } from "@/lib/useChild";
 import { BubblesGame } from "./BubblesGame";
 import { FindGame } from "./FindGame";
 import { Meet } from "./Meet";
-import { StationDone } from "./StationDone";
+import { StartsGame } from "./StartsGame";
+import { StationDone } from "@/components/StationDone";
 
-type Phase = "meet" | "find" | "bubbles" | "done";
-const PHASES: { id: Phase; icon: string }[] = [
-  { id: "meet", icon: "👀" },
-  { id: "find", icon: "🎯" },
-  { id: "bubbles", icon: "🫧" },
-  { id: "done", icon: "🎁" },
+const STEPS: Step[] = [
+  { id: "meet", icon: "📖", label: "לוֹמְדִים" },
+  { id: "find", icon: "🎯", label: "מוֹצְאִים" },
+  { id: "starts", icon: "🖼️", label: "מִלִּים" },
+  { id: "bubbles", icon: "🫧", label: "בּוּעוֹת" },
+  { id: "done", icon: "🎁", label: "פְּרָס" },
 ];
 
-/** One station: meet the letters → find the letter → pop the bubbles → sticker. */
+/** One station: learn the letters → find the letter → which word starts with it → bubbles → sticker. */
 export function StationPlayer({ stationId }: { stationId: string }) {
   const child = useRequiredChild();
-  const [phase, setPhase] = useState<Phase>("meet");
+  const [phase, setPhase] = useState("meet");
+  const [reached, setReached] = useState<number | null>(null);
   const [run, setRun] = useState(0);
 
   if (!child) return <WorldShell>{null}</WorldShell>;
@@ -31,53 +34,49 @@ export function StationPlayer({ stationId }: { stationId: string }) {
   const station = LETTER_STATIONS[index];
   const letters = station.letterIds.map((id) => LETTER_BY_ID[id]);
   const world = WORLDS[child.worldId];
+  // A station done before: every game is open right away (replay any part).
+  const furthest = reached ?? (child.done.includes(`letters/${stationId}`) ? STEPS.length - 2 : 0);
+
+  const go = (id: string) => {
+    const i = STEPS.findIndex((s) => s.id === id);
+    setReached(Math.max(furthest, i));
+    setPhase(id);
+    setRun((r) => r + 1);
+  };
 
   return (
     <WorldShell child={child} back={{ href: "/play/letters", label: "לעולם האותיות" }}>
-      <nav aria-label="שלבי התחנה" className="mt-3 flex justify-center gap-2">
-        {PHASES.map((p) => {
-          const at = PHASES.findIndex((x) => x.id === phase);
-          const i = PHASES.findIndex((x) => x.id === p.id);
-          return (
-            <span
-              key={p.id}
-              className={`flex h-10 w-10 items-center justify-center rounded-full text-xl transition ${
-                i === at ? "scale-125 bg-white shadow" : i < at ? "bg-white/70" : "bg-white/30 grayscale"
-              }`}
-            >
-              {p.icon}
-            </span>
-          );
-        })}
-      </nav>
+      <StationSteps steps={STEPS} current={phase} reached={furthest} onPick={go} />
 
       <div key={run} className="flex flex-1 flex-col">
-        {phase === "meet" && <Meet letters={letters} gender={child.gender} onDone={() => setPhase("find")} />}
-        {phase === "find" && (
-          <FindGame stationId={stationId} child={child} onDone={() => setPhase("bubbles")} />
-        )}
-        {phase === "bubbles" && (
-          <BubblesGame stationId={stationId} gender={child.gender} onDone={() => setPhase("done")} />
-        )}
+        {phase === "meet" && <Meet letters={letters} gender={child.gender} onDone={() => go("find")} />}
+        {phase === "find" && <FindGame stationId={stationId} child={child} onDone={() => go("starts")} />}
+        {phase === "starts" && <StartsGame stationId={stationId} child={child} onDone={() => go("bubbles")} />}
+        {phase === "bubbles" && <BubblesGame stationId={stationId} gender={child.gender} onDone={() => go("done")} />}
         {phase === "done" && (
           <StationDone
             child={child}
             stationKey={`letters/${stationId}`}
             sticker={world.stickers[index % world.stickers.length]}
-            letters={letters}
-            onReplay={() => {
-              setRun((r) => r + 1);
-              setPhase("meet");
-            }}
+            items={letters.map((l) => ({ id: l.id, label: l.char }))}
+            mapHref="/play/letters"
+            onReplay={() => go("meet")}
             next={
               LETTER_STATIONS[index + 1] ? (
                 <Link
                   href={`/play/letters/${LETTER_STATIONS[index + 1].id}`}
                   className="btn-3d flex-1 bg-accent px-5 py-4 text-center text-2xl font-extrabold text-white"
                 >
-                  הָלְאָה ←
+                  לַתַּחֲנָה הַבָּאָה ←
                 </Link>
-              ) : null
+              ) : (
+                <Link
+                  href="/play"
+                  className="btn-3d flex-1 bg-accent px-5 py-4 text-center text-2xl font-extrabold text-white"
+                >
+                  לַמַּפָּה הַגְּדוֹלָה ←
+                </Link>
+              )
             }
           />
         )}

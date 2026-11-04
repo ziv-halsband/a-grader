@@ -12,7 +12,7 @@ export type Topic = {
 
 export const TOPICS: Topic[] = [
   { id: "letters", title: "מַכִּירִים אוֹתִיּוֹת", goal: "מזהה את כל האותיות, כולל סופיות", icon: "אב", href: "/play/letters" },
-  { id: "kamatz-patach", title: "קָמָץ וּפַתָּח", goal: "קורא צירופים עם קמץ ופתח", icon: "בָּ" },
+  { id: "kamatz-patach", title: "קָמָץ וּפַתָּח", goal: "קורא צירופים עם קמץ ופתח", icon: "בָּ", href: "/play/kamatz-patach" },
   { id: "tsere-segol", title: "צֵירֵה וְסֶגּוֹל", goal: "קורא צירופים עם צירה וסגול", icon: "בֵּ" },
   { id: "hiriq", title: "חִירִיק", goal: "קורא צירופים עם חיריק", icon: "בִּ" },
   { id: "holam", title: "חוֹלָם", goal: "קורא צירופים עם חולם", icon: "בֹּ" },

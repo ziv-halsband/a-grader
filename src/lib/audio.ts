@@ -17,8 +17,14 @@ export function stopAudio() {
   finishCurrent = null;
 }
 
+const files = manifest as Record<string, { file?: string }>;
+
 export function hasAudio(id: string) {
-  return id in manifest;
+  return id in files;
+}
+
+export function audioUrl(id: string) {
+  return `/audio/${files[id]?.file ?? `${id}.m4a`}`;
 }
 
 /** Resolves when the whole sequence finished or was interrupted by another call. */
@@ -29,7 +35,7 @@ export async function say(...ids: string[]): Promise<void> {
     if (mine !== token) return;
     if (!hasAudio(id)) continue;
     await new Promise<void>((resolve) => {
-      const a = new Audio(`/audio/${id}.m4a`);
+      const a = new Audio(audioUrl(id));
       current = a;
       finishCurrent = resolve;
       a.onended = a.onerror = () => resolve();

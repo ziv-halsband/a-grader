@@ -11,7 +11,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { VOICE_LINES } from "../src/content/voice.ts";
 
-type Entry = { text: string; hash: string; status: "placeholder" | "generated" | "approved"; source: string };
+type Entry = { text: string; hash: string; status: "placeholder" | "generated" | "approved"; source: string; file?: string };
 
 const root = join(import.meta.dirname, "..");
 const outDir = join(root, "public", "audio");
@@ -25,19 +25,20 @@ const manifest: Record<string, Entry> = existsSync(manifestPath)
 const hash = (s: string) => createHash("sha1").update(s).digest("hex").slice(0, 10);
 let made = 0;
 
-for (const { id, text } of VOICE_LINES) {
-  const file = join(outDir, `${id}.m4a`);
+for (const { id, text, spoken } of VOICE_LINES) {
   const h = hash(text);
   const prev = manifest[id];
   // Never overwrite audio mom approved or that came from the real voice, unless its text changed.
-  if (prev && prev.hash === h && existsSync(file)) continue;
+  if (prev && prev.hash === h && existsSync(join(outDir, prev.file ?? `${id}.m4a`))) continue;
   if (prev && prev.status !== "placeholder" && prev.hash === h) continue;
+  const file = join(outDir, `${id}.m4a`);
 
   const aiff = join(tmpdir(), `${id}.aiff`);
-  execFileSync("say", ["-v", "Carmit", "-r", "150", "-o", aiff, text]);
+  execFileSync("say", ["-v", "Carmit", "-r", "150", "-o", aiff, spoken ?? text]);
   execFileSync("afconvert", ["-f", "m4af", "-d", "aac", aiff, file]);
   rmSync(aiff);
-  manifest[id] = { text, hash: h, status: "placeholder", source: "macos-carmit" };
+  if (prev?.file && prev.file !== `${id}.m4a`) rmSync(join(outDir, prev.file), { force: true });
+  manifest[id] = { text, hash: h, status: "placeholder", source: "macos-carmit", file: `${id}.m4a` };
   made++;
 }
 
@@ -45,8 +46,8 @@ for (const { id, text } of VOICE_LINES) {
 const ids = new Set(VOICE_LINES.map((l) => l.id));
 for (const id of Object.keys(manifest)) {
   if (ids.has(id)) continue;
+  rmSync(join(outDir, manifest[id].file ?? `${id}.m4a`), { force: true });
   delete manifest[id];
-  rmSync(join(outDir, `${id}.m4a`), { force: true });
 }
 
 writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n");

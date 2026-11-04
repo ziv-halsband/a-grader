@@ -2,505 +2,1252 @@
   "welcome-m": {
     "text": "שָׁלוֹם! אֲנִי הַמּוֹרָה. בּוֹא נֵצֵא יַחַד לְמַסָּע שֶׁל קְרִיאָה!",
     "hash": "9628c9f72d",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "welcome-m.mp3",
+    "heard": "שלום, אני המורה. בואו נצא יחד למסע של קריאה",
+    "check": "match"
   },
   "welcome-f": {
     "text": "שָׁלוֹם! אֲנִי הַמּוֹרָה. בּוֹאִי נֵצֵא יַחַד לְמַסָּע שֶׁל קְרִיאָה!",
     "hash": "b138c1959f",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "welcome-f.mp3",
+    "heard": "שלום, אני המורה. בואי נצא יחד למסע של קריאה",
+    "check": "match"
   },
   "map-pick-m": {
     "text": "לְאָן נוֹסְעִים הַיּוֹם? לְחַץ עַל הַתַּחֲנָה שֶׁמְּחַכָּה לְךָ.",
     "hash": "5ad6126ec9",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "map-pick-m.mp3",
+    "heard": "לאן נוסעים היום? לחץ על התחנה שמחכה לך",
+    "check": "match"
   },
   "map-pick-f": {
     "text": "לְאָן נוֹסְעִים הַיּוֹם? לַחֲצִי עַל הַתַּחֲנָה שֶׁמְּחַכָּה לָךְ.",
     "hash": "e431668fba",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "map-pick-f.mp3",
+    "heard": "לאן נוסעים היום? לחצי על התחנה שמחכה לך",
+    "check": "match"
   },
   "letters-map-m": {
     "text": "בָּרוּךְ הַבָּא לְעוֹלַם הָאוֹתִיּוֹת! בְּכָל תַּחֲנָה נַכִּיר אוֹתִיּוֹת חֲדָשׁוֹת.",
     "hash": "0c3292f930",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letters-map-m.mp3",
+    "heard": "ברוך הבא לעולם האותיות. בכל תחנה נכיר אותיות חדשות",
+    "check": "match"
   },
   "letters-map-f": {
     "text": "בְּרוּכָה הַבָּאָה לְעוֹלַם הָאוֹתִיּוֹת! בְּכָל תַּחֲנָה נַכִּיר אוֹתִיּוֹת חֲדָשׁוֹת.",
     "hash": "f5892b065e",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letters-map-f.mp3",
+    "heard": "ברוכה הבאה לעולם האותיות. בכל תחנה נכיר אותיות חדשות",
+    "check": "match"
   },
   "meet-intro-m": {
     "text": "בּוֹא נַכִּיר אוֹתִיּוֹת חֲדָשׁוֹת. לְחַץ עַל הָאוֹת כְּדֵי לִשְׁמֹעַ אוֹתָהּ שׁוּב.",
     "hash": "351398a237",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "meet-intro-m.mp3",
+    "heard": "בוא נכיר אותיות חדשות. לחץ על האות כדי לשמוע אותה שוב",
+    "check": "match"
   },
   "meet-intro-f": {
     "text": "בּוֹאִי נַכִּיר אוֹתִיּוֹת חֲדָשׁוֹת. לַחֲצִי עַל הָאוֹת כְּדֵי לִשְׁמֹעַ אוֹתָהּ שׁוּב.",
     "hash": "f15031c9af",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "meet-intro-f.mp3",
+    "heard": "בואי נכיר אותיות חדשות. לחצי על האות כדי לשמוע אותה שוב",
+    "check": "match"
   },
   "find-intro-m": {
     "text": "עַכְשָׁו מִשְׂחָק! אֲנִי אוֹמֶרֶת אוֹת, וְאַתָּה מוֹצֵא אוֹתָהּ.",
     "hash": "e87a35f113",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "find-intro-m.mp3",
+    "heard": "עכשיו משחק. אני אומרת אות ואתה מוצא אותה",
+    "check": "match"
   },
   "find-intro-f": {
     "text": "עַכְשָׁו מִשְׂחָק! אֲנִי אוֹמֶרֶת אוֹת, וְאַתְּ מוֹצֵאת אוֹתָהּ.",
     "hash": "d9ea9acb04",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "find-intro-f.mp3",
+    "heard": "עכשיו משחק. אני אומרת אות ואת מוצאת אותה",
+    "check": "match"
   },
   "bubbles-intro-m": {
     "text": "פּוֹצֵץ אֶת כָּל הַבּוּעוֹת שֶׁל הָאוֹת",
     "hash": "b65c4e3105",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "bubbles-intro-m.mp3",
+    "heard": "פוצץ את כל הבועות של האות",
+    "check": "match"
   },
   "bubbles-intro-f": {
     "text": "פּוֹצְצִי אֶת כָּל הַבּוּעוֹת שֶׁל הָאוֹת",
     "hash": "965e9d72fc",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "bubbles-intro-f.mp3",
+    "heard": "פצוצי את כל הבועות של האות",
+    "check": "match"
   },
   "try-again-m": {
     "text": "כִּמְעַט! נַסֵּה שׁוּב.",
     "hash": "0a84b0d8bb",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "try-again-m.mp3",
+    "heard": "כמעט. נסה שוב",
+    "check": "match"
   },
   "try-again-f": {
     "text": "כִּמְעַט! נַסִּי שׁוּב.",
     "hash": "d63dc6ebf4",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "try-again-f.mp3",
+    "heard": "כי מה את נשישוב?",
+    "check": "differs"
   },
   "your-turn-m": {
     "text": "עַכְשָׁו אַתָּה.",
     "hash": "efbaf279d5",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "your-turn-m.mp3",
+    "heard": "אקשאתה",
+    "check": "differs"
   },
   "your-turn-f": {
     "text": "עַכְשָׁו אַתְּ.",
     "hash": "03b5c82cf0",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "your-turn-f.mp3",
+    "heard": "אקשאואט",
+    "check": "differs"
   },
   "champ-m": {
     "text": "אַלּוּף!",
     "hash": "1421bc3666",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "champ-m.mp3",
+    "heard": "אלוף",
+    "check": "match"
   },
   "champ-f": {
     "text": "אַלּוּפָה!",
     "hash": "529ab7b7a9",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "champ-f.mp3",
+    "heard": "אלופה!",
+    "check": "match"
   },
   "sticker-m": {
     "text": "קִבַּלְתָּ מַדְבֵּקָה חֲדָשָׁה!",
     "hash": "1d1fd49d1f",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "sticker-m.mp3",
+    "heard": "קיבלת מדבקה חדשה",
+    "check": "match"
   },
   "sticker-f": {
     "text": "קִבַּלְתְּ מַדְבֵּקָה חֲדָשָׁה!",
     "hash": "687379445f",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "sticker-f.mp3",
+    "heard": "קיבלתם מדבקה חדשה?",
+    "check": "differs"
   },
   "station-done-m": {
     "text": "סִיַּמְתָּ אֶת הַתַּחֲנָה! אֶפְשָׁר לְשַׂחֵק שׁוּב, אוֹ לְהַמְשִׁיךְ הָלְאָה.",
     "hash": "3e1ce81bc6",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "station-done-m.mp3",
+    "heard": "סיימת את התחנה אפשר לשחק שוב או להמשיך הלאה",
+    "check": "match"
   },
   "station-done-f": {
     "text": "סִיַּמְתְּ אֶת הַתַּחֲנָה! אֶפְשָׁר לְשַׂחֵק שׁוּב, אוֹ לְהַמְשִׁיךְ הָלְאָה.",
     "hash": "51ba0fa8c0",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "station-done-f.mp3",
+    "heard": "סיימת את התחנה. אפשר לשחק שוב או להמשיך הלאה",
+    "check": "match"
   },
   "find-prompt": {
     "text": "אֵיפֹה הָאוֹת",
     "hash": "1739f9d022",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "find-prompt.mp3",
+    "heard": "איפה האות?",
+    "check": "match"
   },
   "like": {
     "text": "כְּמוֹ",
     "hash": "978d16e69b",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "like.mp3",
+    "heard": "כמאל",
+    "check": "differs"
   },
   "here-it-is": {
     "text": "הִנֵּה הִיא! זֹאת הָאוֹת",
     "hash": "69f1d11c67",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "here-it-is.mp3",
+    "heard": "הנה היא, זאת האות",
+    "check": "match"
   },
   "not-this": {
     "text": "זֹאת לֹא הָאוֹת. נְחַפֵּשׂ עוֹד.",
     "hash": "45e5fb3193",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "not-this.mp3",
+    "heard": "זאת לא האות. נחפש עוד",
+    "check": "match"
   },
   "praise-1": {
     "text": "יֹפִי!",
     "hash": "9fb0c513aa",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "praise-1.mp3",
+    "heard": "יופי",
+    "check": "match"
   },
   "praise-2": {
     "text": "כָּל הַכָּבוֹד!",
     "hash": "1c15e15229",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "praise-2.mp3",
+    "heard": "כל הכבוד!",
+    "check": "match"
   },
   "praise-3": {
     "text": "מְצֻיָּן!",
     "hash": "4e4b045411",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "praise-3.mp3",
+    "heard": "מצוין",
+    "check": "match"
   },
   "locked": {
     "text": "הַתַּחֲנָה הַזֹּאת עוֹד סְגוּרָה. נִפְתַּח אוֹתָהּ בְּקָרוֹב!",
     "hash": "cfd5177063",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "locked.mp3",
+    "heard": "התנה הזאת עוד סגורה. נפתח אותה בקרוב",
+    "check": "differs"
   },
   "letter-alef": {
     "text": "אָלֶף",
     "hash": "2e0fc6efec",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-alef.mp3",
+    "heard": "א'",
+    "check": "differs"
   },
   "letter-bet": {
     "text": "בֵּית",
     "hash": "5d968a0d6e",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-bet.mp3",
+    "heard": "בית",
+    "check": "match"
   },
   "letter-gimel": {
     "text": "גִּימֶל",
     "hash": "2520817d93",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-gimel.mp3",
+    "heard": "ג'",
+    "check": "differs"
   },
   "letter-dalet": {
     "text": "דָּלֶת",
     "hash": "2ebd7f1db2",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-dalet.mp3",
+    "heard": "דלת",
+    "check": "match"
   },
   "letter-he": {
     "text": "הֵא",
     "hash": "80967da2d5",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-he.mp3",
+    "heard": "Hey",
+    "check": "differs"
   },
   "letter-vav": {
     "text": "וָו",
     "hash": "1573f736ba",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-vav.mp3",
+    "heard": "ווא.",
+    "check": "differs"
   },
   "letter-zayin": {
     "text": "זַיִן",
     "hash": "58fb5390f0",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-zayin.mp3",
+    "heard": "זין",
+    "check": "match"
   },
   "letter-het": {
     "text": "חֵית",
     "hash": "6c0a98e1dc",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-het.mp3",
+    "heard": "ג'",
+    "check": "differs"
   },
   "letter-tet": {
     "text": "טֵית",
     "hash": "2706af40ed",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-tet.mp3",
+    "heard": "טט",
+    "check": "differs"
   },
   "letter-yod": {
     "text": "יוֹד",
     "hash": "bba981456b",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-yod.mp3",
+    "heard": "יוד",
+    "check": "match"
   },
   "letter-kaf": {
     "text": "כַּף",
     "hash": "e855b058e4",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-kaf.mp3",
+    "heard": "Cuff",
+    "check": "differs"
   },
   "letter-lamed": {
     "text": "לָמֶד",
     "hash": "4e27de9520",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-lamed.mp3",
+    "heard": "למד",
+    "check": "match"
   },
   "letter-mem": {
     "text": "מֵם",
     "hash": "69c9eb7730",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-mem.mp3",
+    "heard": "מם",
+    "check": "match"
   },
   "letter-nun": {
     "text": "נוּן",
     "hash": "c406fcc7f8",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-nun.mp3",
+    "heard": "נון",
+    "check": "match"
   },
   "letter-samekh": {
     "text": "סָמֶךְ",
     "hash": "fc3dcaeeb0",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-samekh.mp3",
+    "heard": "סמך",
+    "check": "match"
   },
   "letter-ayin": {
     "text": "עַיִן",
     "hash": "a3c47aa828",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-ayin.mp3",
+    "heard": "אין",
+    "check": "differs"
   },
   "letter-pe": {
     "text": "פֵּא",
     "hash": "d4d775406b",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-pe.mp3",
+    "heard": "פיי",
+    "check": "differs"
   },
   "letter-tsadi": {
     "text": "צָדִי",
     "hash": "50460edf98",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-tsadi.mp3",
+    "heard": "צדי",
+    "check": "match"
   },
   "letter-qof": {
     "text": "קוֹף",
     "hash": "f168d812db",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-qof.mp3",
+    "heard": "קוף",
+    "check": "match"
   },
   "letter-resh": {
     "text": "רֵישׁ",
     "hash": "ec7a978eb8",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-resh.mp3",
+    "heard": "רייג'.",
+    "check": "differs"
   },
   "letter-shin": {
     "text": "שִׁין",
     "hash": "7661fcd8ff",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-shin.mp3",
+    "heard": "שין",
+    "check": "match"
   },
   "letter-tav": {
     "text": "תָּו",
     "hash": "b2f4f5e18d",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-tav.mp3",
+    "heard": "טה",
+    "check": "differs"
   },
   "letter-kaf-sofit": {
     "text": "כַּף סוֹפִית",
     "hash": "b31484bb98",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-kaf-sofit.mp3",
+    "heard": "קף סופית",
+    "check": "differs"
   },
   "letter-mem-sofit": {
     "text": "מֵם סוֹפִית",
     "hash": "e74728ff4f",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-mem-sofit.mp3",
+    "heard": "מם סופית",
+    "check": "match"
   },
   "letter-nun-sofit": {
     "text": "נוּן סוֹפִית",
     "hash": "2d6247e9ee",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-nun-sofit.mp3",
+    "heard": "נון סופית.",
+    "check": "match"
   },
   "letter-pe-sofit": {
     "text": "פֵּא סוֹפִית",
     "hash": "1dd12aadbe",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-pe-sofit.mp3",
+    "heard": "Peas or Pete?",
+    "check": "differs"
   },
   "letter-tsadi-sofit": {
     "text": "צָדִי סוֹפִית",
     "hash": "a0e70c3811",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "letter-tsadi-sofit.mp3",
+    "heard": "סדי סופית",
+    "check": "differs"
   },
   "word-alef": {
     "text": "אַרְיֵה",
     "hash": "f8aab62314",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-alef.mp3",
+    "heard": "אריה",
+    "check": "match"
   },
   "word-bet": {
     "text": "בַּיִת",
     "hash": "139a487551",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-bet.mp3",
+    "heard": "Byte",
+    "check": "differs"
   },
   "word-gimel": {
     "text": "גָּמָל",
     "hash": "60cfc116ce",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-gimel.mp3",
+    "heard": "גמל",
+    "check": "match"
   },
   "word-dalet": {
     "text": "דָּג",
     "hash": "59a2ebd746",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-dalet.mp3",
+    "heard": "דג",
+    "check": "match"
   },
   "word-he": {
     "text": "הֶלִיקוֹפְּטֶר",
     "hash": "abfb815814",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-he.mp3",
+    "heard": "הליקופטר",
+    "check": "match"
   },
   "word-vav": {
     "text": "וֶרֶד",
     "hash": "befb965126",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-vav.mp3",
+    "heard": "ורד",
+    "check": "match"
   },
   "word-zayin": {
     "text": "זֶבְּרָה",
     "hash": "767886451b",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-zayin.mp3",
+    "heard": "זברה",
+    "check": "match"
   },
   "word-het": {
     "text": "חָתוּל",
     "hash": "d4053d9247",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-het.mp3",
+    "heard": "חתול",
+    "check": "match"
   },
   "word-tet": {
     "text": "טִיל",
     "hash": "cf999d295a",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-tet.mp3",
+    "heard": "תיל",
+    "check": "differs"
   },
   "word-yod": {
     "text": "יָד",
     "hash": "3d41ee7cec",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-yod.mp3",
+    "heard": "יד",
+    "check": "match"
   },
   "word-kaf": {
     "text": "כַּדּוּר",
     "hash": "aeffca61b5",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-kaf.mp3",
+    "heard": "כדור",
+    "check": "match"
   },
   "word-lamed": {
     "text": "לִימוֹן",
     "hash": "52f71e42fc",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-lamed.mp3",
+    "heard": "לימון",
+    "check": "match"
   },
   "word-mem": {
     "text": "מְכוֹנִית",
     "hash": "bb72b894df",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-mem.mp3",
+    "heard": "מכונית",
+    "check": "match"
   },
   "word-nun": {
     "text": "נָחָשׁ",
     "hash": "bd1c0af671",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-nun.mp3",
+    "heard": "נחש",
+    "check": "match"
   },
   "word-samekh": {
     "text": "סוּס",
     "hash": "6e63fa01fa",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-samekh.mp3",
+    "heard": "סוס",
+    "check": "match"
   },
   "word-ayin": {
     "text": "עַכְבָּר",
     "hash": "1f20e4fcdb",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-ayin.mp3",
+    "heard": "אך ור.",
+    "check": "differs"
   },
   "word-pe": {
     "text": "פִּיל",
     "hash": "841ec24a88",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-pe.mp3",
+    "heard": "Peel",
+    "check": "differs"
   },
   "word-tsadi": {
     "text": "צָב",
     "hash": "bf6855ccc2",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-tsadi.mp3",
+    "heard": "תשב.",
+    "check": "differs"
   },
   "word-qof": {
     "text": "קוֹף",
     "hash": "f168d812db",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-qof.mp3",
+    "heard": "קוף",
+    "check": "match"
   },
   "word-resh": {
     "text": "רַכֶּבֶת",
     "hash": "f9df674c3d",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-resh.mp3",
+    "heard": "רק אבט",
+    "check": "differs"
   },
   "word-shin": {
     "text": "שֶׁמֶשׁ",
     "hash": "6422609028",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-shin.mp3",
+    "heard": "שמש",
+    "check": "match"
   },
   "word-tav": {
     "text": "תַּפּוּחַ",
     "hash": "bf3c1e1856",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-tav.mp3",
+    "heard": "טפואה",
+    "check": "differs"
   },
   "word-kaf-sofit": {
     "text": "מֶלֶךְ",
     "hash": "1de3cf3062",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-kaf-sofit.mp3",
+    "heard": "מלך",
+    "check": "match"
   },
   "word-mem-sofit": {
     "text": "יָם",
     "hash": "d5f8068a5f",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-mem-sofit.mp3",
+    "heard": "Yum!",
+    "check": "differs"
   },
   "word-nun-sofit": {
     "text": "בַּלּוֹן",
     "hash": "03dc01ea21",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-nun-sofit.mp3",
+    "heard": "בלון",
+    "check": "match"
   },
   "word-pe-sofit": {
     "text": "כַּף",
     "hash": "e855b058e4",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-pe-sofit.mp3",
+    "heard": "Cuff",
+    "check": "differs"
   },
   "word-tsadi-sofit": {
     "text": "עֵץ",
     "hash": "a45baf7962",
-    "status": "placeholder",
-    "source": "macos-carmit"
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "word-tsadi-sofit.mp3",
+    "heard": "AIDS",
+    "check": "differs"
+  },
+  "starts-intro-m": {
+    "text": "עַכְשָׁו מִשְׂחַק תְּמוּנוֹת! תַּגִּיד בְּשֶׁקֶט אֶת שֵׁם הַתְּמוּנָה, וְתַקְשִׁיב אֵיךְ הִיא מַתְחִילָה.",
+    "hash": "c2f1182b27",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "starts-intro-m.mp3",
+    "heard": "עכשיו משחק תמונות. תגיד בשקט את שם התמונה ותקשיב איך היא מתחילה",
+    "check": "match"
+  },
+  "starts-intro-f": {
+    "text": "עַכְשָׁו מִשְׂחַק תְּמוּנוֹת! תַּגִּידִי בְּשֶׁקֶט אֶת שֵׁם הַתְּמוּנָה, וְתַקְשִׁיבִי אֵיךְ הִיא מַתְחִילָה.",
+    "hash": "01f5008343",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "starts-intro-f.mp3",
+    "heard": "עכשיו משחק תמונות. תגידי בשקט את שם התמונה ותקשיבי איך היא מתחילה",
+    "check": "match"
+  },
+  "kp-world-m": {
+    "text": "בָּרוּךְ הַבָּא לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
+    "hash": "cc0085bc8f",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "kp-world-m.mp3",
+    "heard": "ברוך הבא לעולם הקמץ והפתח. כאן האותיות מתחילות לדבר",
+    "check": "match"
+  },
+  "kp-world-f": {
+    "text": "בְּרוּכָה הַבָּאָה לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
+    "hash": "35b0c56af7",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "kp-world-f.mp3",
+    "heard": "ברוכה הבאה לעולם הקמץ והפתח. כאן האותיות מתחילות לדבר.",
+    "check": "match"
+  },
+  "builder-intro-m": {
+    "text": "לְחַץ עַל הַקָּמָץ, וְהוּא יִקְפֹּץ מִתַּחַת לָאוֹת. נִשְׁמַע מָה יוֹצֵא!",
+    "hash": "55b5d0c949",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "builder-intro-m.mp3",
+    "heard": "לחץ על הקמץ והוא יקפוץ מתחת לאות. נשמע מה יוצא",
+    "check": "match"
+  },
+  "builder-intro-f": {
+    "text": "לַחֲצִי עַל הַקָּמָץ, וְהוּא יִקְפֹּץ מִתַּחַת לָאוֹת. נִשְׁמַע מָה יוֹצֵא!",
+    "hash": "b9fda4a23d",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "builder-intro-f.mp3",
+    "heard": "לחצי על הקמץ והוא יקפוץ מתחת לאות. נשמע מה יוצא",
+    "check": "match"
+  },
+  "syl-find-intro-m": {
+    "text": "עַכְשָׁו אֲנִי אוֹמֶרֶת צְלִיל, וְאַתָּה מוֹצֵא אוֹתוֹ.",
+    "hash": "6cac5fdf95",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-find-intro-m.mp3",
+    "heard": "עכשיו אני אומרת צליל ואתה מוצא אותו",
+    "check": "match"
+  },
+  "syl-find-intro-f": {
+    "text": "עַכְשָׁו אֲנִי אוֹמֶרֶת צְלִיל, וְאַתְּ מוֹצֵאת אוֹתוֹ.",
+    "hash": "f5916fdf32",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-find-intro-f.mp3",
+    "heard": "עכשיו אני אומרת צליל ואת מוצאת אותו",
+    "check": "match"
+  },
+  "read-intro-m": {
+    "text": "עַכְשָׁו אַתָּה קוֹרֵא לְבַד! קְרָא אֶת הַמִּלָּה, וּבְחַר אֶת הַתְּמוּנָה.",
+    "hash": "2e15b63191",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "read-intro-m.mp3",
+    "heard": "עכשיו אתה קורא לבד. קרא את המילה ובחר את התמונה",
+    "check": "match"
+  },
+  "read-intro-f": {
+    "text": "עַכְשָׁו אַתְּ קוֹרֵאת לְבַד! קִרְאִי אֶת הַמִּלָּה, וּבַחֲרִי אֶת הַתְּמוּנָה.",
+    "hash": "8ac2c7870e",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "read-intro-f.mp3",
+    "heard": "עכשיו את קוראת לבד. קראי את המילה ובחרי את התמונה",
+    "check": "match"
+  },
+  "learn-words-intro-m": {
+    "text": "בּוֹא נִקְרָא מִלִּים רִאשׁוֹנוֹת. לְחַץ עַל כָּל חֵלֶק, וְאַחַר כָּךְ עַל כָּל הַמִּלָּה.",
+    "hash": "0b334e4553",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "learn-words-intro-m.mp3",
+    "heard": "בוא נקרא מילים ראשונות. לחץ על כל חלק ואחר כך על כל המילה.",
+    "check": "match"
+  },
+  "learn-words-intro-f": {
+    "text": "בּוֹאִי נִקְרָא מִלִּים רִאשׁוֹנוֹת. לַחֲצִי עַל כָּל חֵלֶק, וְאַחַר כָּךְ עַל כָּל הַמִּלָּה.",
+    "hash": "6ebabd9d42",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "learn-words-intro-f.mp3",
+    "heard": "בואי נקרא מילים ראשונות. לחצי על כל חלק ואחר כך על כל המילה",
+    "check": "match"
+  },
+  "starts-prompt": {
+    "text": "אֵיזוֹ מִלָּה מַתְחִילָה בָּאוֹת",
+    "hash": "951a88f6a7",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "starts-prompt.mp3",
+    "heard": "איזו מילה מתחילה באות",
+    "check": "match"
+  },
+  "ends-prompt": {
+    "text": "אֵיזוֹ מִלָּה נִגְמֶרֶת בָּאוֹת",
+    "hash": "4881737088",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "ends-prompt.mp3",
+    "heard": "איזו מילה נגמרת באות?",
+    "check": "match"
+  },
+  "where": {
+    "text": "אֵיפֹה",
+    "hash": "7d376ae811",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "where.mp3",
+    "heard": "A4",
+    "check": "differs"
+  },
+  "kamatz-is": {
+    "text": "זֶה קָמָץ: קַו, וּמִתַּחְתָּיו נְקֻדָּה קְטַנָּה.",
+    "hash": "a383073a05",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "kamatz-is.mp3",
+    "heard": "זה קמץ קו ומתחתיו נקודה קטנה",
+    "check": "match"
+  },
+  "patach-is": {
+    "text": "וְזֶה פַּתָּח: רַק קַו.",
+    "hash": "2187c0f3d5",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "patach-is.mp3",
+    "heard": "וזה פתח רק קו",
+    "check": "match"
+  },
+  "both-say-a": {
+    "text": "קָמָץ וּפַתָּח אוֹמְרִים אוֹתוֹ דָּבָר: אָ!",
+    "hash": "30fe0727a8",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "both-say-a.mp3",
+    "heard": "קמץ ופתח אומרים אותו דבר. אה",
+    "check": "differs"
+  },
+  "syl-starts-prompt": {
+    "text": "אֵיזוֹ מִלָּה מַתְחִילָה כְּמוֹ",
+    "hash": "082d37ad53",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-starts-prompt.mp3",
+    "heard": "איזו מילה מתחילה כמו?",
+    "check": "match"
+  },
+  "read-prompt": {
+    "text": "מָה כָּתוּב כָּאן?",
+    "hash": "d3df7611eb",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "read-prompt.mp3",
+    "heard": "מכתוב גן?",
+    "check": "differs"
+  },
+  "it-says": {
+    "text": "כָּתוּב",
+    "hash": "a34cc4935a",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "it-says.mp3",
+    "heard": "כתוב",
+    "check": "match"
+  },
+  "syl-alef": {
+    "text": "אָ",
+    "hash": "54889a3e84",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-alef.mp3",
+    "heard": "אה",
+    "check": "differs"
+  },
+  "syl-mem": {
+    "text": "מָ",
+    "hash": "4586594055",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-mem.mp3",
+    "heard": "מה?",
+    "check": "differs"
+  },
+  "syl-lamed": {
+    "text": "לָ",
+    "hash": "1a640cb1da",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-lamed.mp3",
+    "heard": "לה",
+    "check": "differs"
+  },
+  "syl-bet": {
+    "text": "בָּ",
+    "hash": "615dddfb4a",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-bet.mp3",
+    "heard": "בא",
+    "check": "differs"
+  },
+  "syl-dalet": {
+    "text": "דָּ",
+    "hash": "0f563e5562",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-dalet.mp3",
+    "heard": "דה",
+    "check": "differs"
+  },
+  "syl-gimel": {
+    "text": "גָּ",
+    "hash": "aefa09150f",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-gimel.mp3",
+    "heard": "גא",
+    "check": "differs"
+  },
+  "syl-resh": {
+    "text": "רָ",
+    "hash": "7fd1289c93",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-resh.mp3",
+    "heard": "רה",
+    "check": "differs"
+  },
+  "syl-nun": {
+    "text": "נָ",
+    "hash": "7267262db1",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-nun.mp3",
+    "heard": "נה",
+    "check": "differs"
+  },
+  "syl-shin": {
+    "text": "שָׁ",
+    "hash": "4405073715",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-shin.mp3",
+    "heard": "שה",
+    "check": "differs"
+  },
+  "syl-tav": {
+    "text": "תָּ",
+    "hash": "9a97bf8ded",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-tav.mp3",
+    "heard": "ת'",
+    "check": "match"
+  },
+  "syl-samekh": {
+    "text": "סָ",
+    "hash": "721b0f27b1",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-samekh.mp3",
+    "heard": "סה",
+    "check": "differs"
+  },
+  "syl-kaf": {
+    "text": "כָּ",
+    "hash": "171b521454",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-kaf.mp3",
+    "heard": "כה",
+    "check": "differs"
+  },
+  "syl-pe": {
+    "text": "פָּ",
+    "hash": "db03ab5b49",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-pe.mp3",
+    "heard": "פה",
+    "check": "differs"
+  },
+  "syl-yod": {
+    "text": "יָ",
+    "hash": "9c2d59ad9b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-yod.mp3",
+    "heard": "Yeah",
+    "check": "match"
+  },
+  "syl-het": {
+    "text": "חָ",
+    "hash": "0ffbf0e9a1",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-het.mp3",
+    "heard": "הא",
+    "check": "differs"
+  },
+  "syl-tsadi": {
+    "text": "צָ",
+    "hash": "a87217e8a4",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "syl-tsadi.mp3",
+    "heard": "סה",
+    "check": "differs"
+  },
+  "sw-mem": {
+    "text": "מַפָּה",
+    "hash": "10eb3c9096",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "sw-mem.mp3",
+    "heard": "MAPA",
+    "check": "differs"
+  },
+  "sw-lamed": {
+    "text": "לַהַב",
+    "hash": "0e70907cee",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "sw-lamed.mp3",
+    "heard": "להב",
+    "check": "match"
+  },
+  "sw-bet": {
+    "text": "בַּנָּנָה",
+    "hash": "0ca1f00fcc",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "sw-bet.mp3",
+    "heard": "בנה",
+    "check": "differs"
+  },
+  "sw-shin": {
+    "text": "שָׁעוֹן",
+    "hash": "35918e69de",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "sw-shin.mp3",
+    "heard": "שאון",
+    "check": "differs"
+  },
+  "sw-samekh": {
+    "text": "סַבָּא",
+    "hash": "f247190501",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "sw-samekh.mp3",
+    "heard": "סבא",
+    "check": "match"
+  },
+  "sw-pe": {
+    "text": "פַּרְפַּר",
+    "hash": "0020a765a4",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "sw-pe.mp3",
+    "heard": "פרפר",
+    "check": "match"
+  },
+  "rw-aba": {
+    "text": "אַבָּא",
+    "hash": "2e5d65e7c1",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "rw-aba.mp3",
+    "heard": "אבא",
+    "check": "match"
+  },
+  "rw-saba": {
+    "text": "סַבָּא",
+    "hash": "f247190501",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "rw-saba.mp3",
+    "heard": "סבא",
+    "check": "match"
+  },
+  "rw-dag": {
+    "text": "דָּג",
+    "hash": "59a2ebd746",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "rw-dag.mp3",
+    "heard": "דג",
+    "check": "match"
+  },
+  "rw-yad": {
+    "text": "יָד",
+    "hash": "3d41ee7cec",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "rw-yad.mp3",
+    "heard": "יד",
+    "check": "match"
+  },
+  "rw-yam": {
+    "text": "יָם",
+    "hash": "d5f8068a5f",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "rw-yam.mp3",
+    "heard": "Yum!",
+    "check": "differs"
+  },
+  "rw-tsav": {
+    "text": "צָב",
+    "hash": "bf6855ccc2",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "rw-tsav.mp3",
+    "heard": "Sav",
+    "check": "differs"
+  },
+  "rw-kaf": {
+    "text": "כַּף",
+    "hash": "e855b058e4",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "rw-kaf.mp3",
+    "heard": "Cuff",
+    "check": "differs"
+  },
+  "rw-mapa": {
+    "text": "מַפָּה",
+    "hash": "10eb3c9096",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "rw-mapa.mp3",
+    "heard": "מפה",
+    "check": "match"
+  },
+  "rw-banana": {
+    "text": "בַּנָּנָה",
+    "hash": "0ca1f00fcc",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "rw-banana.mp3",
+    "heard": "בנה",
+    "check": "differs"
+  },
+  "here-word": {
+    "text": "הִנֵּה! זֹאת הַמִּלָּה",
+    "hash": "c15917a9c7",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "here-word.mp3",
+    "heard": "הנה זאת המילה",
+    "check": "match"
+  },
+  "here-sound": {
+    "text": "הִנֵּה! זֶה הַצְּלִיל",
+    "hash": "2b91ad57d5",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "here-sound.mp3",
+    "heard": "הנה זה הצליל",
+    "check": "match"
+  },
+  "rw-kad": {
+    "text": "כַּד",
+    "hash": "9f1b264b99",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "rw-kad.mp3",
+    "heard": "כד",
+    "check": "match"
   }
 }

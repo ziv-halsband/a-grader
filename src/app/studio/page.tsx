@@ -11,23 +11,35 @@ type Status = "placeholder" | "generated" | "approved";
 const STATUS: Record<Status | "missing", { label: string; cls: string }> = {
   missing: { label: "אין קובץ", cls: "bg-red-100 text-red-800" },
   placeholder: { label: "קול זמני, לא לילדים", cls: "bg-slate-200 text-slate-700" },
-  generated: { label: "קול המורה, ממתין לאישור", cls: "bg-amber-100 text-amber-800" },
+  generated: { label: "קול AI, ממתין לאישור", cls: "bg-amber-100 text-amber-800" },
   approved: { label: "אושר ✓", cls: "bg-emerald-100 text-emerald-800" },
 };
-const GROUPS: Record<string, string> = { guide: "משפטי המורה", letter: "שמות האותיות", word: "מילים לדוגמה" };
+const GROUPS: Record<string, string> = {
+  guide: "משפטי המורה",
+  letter: "שמות האותיות",
+  word: "מילים לדוגמה",
+  syllable: "צירופים",
+  read: "מילים לקריאה",
+  check: "לבדוק באוזן",
+};
 
 /**
  * Mom's studio (read-only for now): every line the children hear, with its audio status,
  * and the letters content waiting for her review. Approving will be done here once
  * mom's voice is generated (ElevenLabs) and saved (Supabase).
  */
+type Entry = { status: Status; source?: string; heard?: string; check?: "match" | "differs" };
+const m = manifest as Record<string, Entry>;
+
 export default function StudioPage() {
   const [filter, setFilter] = useState<string>("all");
   const rows = useMemo(
-    () => VOICE_LINES.filter((l) => filter === "all" || l.group === filter),
+    () =>
+      VOICE_LINES.filter((l) =>
+        filter === "all" ? true : filter === "check" ? m[l.id]?.check === "differs" : l.group === filter,
+      ),
     [filter],
   );
-  const m = manifest as Record<string, { status: Status }>;
   const counts = VOICE_LINES.reduce<Record<string, number>>((acc, l) => {
     const s = m[l.id]?.status ?? "missing";
     acc[s] = (acc[s] ?? 0) + 1;
@@ -47,7 +59,11 @@ export default function StudioPage() {
           <h2 className="mb-2 text-lg font-bold">איך זה עובד</h2>
           <ol className="list-inside list-decimal space-y-1 text-sm">
             <li>כל מה שהילד שומע כתוב כאן, עם ניקוד מלא.</li>
-            <li>מייצרים את הקול (בהמשך: הקול של המורה ב-ElevenLabs).</li>
+            <li>מייצרים את הקול ב-ElevenLabs (כרגע קול כללי זמני, בהמשך הקול המשובט של המורה).</li>
+            <li>
+              &quot;אוזן אוטומטית&quot;: כל קובץ מתומלל בחזרה לטקסט. אם התמלול שונה מהכתוב, השורה מסומנת &quot;לבדוק באוזן&quot;.
+              בצירופים ובשמות אותיות זה קורה הרבה גם כשהקול נכון, כי התמלול כותב אותם אחרת.
+            </li>
             <li>המורה מקשיבה ומאשרת כל שורה. רק שורה מאושרת מגיעה לילדים.</li>
             <li>אם משנים טקסט, הקול שלו חוזר לבדיקה.</li>
           </ol>
@@ -85,7 +101,14 @@ export default function StudioPage() {
                   >
                     ▶️
                   </button>
-                  <span className="nikud flex-1 text-lg">{l.text}</span>
+                  <span className="flex flex-1 flex-col">
+                    <span className="nikud text-lg">{l.text}</span>
+                    {m[l.id]?.heard !== undefined && (
+                      <span className={`text-xs ${m[l.id].check === "match" ? "text-emerald-700" : "text-orange-700"}`}>
+                        {m[l.id].check === "match" ? "✓" : "⚠️"} התמלול שמע: {m[l.id].heard}
+                      </span>
+                    )}
+                  </span>
                   <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${st.cls}`}>{st.label}</span>
                   <code className="hidden shrink-0 text-xs text-stone-400 sm:block" dir="ltr">
                     {l.id}

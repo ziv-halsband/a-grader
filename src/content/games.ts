@@ -2,7 +2,8 @@
 // Rule from the brief: practice uses only material already taught.
 
 import { shuffle } from "../lib/random.ts";
-import { CONFUSABLE, LETTER_STATIONS, lettersUpTo } from "./letters.ts";
+import { KAMATZ_STATIONS, SYLLABLE_BY_ID, syllablesUpTo } from "./kamatz.ts";
+import { CONFUSABLE, LETTER_BY_ID, LETTER_STATIONS, lettersUpTo } from "./letters.ts";
 
 /** Known letters that look like `id` (only ones the child has met). */
 function lookalikes(id: string, known: string[]): string[] {
@@ -65,4 +66,56 @@ export function buildBubbleRounds(stationId: string): BubbleRound[] {
         })),
       };
     });
+}
+
+export type StartsItem = { target: string; options: string[] };
+
+/**
+ * "Which word starts with the letter X?" The options are pictures (the letters' example words),
+ * so the child links the letter to its sound at the start of a word, not only to its name.
+ * Final letters ask "which word ENDS with…", using only final-letter words so no option is ambiguous.
+ */
+export function buildStartsItems(stationId: string): StartsItem[] {
+  const station = LETTER_STATIONS.find((s) => s.id === stationId)!;
+  const finals = station.letterIds.every((id) => LETTER_BY_ID[id].final);
+  const pool = lettersUpTo(stationId).filter((id) => !!LETTER_BY_ID[id].final === finals);
+  return shuffle(station.letterIds).map((target) => ({
+    target,
+    options: shuffle([target, ...shuffle(pool.filter((x) => x !== target)).slice(0, 2)]),
+  }));
+}
+
+/** "Where is בָּ?": every syllable of the station + 2 review, 3 options from syllables already learned. */
+export function buildSyllableItems(stationId: string) {
+  const station = KAMATZ_STATIONS.find((s) => s.id === stationId)!;
+  const known = syllablesUpTo(stationId);
+  const earlier = known.filter((x) => !station.itemIds.includes(x));
+  const targets = [...shuffle(station.itemIds), ...shuffle(earlier.length ? earlier : station.itemIds).slice(0, 2)];
+  return targets.map((target) => ({
+    target,
+    options: shuffle([target, ...distractors(target, known, 2)]),
+    // Each option is shown with kamatz or patach at random: both say "a".
+    marks: Object.fromEntries(known.map((id) => [id, Math.random() < 0.5 ? "kamatz" : "patach"])) as Record<
+      string,
+      "kamatz" | "patach"
+    >,
+  }));
+}
+
+/** "Which word starts like בָּ?": pictures whose first syllable is a known syllable. */
+export function buildSyllableStartsItems(stationId: string) {
+  const station = KAMATZ_STATIONS.find((s) => s.id === stationId)!;
+  const known = syllablesUpTo(stationId).filter((id) => SYLLABLE_BY_ID[id].starts);
+  return shuffle(station.itemIds.filter((id) => SYLLABLE_BY_ID[id].starts)).map((target) => ({
+    target,
+    options: shuffle([target, ...shuffle(known.filter((x) => x !== target)).slice(0, 2)]),
+  }));
+}
+
+/** Read the word, pick its picture: every word once, 3 pictures. */
+export function buildReadItems(wordIds: string[]) {
+  return shuffle(wordIds).map((target) => ({
+    target,
+    options: shuffle([target, ...shuffle(wordIds.filter((x) => x !== target)).slice(0, 2)]),
+  }));
 }

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "audio:placeholder": "node scripts/gen-placeholder-audio.ts"
+    "audio:placeholder": "node scripts/gen-placeholder-audio.ts",
+    "audio:eleven": "node scripts/gen-elevenlabs-audio.ts"
   },
   "dependencies": {
     "next": "16.4.5",
