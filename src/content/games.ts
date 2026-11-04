@@ -3,13 +3,19 @@
 
 import { shuffle } from "../lib/random.ts";
 import { KAMATZ_STATIONS, SYLLABLE_BY_ID, syllablesUpTo } from "./kamatz.ts";
-import { CONFUSABLE, LETTER_BY_ID, LETTER_STATIONS, lettersUpTo } from "./letters.ts";
+import { CONFUSABLE, LETTER_BY_ID, LETTER_STATIONS, lettersUpTo, soundsAlike } from "./letters.ts";
 
 /** Known letters that look like `id` (only ones the child has met). */
 function lookalikes(id: string, known: string[]): string[] {
   return CONFUSABLE.filter((g) => g.includes(id))
     .flat()
     .filter((x) => x !== id && known.includes(x));
+}
+
+/** 3 picture options for "what starts with target?": never a sound-alike letter's picture (ט/ת, כּ/ק, א/ע). */
+function pictureOptions(target: string, pool: string[]): string[] {
+  const others = pool.filter((x) => x !== target && !soundsAlike(x, target));
+  return shuffle([target, ...shuffle(others).slice(0, 2)]);
 }
 
 /** Picks `n` distractors: one lookalike if there is one, the rest at random. */
@@ -81,7 +87,7 @@ export function buildStartsItems(stationId: string): StartsItem[] {
   const pool = lettersUpTo(stationId).filter((id) => !!LETTER_BY_ID[id].final === finals);
   return shuffle(station.letterIds).map((target) => ({
     target,
-    options: shuffle([target, ...shuffle(pool.filter((x) => x !== target)).slice(0, 2)]),
+    options: pictureOptions(target, pool),
   }));
 }
 
@@ -167,7 +173,7 @@ export function buildReviewItems(reached: string[], stats: Record<string, Stat>,
       return {
         kind: "starts" as const,
         target,
-        options: shuffle([target, ...shuffle(nonFinal.filter((x) => x !== target)).slice(0, 2)]),
+        options: pictureOptions(target, nonFinal),
       };
     }
     return { kind: "find" as const, target, options: shuffle([target, ...distractors(target, reached, 2)]) };
@@ -184,7 +190,7 @@ export function buildMixQuizItems(letterIds: string[], n = 10): QuizItem[] {
   const pictureTargets = new Set(shuffle(picks.filter((id) => !LETTER_BY_ID[id].final)).slice(0, 3));
   return picks.map((target) =>
     pictureTargets.has(target)
-      ? { kind: "starts" as const, target, options: shuffle([target, ...shuffle(nonFinal.filter((x) => x !== target)).slice(0, 2)]) }
+      ? { kind: "starts" as const, target, options: pictureOptions(target, nonFinal) }
       : { kind: "find" as const, target, options: shuffle([target, ...distractors(target, letterIds, 2)]) },
   );
 }

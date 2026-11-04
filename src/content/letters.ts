@@ -61,6 +61,20 @@ export const CONFUSABLE: string[][] = [
   ["tet", "mem"],
 ];
 
+/**
+ * Letters that SOUND the same in today's Hebrew (ט/ת, כּ/ק, א/ע). Never offer one as a wrong answer
+ * to "what starts with…" for the other: a child choosing by sound would be marked wrong for a right ear.
+ */
+export const SOUND_ALIKE: string[][] = [
+  ["tet", "tav"],
+  ["kaf", "qof"],
+  ["alef", "ayin"],
+];
+
+export function soundsAlike(a: string, b: string): boolean {
+  return SOUND_ALIKE.some((g) => g.includes(a) && g.includes(b));
+}
+
 export type LetterStation = {
   id: string;
   /** Title spoken / shown on the station. */
