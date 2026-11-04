@@ -1501,5 +1501,59 @@
     "file": "new-hero.mp3",
     "heard": "חבר חדש הצטרף",
     "check": "match"
+  },
+  "show-intro": {
+    "text": "מַתְחִילִים אֶת הַשַּׁעֲשׁוּעוֹן!",
+    "hash": "d807573641",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "show-intro.mp3",
+    "heard": "מתחילים את השעשועון",
+    "check": "match"
+  },
+  "show-end": {
+    "text": "אֵיזוֹ הוֹפָעָה!",
+    "hash": "9d213fbd8a",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "show-end.mp3",
+    "heard": "איזו הופעה?",
+    "check": "match"
+  },
+  "wheel-intro": {
+    "text": "מְסוֹבְבִים אֶת הַגַּלְגַּל!",
+    "hash": "63242be066",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "wheel-intro.mp3",
+    "heard": "מסובבים את הגלגל",
+    "check": "match"
+  },
+  "box-intro": {
+    "text": "פּוֹתְחִים תֵּבָה!",
+    "hash": "9abb247e72",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "box-intro.mp3",
+    "heard": "פותחים תבה",
+    "check": "match"
+  },
+  "box-which": {
+    "text": "בְּאֵיזוֹ אוֹת זֶה מַתְחִיל?",
+    "hash": "a26810232d",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "box-which.mp3",
+    "heard": "באיזה עוד זה מתחיל?",
+    "check": "differs"
+  },
+  "box-which-end": {
+    "text": "בְּאֵיזוֹ אוֹת זֶה נִגְמָר?",
+    "hash": "4d99acb9be",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "box-which-end.mp3",
+    "heard": "באיזו עוד זה נגמר?",
+    "check": "differs"
   }
 }
