@@ -175,6 +175,14 @@ body {
 .anim-talk {
   animation: talk 500ms ease-in-out infinite;
 }
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+.anim-fade {
+  animation: fade-in 700ms ease both;
+}
 
 /* Alive things: a letter or the buddy reacts to a tap. */
 @keyframes wiggle {

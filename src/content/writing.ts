@@ -43,7 +43,7 @@ export function samplePath(d: string): Pt[] {
   const pts: Pt[] = [];
   let cur: Pt = { x: 0, y: 0 };
   const push = (p: Pt) => pts.push(p);
-  for (let i = 0; i < t.length; ) {
+  for (let i = 0; i < t.length;) {
     const cmd = t[i++];
     if (cmd === "M") {
       cur = { x: +t[i++], y: +t[i++] };
@@ -80,4 +80,68 @@ export function strokesFor(letterId: string): Pt[][] {
 /** Polyline "x,y x,y …" for SVG. */
 export function toPoints(pts: Pt[]): string {
   return pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+}
+
+// ── Free writing: the child's own ink (not snapped), checked against the letter. ──
+// Nothing fancy, so a parent can follow it: both live in the same 100×100 box, and we only measure distances.
+// - coverage: the share of the letter's points that have ink within COVER_NEAR → "did you write all of it?"
+// - precision: the share of ink points within INK_NEAR of the letter → "did you write only the letter?"
+// - minStroke: the coverage of the least-covered stroke → "is every stroke there?" (ה needs its leg)
+// Thresholds, tuned on synthetic inks for all 27 letters (4 Nov):
+// - Always pass: a copy shifted 8 units, shrunk to 0.8 or grown to 1.2, jittered ±4, or "sloppy" (0.85 size,
+//   shifted 6, wobbling ±5): worst sloppy copy scored coverage 0.79, precision 0.84, minStroke 0.51.
+// - Fail: a missing stroke (minStroke 0–0.35 in 27 of 29 cases), a zigzag scribble over the whole box
+//   (coverage ~1 but precision 0.18–0.72; only ש's 0.81 passes), a tiny letter (0.65 size), most mirrored letters.
+// - Still pass: א without its first stroke, ז without its roof (the other strokes sit close by), and look-alikes
+//   (ד for ר, ה for ח): distance alone can't tell them apart. Fine: the rounds before taught the exact shape.
+// Generous on purpose: 5-year-old fingers, and a miss only means "try again".
+
+/** Ink within this distance of a letter point "covers" it (the snapped ink is 9 wide, so ~one ink width). */
+export const COVER_NEAR = 9;
+/** An ink point within this distance of the letter is "on the letter". */
+export const INK_NEAR = 11;
+export const COVER_PASS = 0.7;
+export const PRECISION_PASS = 0.75;
+/** …and every stroke of the letter must be at least this covered (a missing stroke is a different letter). */
+export const STROKE_PASS = 0.4;
+
+export type FreehandScore = {
+  coverage: number;
+  precision: number;
+  /** The least-covered stroke's coverage. */
+  minStroke: number;
+  pass: boolean;
+  /** Per letter stroke, per sample point: was it covered by ink? (To show the missed parts.) */
+  covered: boolean[][];
+};
+
+/** Points about 1 unit apart along each ink stroke (fast fingers leave big gaps between events). */
+function densify(stroke: Pt[]): Pt[] {
+  const out: Pt[] = [];
+  for (let i = 0; i < stroke.length; i++) {
+    const b = stroke[i];
+    if (i > 0) {
+      const a = stroke[i - 1];
+      const n = Math.floor(Math.hypot(b.x - a.x, b.y - a.y));
+      for (let k = 1; k < n; k++) out.push({ x: a.x + ((b.x - a.x) * k) / n, y: a.y + ((b.y - a.y) * k) / n });
+    }
+    out.push(b);
+  }
+  return out;
+}
+
+const near = (p: Pt, pts: Pt[], r: number) =>
+  pts.some((q) => Math.abs(q.x - p.x) <= r && Math.hypot(q.x - p.x, q.y - p.y) <= r);
+
+/** How close is the child's freehand ink (strokes of points in the 100×100 box) to the letter? */
+export function scoreFreehand(letterId: string, ink: Pt[][]): FreehandScore {
+  const letter = strokesFor(letterId);
+  const inkPts = ink.flatMap(densify);
+  const letterPts = letter.flat();
+  const covered = letter.map((s) => s.map((p) => inkPts.length > 0 && near(p, inkPts, COVER_NEAR)));
+  const coverage = letterPts.length ? covered.flat().filter(Boolean).length / letterPts.length : 0;
+  const precision = inkPts.length ? inkPts.filter((p) => near(p, letterPts, INK_NEAR)).length / inkPts.length : 0;
+  const minStroke = Math.min(...covered.map((s) => s.filter(Boolean).length / s.length));
+  const pass = coverage >= COVER_PASS && precision >= PRECISION_PASS && minStroke >= STROKE_PASS;
+  return { coverage, precision, minStroke, pass, covered };
 }

@@ -18,8 +18,9 @@ export function WritePage({ letterId }: { letterId: string }) {
         letterId={letterId}
         gender={child.gender}
         skipWatch={!!child.items?.[`write:${letterId}`]}
-        onDone={(helped) => {
+        onDone={(helped, free) => {
           actions.recordItem(child.id, `write:${letterId}`, helped ? "withHelp" : "firstTry", 0);
+          if (free) actions.recordItem(child.id, `write-free:${letterId}`, free.result, free.misses);
           router.push("/play/letters/write");
         }}
       />

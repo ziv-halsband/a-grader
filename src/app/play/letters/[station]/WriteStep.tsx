@@ -5,7 +5,7 @@ import { LetterWriter } from "@/components/LetterWriter";
 import { LETTER_BY_ID } from "@/content/letters";
 import { actions, type Child } from "@/lib/store";
 
-/** The station's letters, one after another: watch → trace → write alone. */
+/** The station's letters, one after another: watch → trace → write alone → write freely. */
 export function WriteStep({ letterIds, child, onDone }: { letterIds: string[]; child: Child; onDone: () => void }) {
   const [i, setI] = useState(0);
   return (
@@ -27,8 +27,9 @@ export function WriteStep({ letterIds, child, onDone }: { letterIds: string[]; c
         letterId={letterIds[i]}
         gender={child.gender}
         skipWatch={!!child.items?.[`write:${letterIds[i]}`]}
-        onDone={(helped) => {
+        onDone={(helped, free) => {
           actions.recordItem(child.id, `write:${letterIds[i]}`, helped ? "withHelp" : "firstTry", 0);
+          if (free) actions.recordItem(child.id, `write-free:${letterIds[i]}`, free.result, free.misses);
           if (i + 1 < letterIds.length) setI(i + 1);
           else onDone();
         }}
