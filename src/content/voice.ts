@@ -5,6 +5,7 @@
 import { KAMATZ, READ_WORDS, SYLLABLES } from "./kamatz.ts";
 import { LETTERS } from "./letters.ts";
 import { NAMES } from "./names.ts";
+import { huntWordLines } from "./scenes.ts";
 import type { Gender } from "./worlds.ts";
 
 export type VoiceLine = {
@@ -35,6 +36,8 @@ const gendered: Record<string, { m: string; f: string }> = {
   "pick-game": { m: "בְּחַר מִשְׂחָק!", f: "בַּחֲרִי מִשְׂחָק!" },
   // 🗣️ "Say it, then check" in 📖 learn: the child says the letter's name out loud, then taps 👂 to hear it.
   "say-aloud": { m: "אֵיזוֹ אוֹת? תַּגִּיד בְּקוֹל!", f: "אֵיזוֹ אוֹת? תַּגִּידִי בְּקוֹל!" },
+  // 🔍 Lookalike detective.
+  "det-intro": { m: "מְצָא אֶת הַהֶבְדֵּל!", f: "מִצְאִי אֶת הַהֶבְדֵּל!" },
   "ready-daily": { m: "מוּכָן לָאִמּוּן הַיּוֹמִי?", f: "מוּכָנָה לָאִמּוּן הַיּוֹמִי?" },
   // 🌱 The letter garden (garden world) / the island of palm trees (island world).
   "garden-intro": { m: "הַגִּנָּה שֶׁלְּךָ!", f: "הַגִּנָּה שֶׁלָּךְ!" },
@@ -115,6 +118,17 @@ const neutral: Record<string, string> = {
   "box-intro": "פּוֹתְחִים תֵּבָה!",
   "box-which": "מָה הָאוֹת הָרִאשׁוֹנָה?",
   "box-which-end": "מָה הָאוֹת הָאַחֲרוֹנָה?",
+  // 🔍 Lookalike detective: the glass shows the one spot where two lookalike letters differ.
+  "det-here": "הִנֵּה הַהֶבְדֵּל!",
+  // 🛏️ The finals' pajamas (DRAFT story for mom): at the end of a word the letter puts on pajamas and goes to bed.
+  "pj-intro": "בַּסּוֹף, הָאוֹת לוֹבֶשֶׁת פִּיגָ'מָה!",
+  "pj-end": "מִי בְּסוֹף הַמִּלָּה?",
+  "pj-start": "מִי בִּתְחִלַּת הַמִּלָּה?",
+  "pj-end-hint": "בַּסּוֹף לוֹבְשִׁים פִּיגָ'מָה!",
+  "pj-start-hint": "בַּבֹּקֶר בְּלִי פִּיגָ'מָה!",
+  "pj-night": "לַיְלָה טוֹב!",
+  // 🔎 Letter hunt in a picture scene (then "מָה מַתְחִיל בָּאוֹת" + the letter).
+  "hunt-intro": "מְחַפְּשִׂים בַּתְּמוּנָה!",
   // Kamatz/patach world (paused; to be reworked with mom).
   where: "אֵיפֹה",
   "kamatz-is": "זֶה קָמָץ: קַו, וּמִתַּחְתָּיו נְקֻדָּה קְטַנָּה.",
@@ -144,6 +158,8 @@ export const VOICE_LINES: VoiceLine[] = [
       : [],
   ),
   ...READ_WORDS.map((w) => ({ id: `rw-${w.id}`, text: w.word, group: "read" })),
+  // Things in the letter-hunt scenes (words the letters world doesn't already have).
+  ...huntWordLines().map((w) => ({ ...w, group: "word" })),
   ...NAMES.map((n) => ({ id: `name-${n.id}`, text: `${n.text}!`, group: "name" })),
 ];
 

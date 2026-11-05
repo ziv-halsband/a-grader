@@ -10,7 +10,7 @@ test("the surprise can't be opened before every step is finished", async ({ page
   await expect(page.locator('[aria-current="step"]')).toContainText("לוֹמְדִים");
 });
 
-test("the games menu has 5 games", async ({ page }) => {
+test("the first station shows all 5 classic games", async ({ page }) => {
   await seedChild(page);
   await page.goto("/play/letters/s1");
   await page.getByRole("button", { name: "מְשַׂחֲקִים" }).click();
