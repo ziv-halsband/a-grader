@@ -4,6 +4,7 @@
 // Shaped so it can later move to Supabase (one row per child, one row per attempt summary).
 
 import { useSyncExternalStore } from "react";
+import type { Pt } from "@/content/writing";
 import type { Gender, World } from "@/content/worlds";
 
 export type LetterStat = {
@@ -17,6 +18,17 @@ export type LetterStat = {
   lastFirstTry: boolean;
   /** When it was last practiced (ms). Missing in older saves. */
   at?: number;
+};
+
+/** One stroke of the child's own ink, in the letter's 100×100 writing box. */
+export type InkStroke = { color: string; pts: Pt[] };
+
+/** ✍️ The child's name, written by the child: their own strokes, one list per letter (in writing order). */
+export type NameSignature = {
+  /** The name as it was written (content/myName.ts nameText). If the nickname changes, it can be written again. */
+  name: string;
+  letters: InkStroke[][];
+  at: string;
 };
 
 export type Child = {
@@ -38,6 +50,8 @@ export type Child = {
   tourSeen?: boolean;
   /** Parent switch: open every world now (e.g. a child who already knows the letters). */
   unlockAll?: boolean;
+  /** ✍️ "Write my name", once finished. Missing until then (and in older saves). */
+  nameSignature?: NameSignature;
   /** Station ids completed (e.g. "letters/s1"). */
   done: string[];
   /** Sticker emojis collected, in order. */
@@ -160,6 +174,7 @@ export const actions = {
       stickers: [],
       wardrobe: [],
       wearing: [],
+      nameSignature: undefined,
       buddy: c.starter ?? c.buddy,
     }));
   },
@@ -176,6 +191,16 @@ export const actions = {
       ...c,
       lastPlayedAt: new Date().toISOString(),
       items: { ...c.items, [key]: bump(c.items?.[key], result, misses) },
+    }));
+  },
+  /** Keeps the child's name in their own strokes (rounded, so it stays small in localStorage). */
+  saveNameSignature(childId: string, name: string, letters: InkStroke[][]) {
+    const r = (n: number) => Math.round(n * 10) / 10;
+    const slim = letters.map((l) => l.map((s) => ({ color: s.color, pts: s.pts.map((p) => ({ x: r(p.x), y: r(p.y) })) })));
+    updateChild(childId, (c) => ({
+      ...c,
+      nameSignature: { name, letters: slim, at: new Date().toISOString() },
+      lastPlayedAt: new Date().toISOString(),
     }));
   },
   /**

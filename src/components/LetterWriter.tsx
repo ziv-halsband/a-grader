@@ -3,15 +3,19 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Confetti } from "@/components/Confetti";
 import { Guide } from "@/components/Guide";
+import { PointHand } from "@/components/PointHand";
 import { LETTER_BY_ID } from "@/content/letters";
 import { PRAISE, line } from "@/content/voice";
-import { scoreFreehand, strokesFor, toPoints, type Pt } from "@/content/writing";
+import { scoreFreehand, smoothPath, strokesFor, toPoints, type Pt } from "@/content/writing";
 import type { Gender } from "@/content/worlds";
 import { popSound, rightSound, say, sparkleSound, wrongSound } from "@/lib/audio";
 import { cheer } from "@/lib/buddy";
 import { pick } from "@/lib/random";
 
 type Mode = "watch" | "trace" | "alone" | "free" | "done";
+/** The writing rounds; a writer can do only some of them (✍️ write my name: watch → trace → free). */
+export type WriteRound = Exclude<Mode, "done">;
+const ALL_ROUNDS: WriteRound[] = ["watch", "trace", "alone", "free"];
 const ROUNDS = [
   ["watch", "👀"],
   ["trace", "✏️"],
@@ -47,20 +51,35 @@ export function LetterWriter({
   letterId,
   gender,
   skipWatch = false,
+  rounds = ALL_ROUNDS,
+  intro,
+  reserve = 0,
   onDone,
 }: {
   letterId: string;
   gender: Gender;
   skipWatch?: boolean;
+  /** Which rounds to play, in order (default: all four). 👀 can always be asked for again. */
+  rounds?: WriteRound[];
+  /** Said once before the first instruction (Guide `intro`). */
+  intro?: string[];
+  /** Room (rem) the page needs above the writer, so the board still fits on a landscape iPad. */
+  reserve?: number;
   /**
    * helped = needed the start-dot hint while writing alone.
    * free = how free writing went; null when the child moved on without passing it.
+   * ink = the child's own strokes from free writing (empty if there were none).
    */
-  onDone: (helped: boolean, free: FreeResult | null) => void;
+  onDone: (helped: boolean, free: FreeResult | null, ink: { color: string; pts: Pt[] }[]) => void;
 }) {
   const letter = LETTER_BY_ID[letterId];
   const strokes = useMemo(() => strokesFor(letterId), [letterId]);
-  const [mode, setMode] = useState<Mode>(skipWatch ? "trace" : "watch");
+  const plan = rounds.filter((r) => !(skipWatch && r === "watch"));
+  /** The round after this one: the next planned round in the usual order (✏️ → free when there is no ✍️). */
+  const nextOf = (m: Mode): Mode =>
+    ORDER.slice(ORDER.indexOf(m) + 1).find((x) => x === "done" || (x !== "watch" && rounds.includes(x))) ?? "done";
+  const [mode, setMode] = useState<Mode>(plan[0] ?? "free");
+  const afterWatch = nextOf("watch");
   const [stroke, setStroke] = useState(0);
   const [progress, setProgress] = useState(0);
   const [color, setColor] = useState(CRAYONS[4]);
@@ -84,6 +103,8 @@ export function LetterWriter({
   const [freeMisses, setFreeMisses] = useState(0);
   const [backToTrace, setBackToTrace] = useState(false);
   const [free, setFree] = useState<FreeResult | null>(null);
+  /** The free ink would already pass the check (checked each time the finger lifts). */
+  const [ready, setReady] = useState(false);
   /** The one finger that writes (a palm or a second finger on the screen is ignored). */
   const pointer = useRef<number | null>(null);
 
@@ -93,6 +114,7 @@ export function LetterWriter({
     setMissedStarts(0);
     setInk([]);
     setHint(null);
+    setReady(false);
     pointer.current = null;
   };
 
@@ -134,7 +156,7 @@ export function LetterWriter({
               pos.current = { stroke: 0, progress: 0 };
               setStroke(0);
               setProgress(0);
-              setMode("trace");
+              setMode(afterWatch);
             }, 900);
             return;
           }
@@ -149,7 +171,7 @@ export function LetterWriter({
       cancelAnimationFrame(raf);
       clearTimeout(done);
     };
-  }, [mode, strokes]);
+  }, [mode, strokes, afterWatch]);
 
   const toBox = (e: React.PointerEvent): Pt | null => {
     const svg = svgRef.current;
@@ -195,16 +217,11 @@ export function LetterWriter({
   };
 
   const finishRound = async () => {
-    if (mode === "trace") {
+    if (mode === "trace" || mode === "alone") {
       rightSound();
       cheer("happy");
       await new Promise((r) => setTimeout(r, 500));
-      reset("alone");
-    } else if (mode === "alone") {
-      rightSound();
-      cheer("happy");
-      await new Promise((r) => setTimeout(r, 500));
-      reset("free");
+      reset(nextOf(mode));
     }
   };
 
@@ -252,6 +269,8 @@ export function LetterWriter({
       return;
     }
     if (mode !== "trace" && mode !== "alone") return;
+    // A second finger or a resting palm while writing: ignore it (no "wrong start", no lost stroke).
+    if (drawing.current && pointer.current !== null && pointer.current !== e.pointerId) return;
     const pt = toBox(e);
     if (!pt) return;
     const start = strokes[pos.current.stroke][pos.current.progress];
@@ -272,6 +291,7 @@ export function LetterWriter({
     } catch {
       // Some pens/emulators don't support capture: drawing still works while over the box.
     }
+    pointer.current = e.pointerId;
     drawing.current = true;
     setIsDrawing(true);
     advance([pt]);
@@ -279,7 +299,7 @@ export function LetterWriter({
 
   const onMove = (e: React.PointerEvent<SVGSVGElement>) => {
     const isFree = mode === "free" && pointer.current === e.pointerId;
-    if (!drawing.current && !isFree) return;
+    if (!isFree && !(drawing.current && pointer.current === e.pointerId)) return;
     // Coalesced events give the full finger path on fast moves; the list can be empty on some browsers.
     const coalesced = e.nativeEvent.getCoalescedEvents?.() ?? [];
     const events = coalesced.length ? coalesced : [e.nativeEvent];
@@ -304,7 +324,12 @@ export function LetterWriter({
   };
 
   const onUp = (e: React.PointerEvent<SVGSVGElement>) => {
-    if (pointer.current === e.pointerId) pointer.current = null;
+    // Another finger or a palm lifting: the writing finger keeps going.
+    if (pointer.current !== null && pointer.current !== e.pointerId) return;
+    if (mode === "free" && pointer.current !== null && ink.length) {
+      setReady(scoreFreehand(letterId, ink.map((s) => s.pts)).pass);
+    }
+    pointer.current = null;
     // Lifted near the end of a stroke (a small finger rarely lands on the exact end): count it as done.
     const { stroke: st, progress: pr } = pos.current;
     if (drawing.current && (mode === "trace" || mode === "alone") && pr >= strokes[st].length * LIFT_DONE) {
@@ -334,11 +359,12 @@ export function LetterWriter({
 
   return (
     <div className="flex flex-1 flex-col items-center gap-3 py-3">
-      <Guide compact lines={guideLines} cue={mode === "done" ? 0 : ORDER.indexOf(mode) + 1} />
+      <Guide compact lines={guideLines} intro={intro} cue={mode === "done" ? 0 : ORDER.indexOf(mode) + 1} />
 
       <div className="flex items-center gap-2" aria-label="שלבי הכתיבה">
-        {ROUNDS.map(([m, icon], i) => {
+        {ROUNDS.filter(([m]) => rounds.includes(m) || m === mode).map(([m, icon]) => {
           const at = ORDER.indexOf(mode);
+          const i = ORDER.indexOf(m);
           return (
             <span
               key={m}
@@ -353,10 +379,9 @@ export function LetterWriter({
       </div>
 
       <div
-        className={`relative w-full ${
-          // Free writing has one more row of buttons (✓) under the crayons.
-          mode === "free" ? "max-w-[min(26rem,calc(100dvh-24rem))]" : "max-w-[min(26rem,calc(100dvh-20rem))]"
-        } ${wobble ? "anim-shake" : ""}`}
+        className={`relative w-full ${wobble ? "anim-shake" : ""}`}
+        // Free writing has one more row of buttons (✓) under the crayons.
+        style={{ maxWidth: `min(26rem, calc(100dvh - ${(mode === "free" ? 24 : 20) + reserve}rem))` }}
       >
         <svg
           ref={svgRef}
@@ -538,20 +563,22 @@ export function LetterWriter({
             🔁 עוֹד פַּעַם
           </button>
           <button
-            onClick={() => onDone(helped, free)}
-            className="btn-3d bg-accent px-6 py-3 text-xl font-extrabold text-white"
+            onClick={() => onDone(helped, free, ink)}
+            className="btn-3d relative bg-accent px-6 py-3 text-xl font-extrabold text-white"
           >
             הָלְאָה ←
+            {/* A 5-year-old doesn't read "onward": the hand shows the way. */}
+            <PointHand />
           </button>
         </div>
       ) : (
-        <div className="flex items-center gap-2" role="group" aria-label="צבע">
+        <div className="flex flex-wrap items-center justify-center gap-2 px-2" role="group" aria-label="צבע">
           {CRAYONS.map((c) => (
             <button
               key={c}
               onClick={() => setColor(c)}
               aria-label="בחירת צבע"
-              className={`h-12 w-7 rounded-t-full rounded-b-md shadow transition ${c === color ? "-translate-y-2 ring-2 ring-white" : ""}`}
+              className={`h-12 w-8 rounded-t-full rounded-b-md shadow transition ${c === color ? "-translate-y-2 ring-2 ring-white" : ""}`}
               style={{ background: c }}
             />
           ))}
@@ -592,12 +619,14 @@ export function LetterWriter({
           <button
             onClick={checkFree}
             disabled={!ink.length}
-            className="btn-3d bg-accent px-6 py-3 text-xl font-extrabold text-white disabled:opacity-40"
+            className="btn-3d relative bg-accent px-6 py-3 text-xl font-extrabold text-white disabled:opacity-40"
           >
             ✓ סִיַּמְתִּי
+            {/* The letter is already good: show where to tap, instead of the child waiting for someone to say so. */}
+            {ready && !hint && <PointHand />}
           </button>
           {offerHelp && (
-            <button onClick={() => onDone(helped, null)} className="btn-3d bg-white px-4 py-3 text-lg font-bold">
+            <button onClick={() => onDone(helped, null, ink)} className="btn-3d bg-white px-4 py-3 text-lg font-bold">
               הָלְאָה ←
             </button>
           )}
@@ -624,20 +653,6 @@ function arrows(pts: Pt[]) {
     out.push({ x: a.x, y: a.y, deg: (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI });
   }
   return out;
-}
-
-/** A soft line through the finger's points: straight to each midpoint, curving around the points between. */
-function smoothPath(pts: Pt[]) {
-  const f = (n: number) => n.toFixed(1);
-  if (pts.length === 1) return `M ${f(pts[0].x)} ${f(pts[0].y)} l 0.01 0`; // a tap: a round dot
-  let d = `M ${f(pts[0].x)} ${f(pts[0].y)}`;
-  for (let i = 1; i < pts.length - 1; i++) {
-    const a = pts[i];
-    const b = pts[i + 1];
-    d += ` Q ${f(a.x)} ${f(a.y)} ${f((a.x + b.x) / 2)} ${f((a.y + b.y) / 2)}`;
-  }
-  const last = pts[pts.length - 1];
-  return `${d} L ${f(last.x)} ${f(last.y)}`;
 }
 
 /** Splits a stroke into runs of covered / missed points (each run overlaps the next by a point, so no gaps). */

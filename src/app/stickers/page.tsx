@@ -1,7 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { BuddyAvatar } from "@/components/BuddyAvatar";
+import { NameSignature } from "@/components/NameSignature";
+import { canWriteName, nameText } from "@/content/myName";
 import { WorldShell } from "@/components/WorldShell";
 import { ACCESSORIES, ACCESSORY_BY_ID, BUDDY_BY_ID, HEROES, ownedBuddies } from "@/content/buddies";
 import { ownedGifts, rewardPath, type StationReward } from "@/content/rewards";
@@ -61,6 +64,22 @@ export default function MyRoomPage() {
               <BuddyAvatar buddy={child.buddy} wearing={wearing} size={100} />
             </span>
           </div>
+
+          {/* ✍️ The name on the door: in the child's own hand once written, else an invitation to write it. */}
+          {child.nameSignature ? (
+            <div className="-mt-6 flex h-16 items-center rounded-2xl border-4 border-white bg-amber-50 px-4 shadow-lg">
+              <NameSignature signature={child.nameSignature} className="h-12 w-auto max-w-[16rem]" />
+            </div>
+          ) : canWriteName(child.nickname) ? (
+            <Link
+              href="/play/letters/write/name"
+              aria-label="לכתוב את השם שלי"
+              className="btn-3d -mt-6 flex h-14 items-center gap-2 border-2 border-dashed border-white bg-white/60 px-4 text-xl font-extrabold"
+            >
+              <span aria-hidden>✍️</span>
+              <span className="text-slate-400">{nameText(child.nickname)}</span>
+            </Link>
+          ) : null}
 
           <h2 className="nikud mt-2 text-xl font-extrabold">👕 לְהַלְבִּישׁ אֶת {BUDDY_BY_ID[child.buddy]?.name}</h2>
           <div className="flex flex-wrap justify-center gap-3" aria-label="ארון הבגדים">

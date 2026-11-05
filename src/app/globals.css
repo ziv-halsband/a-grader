@@ -251,6 +251,17 @@ body {
   animation: dance 1.1s ease-in-out infinite;
 }
 
+/* ✍️ My name: the child's strokes write themselves again, one after another (path has pathLength="1"). */
+@keyframes ink-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+.anim-ink {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ink-draw 420ms ease-out forwards;
+}
+
 /* Quiz show: marquee light bulbs blinking in turns around the stage. */
 @keyframes bulb {
   0%, 100% { background: #fde047; box-shadow: 0 0 10px 3px rgb(253 224 71 / 0.85); }
@@ -271,6 +282,10 @@ body {
   .anim-sticker,
   .anim-dance-loop {
     animation: none;
+  }
+  .anim-ink {
+    animation: none;
+    stroke-dashoffset: 0;
   }
 }
 

@@ -7,6 +7,7 @@ import { BUDDY_BY_ID } from "@/content/buddies";
 import { WORLDS } from "@/content/worlds";
 import { actions, useAppState, type Child } from "@/lib/store";
 import { BuddyAvatar } from "@/components/BuddyAvatar";
+import { NameSignature } from "@/components/NameSignature";
 import { Onboarding } from "@/components/Onboarding";
 import { WorldShell } from "@/components/WorldShell";
 
@@ -101,6 +102,12 @@ function ProfileCard({ child, index, onPick }: { child: Child; index: number; on
       </span>
       <span className="flex w-full flex-1 flex-col items-center justify-center gap-1 px-3 py-3">
         <span className="w-full truncate text-center text-2xl font-extrabold sm:text-3xl">{child.nickname}</span>
+        {/* ✍️ The name in the child's own hand, once they wrote it. */}
+        {child.nameSignature && (
+          <span className="flex h-10 w-full items-center justify-center rounded-xl bg-white/80 px-2">
+            <NameSignature signature={child.nameSignature} className="h-9 w-auto max-w-full" />
+          </span>
+        )}
         <span aria-hidden className="flex h-8 items-center gap-1 rounded-full bg-white/80 px-3 text-lg">
           {recent.length ? (
             <>
