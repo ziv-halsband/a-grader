@@ -1,4 +1,4 @@
-# Status: where we are (5 Nov 2026)
+# Status: where we are (5 Nov 2026, evening)
 
 ## The product today
 **Audience:** גן חובה children (age 5–6) and their parents. **Goal:** reading before grade 1. **Partner:** the founder's mom, a veteran grade-1 teacher.
@@ -13,14 +13,17 @@
   - The child picks a buddy (6 animals), then a 4-card tour. The buddy sits in the corner and reacts (jump, tilt, dance).
   - Each station gives a fixed **sticker + gift** pair (`content/rewards.ts`). Milestone stations give a **new hero** (🦉 review station, 🦁 all letters, 🐳 kamatz world).
   - "My room" (`/stickers`): dress the buddy, switch friends, and one collection path in map order.
-- **Letters world (`/play/letters`):** 7 letter stations + 2 mixed review stations (🔀 א–ל, 🏆 all letters), a ✍️ notebook, and the 🎲 daily practice. Each station has 5 steps:
-  1. 📖 **learn:** a big letter, its name, an example word starting with kamatz/patach (draft words); the letter wiggles when tapped. Mix stations show a wall of all letters instead.
-  2. 🎯 **quiz:** "where is ב?" + "what starts with ב?". A wrong answer is explained ("כִּמְעַט! קוֹף מַתְחִיל בָּאוֹת קוֹף"). Sound-alike letters (ט/ת, כּ/ק, א/ע) are never wrong options.
-  3. ✍️ **write:** 👀 watch → ✏️ trace (snapped ink, arrows) → ✍️ alone → 🖍️ free writing with a forgiving check. Thresholds were loosened 5 Nov because kids couldn't win on an iPad.
-  4. 🎮 **games menu** (child picks): bubbles, memory, 📺 quiz show, 🎡 wheel of luck, 🎁 surprise boxes.
+- **Letters world (`/play/letters`):** 7 letter stations + 2 mixed review stations (🔀 א–ל, 🏆 all letters), a ✍️ notebook, the 🎲 daily practice and the 🌱 letter garden. Each station has 5 steps:
+  1. 📖 **learn:** a big letter, its name, then its example word (draft words, starting with kamatz/patach) played back to back ("בֵּית… בַּיִת"), the letter highlighted inside the word. Then a 🗣️ "say it out loud, tap 👂 to check" round (no speech recognition). Mix stations show a wall of all letters instead.
+  2. 🎯 **quiz**, 3 kinds mixed: "where is ב?", "what starts with ב?" and 👂 **by ear** (hear "בַּיִת", pick its first letter; the caption hides the word). A wrong answer is explained ("כִּמְעַט! קוֹף מַתְחִיל בָּאוֹת קוֹף"). Sound-alike letters (ט/ת, כּ/ק, א/ע) are never wrong options.
+  3. ✍️ **write:** 👀 watch → ✏️ trace (snapped ink, arrows) → ✍️ alone → 🖍️ free writing with a forgiving check. A resting palm no longer breaks the stroke.
+  4. 🎮 **games menu** (child picks, ≤ 6 per station, chosen per station): 🔍 **lookalike detective** (both letters drawn from the font; the glass lights up the ink only one of them has: ב's foot, ד's corner), 🛏️ **finals' pajamas** (s7, m2: a letter puts on its final form at the end of a word), 🔦 **letter hunt** in a scene (kitchen, park, sea), bubbles, memory, 📺 quiz show, 🎡 wheel, 🎁 boxes.
   5. 🎁 **surprise:** a chest/egg → sticker + gift (+ hero). **Locked until every other step is finished.**
+- **Real mastery (`lib/mastery.ts`, draft rule):** a letter "knows" = right on the first try on 2 different days, in 2 kinds of question. The 🎲 daily practice brings back weak letters first, then letters due after ~1, 3, 7 days, and asks a letter a kind it hasn't had.
+- **🌱 Letter garden (`/play/letters/garden`):** every letter is a plant (seed → sprout → flower; coconut → palm on the island), a first-bloom celebration, 💧/☀️ for each day played this week (nothing lost on a missed day). A preview card on the letters map.
+- **✍️ Write my name (`/play/letters/write/name`):** the nickname letter by letter (finals at the end of each word), then the whole name re-drawn in the child's own ink; the signature shows on the home card and in "my room".
 - **Kamatz/patach world** (`/play/kamatz-patach`, inside nikud): 4 syllable stations (builder, hear-and-find, first sound) + reading words alone. **Paused**: founder: "we really need to improve it", with mom.
-- **Parents (`/parents`, code 17):** progress grids, a next-step suggestion, settings (nickname, grammar, world, "open all worlds", record the name, reset), 🖨️ printable writing pages (`/print`).
+- **Parents (`/parents`, code 17):** progress grids (letters green/yellow/gray by the mastery rule, days played this week), a next-step suggestion, settings (nickname, grammar, world, "open all worlds", record the name, reset), 🖨️ printable writing pages (`/print`).
 - **Studio (`/studio`):** every voice line with play + the automatic-ear transcript, and all 27 letters' writing strokes for mom to review.
 
 ### Tech
@@ -43,14 +46,17 @@
 4. **Writing stroke order** for all 27 letters (`/studio`, `content/writing.ts`).
 5. Silent letters א/ע, בּ/ב with and without the dot, a memory story per letter, the kamatz/patach method.
 6. What the kids call her (the guide is "הַמּוֹרָה" for now). Her voice clone + avatar.
+7. **New (5 Nov evening), all drafts:** the mastery rule (2 days + 2 kinds; should a later miss take "knows" away? should writing count?), review gaps 1/3/7 days, the pajamas story, wording of "אֵיזוֹ אוֹת? תַּגִּיד בְּקוֹל!", is "which letter does אַרְיֵה start with?" fair for silent א/ע, name writing (watch → trace → free; finals in a name before finals are taught; the ׳ in ג׳וני is dropped), the hunt scenes' words (`content/scenes.ts`).
 
 ## Next ideas (not started)
-- From `docs/07-letters-research.md`: teach the letter sound; "hear a sound → pick the letter"; real mastery (different days, 2 question types); lookalike duels; final-letter "pajamas" game; write my name; one off-screen idea per letter for parents.
+- From `docs/07-letters-research.md`: teach the letter sound (once mom decides); one off-screen idea per letter for parents; picture mnemonics drawn into the letter.
+- Garden: let a letter "wilt" gently if it's missed later (mom decides), and a parents' view of the garden.
 - A recording studio for mom (record each item in the browser, replace the AI file).
 - Rebuild the nikud worlds with mom; then words, sentences, stories.
 - Later: accounts (Supabase), payment, mom's avatar and live lessons, AI listening.
 
 ## Known limitations
-- Free-writing check can't tell lookalike letters apart (ד for ר passes).
+- Free-writing check can't tell lookalike letters apart (ד for ר passes), so writing doesn't count toward mastery.
+- The Playwright MCP browser draws ך and ן without their tails (a font quirk of that browser, not the app); check finals on a real iPad.
 - The voice is a generic AI voice; short lines can sound rushed. Check `/studio` → "לבדוק באוזן".
 - Kamatz world content and wording are drafts and paused.

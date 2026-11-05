@@ -12,20 +12,20 @@
 
 ## Prioritized improvements (✅ = done)
 1. **Teach the letter's sound, not only its name** ("בֵּית… בּ… בַּיִת"). This is the biggest gap. *Mom decides: a bare consonant, or consonant + vowel?*
-2. **New question type: hear the sound, pick the letter.**
+2. ✅ **New question type: hear the sound, pick the letter** (via the example word: "בַּיִת: which letter?").
 3. **Picture mnemonics drawn into the letter.** *Mom's stories plus an illustrator.*
-4. **Real mastery:** right answers on different days and in at least 2 question types, shown to parents as green/yellow/gray.
-5. **Review in cycles:** all letters met so far, weighted toward weak ones, with gaps of about 1, 3 and 7 days.
-6. **Lookalike duels** (ד/ר, ה/ח, ב/כ, ו/ז) focused on the telling difference.
+4. ✅ **Real mastery:** right answers on different days and in at least 2 question types, shown to parents as green/yellow/gray.
+5. ✅ **Review in cycles:** all letters met so far, weighted toward weak ones, with gaps of about 1, 3 and 7 days.
+6. ✅ **Lookalike duels** (🔍 detective) (ד/ר, ה/ח, ב/כ, ו/ז) focused on the telling difference.
    - ✅ Sound-alike letters (ט/ת, כּ/ק, א/ע) are never wrong answers in "what starts with…" (fixed 5 Nov).
-7. **Final letters as the end-of-word forms** of letters the child knows, plus a "start or end of the word?" game.
+7. ✅ **Final letters as the end-of-word forms** (🛏️ pajamas) of letters the child knows, plus a "start or end of the word?" game.
 8. **Last-sound and syllable games** (clap the syllables, "what does it end with?"); these also bridge to kamatz/patach.
 9. **Free writing with a gentle check** (being built).
 10. ✅ **Write my name** (a Ministry kindergarten goal; highly motivating): the ✍️ notebook's first tile (built 5 Nov).
 11. **The dot in בּ/כּ/פּ:** teach the dotted sound first, "without the dot it says v" later. *Mom decides.*
 12. **Teaching order:** distinct and frequent letters early, lookalikes spread apart. *Mom decides.*
 13. **Silent letters א/ע** ("they borrow the vowel's sound"). *Mom's wording.*
-14. **Say it aloud, then tap to hear if you were right** (a self-check, no speech recognition).
+14. ✅ **Say it aloud, then tap to hear if you were right** (a self-check, no speech recognition).
 15. **One off-screen idea per letter for parents** ("find 3 things in the kitchen that start with מ").
 
 ## Game ideas specific to Hebrew letters
