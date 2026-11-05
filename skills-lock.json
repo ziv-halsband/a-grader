@@ -49,6 +49,12 @@
       "skillPath": "skills/measuring-pmf/SKILL.md",
       "computedHash": "0c1bee2927085e6350adfb06c4dc3f789fd9a9c927415fe5ec462fc0b479772d"
     },
+    "playwright-cli": {
+      "source": "microsoft/playwright-cli",
+      "sourceType": "github",
+      "skillPath": "skills/playwright-cli/SKILL.md",
+      "computedHash": "56941c3c0464ad22ccdf3ec975fc4bd518c5daea34b73329c232bc1f37f9a6b7"
+    },
     "positioning": {
       "source": "refoundai/lenny-skills",
       "sourceType": "github",

@@ -21,12 +21,13 @@ mark content as a draft for her to check).
   roadmap-prioritization, user-onboarding-activation, retention-engagement, customer-interviews, idea-validation,
   measuring-pmf, pricing-strategy, positioning, writing-prds, analyzing-user-feedback, launch-planning.
   Use them when the founder asks product questions ("what next?", pricing, talking to parents, launch).
-- Building: frontend-design, web-design-guidelines, vercel-react-best-practices, text-to-speech (ElevenLabs), find-skills.
+- Building: frontend-design, web-design-guidelines, vercel-react-best-practices, text-to-speech (ElevenLabs), playwright-cli, find-skills.
 
 ## Commands
 ```bash
 npm run dev                                   # founder usually has it running on :3000, don't start another there
 npx tsc --noEmit && npx eslint src && npm run build   # check before every commit
+npm run test:e2e                              # Playwright: builds, serves :3031, runs e2e/ on iPad (WebKit+touch) + desktop Chrome
 npm run audio:eleven -- --dry                 # how many ElevenLabs credits new/changed lines cost
 npm run audio:eleven -- --retakes 3           # generate missing/changed voice lines (needs ELEVENLABS_API_KEY in .env)
 npm run audio:eleven -- --only id1,id2 --retakes 3    # re-take specific lines
@@ -40,6 +41,12 @@ npm run audio:eleven -- --only id1,id2 --retakes 3    # re-take specific lines
 - `src/lib/store.ts`: local-first state in localStorage (no accounts, no server). Add only optional fields.
 - `src/lib/progress.ts`: `PRACTICE_MODE = true` opens every built world/station/step for testing (prize still locked until all steps are done). Set false for real kids.
 - Station flow: `src/app/play/letters/[station]/StationPlayer.tsx` (learn → quiz → write → games → 🎁). Shared engines: `ChoiceGame`, `LetterQuiz`, `LetterWriter`, `StationDone`.
+
+## Testing
+- **Automated:** `e2e/*.spec.ts` (Playwright). Add a test for every bug the founder reports (e.g. `writing.spec.ts`: a shaky,
+  fast finger must win; `station.spec.ts`: the prize stays locked). `e2e/helpers.ts` seeds a test child (`seedChild`).
+- **Exploring by hand:** the Playwright MCP server (`.mcp.json`) and the `playwright-cli` skill give Claude its own browser,
+  separate from the founder's Chrome. Prefer them over the Chrome extension for checking flows.
 
 ## Gotchas
 - **Testing in Chrome:** don't change the active child on `localhost:3000`; it switches the founder's open tabs too (same localStorage).
