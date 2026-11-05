@@ -1645,5 +1645,230 @@
     "file": "garden-intro-f.mp3",
     "heard": "הגינה שלך",
     "check": "match"
+  },
+  "island-intro-m": {
+    "text": "הָאִי שֶׁלְּךָ!",
+    "hash": "5d0f957c27",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "island-intro-m.mp3",
+    "heard": "היי שלח",
+    "check": "differs"
+  },
+  "island-intro-f": {
+    "text": "הָאִי שֶׁלָּךְ!",
+    "hash": "b5a8514243",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "island-intro-f.mp3",
+    "heard": "היי שלח",
+    "check": "differs"
+  },
+  "det-here": {
+    "text": "הִנֵּה הַהֶבְדֵּל!",
+    "hash": "69d1d2d3cf",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "det-here.mp3",
+    "heard": "הנה ההבדל",
+    "check": "match"
+  },
+  "pj-intro": {
+    "text": "בַּסּוֹף, הָאוֹת לוֹבֶשֶׁת פִּיגָ'מָה!",
+    "hash": "326fe3b2c2",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "pj-intro.mp3",
+    "heard": "בסוף האות לובשת פיגמה",
+    "check": "match"
+  },
+  "pj-end": {
+    "text": "מִי בְּסוֹף הַמִּלָּה?",
+    "hash": "4b5bcee709",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "pj-end.mp3",
+    "heard": "מי בסוף עמי לה?",
+    "check": "differs"
+  },
+  "pj-start": {
+    "text": "מִי בִּתְחִלַּת הַמִּלָּה?",
+    "hash": "8ad98e781a",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "pj-start.mp3",
+    "heard": "מי בתחילת המילה?",
+    "check": "match"
+  },
+  "pj-end-hint": {
+    "text": "בַּסּוֹף לוֹבְשִׁים פִּיגָ'מָה!",
+    "hash": "25d3cb7311",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "pj-end-hint.mp3",
+    "heard": "בסוף לובשים פיגמה",
+    "check": "match"
+  },
+  "pj-start-hint": {
+    "text": "בַּבֹּקֶר בְּלִי פִּיגָ'מָה!",
+    "hash": "ed28277fb0",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "pj-start-hint.mp3",
+    "heard": "בבוקר בלי פיגמה",
+    "check": "match"
+  },
+  "pj-night": {
+    "text": "לַיְלָה טוֹב!",
+    "hash": "8016151678",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "pj-night.mp3",
+    "heard": "לילה טוב.",
+    "check": "match"
+  },
+  "hunt-intro": {
+    "text": "מְחַפְּשִׂים בַּתְּמוּנָה!",
+    "hash": "f6fbaa1d17",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-intro.mp3",
+    "heard": "מחפשים בתמונה",
+    "check": "match"
+  },
+  "garden-bloom": {
+    "text": "פֶּרַח חָדָשׁ פָּרַח!",
+    "hash": "5c06f32570",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "garden-bloom.mp3",
+    "heard": "פרח חדש פרח",
+    "check": "match"
+  },
+  "island-bloom": {
+    "text": "עֵץ חָדָשׁ צָמַח!",
+    "hash": "dc59c18f1c",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "island-bloom.mp3",
+    "heard": "עץ חדש צמח",
+    "check": "match"
+  },
+  "hunt-honey": {
+    "text": "דְּבַשׁ",
+    "hash": "c75b334562",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-honey.mp3",
+    "heard": "דבש",
+    "check": "match"
+  },
+  "hunt-salt": {
+    "text": "מֶלַח",
+    "hash": "0f47d67a60",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-salt.mp3",
+    "heard": "מלח",
+    "check": "match"
+  },
+  "hunt-milk": {
+    "text": "חָלָב",
+    "hash": "8b1667873f",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-milk.mp3",
+    "heard": "חלב",
+    "check": "match"
+  },
+  "hunt-butter": {
+    "text": "חֶמְאָה",
+    "hash": "2a937b9337",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-butter.mp3",
+    "heard": "חמאה",
+    "check": "match"
+  },
+  "hunt-cheese": {
+    "text": "גְּבִינָה",
+    "hash": "9f0749d06b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-cheese.mp3",
+    "heard": "גבינה",
+    "check": "match"
+  },
+  "hunt-bread": {
+    "text": "לֶחֶם",
+    "hash": "2cf36f2c1b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-bread.mp3",
+    "heard": "לכם",
+    "check": "differs"
+  },
+  "hunt-banana": {
+    "text": "בָּנָנָה",
+    "hash": "563a0ac19f",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-banana.mp3",
+    "heard": "Banana",
+    "check": "differs"
+  },
+  "hunt-egg": {
+    "text": "בֵּיצָה",
+    "hash": "efcd14feac",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-egg.mp3",
+    "heard": "ביתא",
+    "check": "differs"
+  },
+  "hunt-carrot": {
+    "text": "גֶּזֶר",
+    "hash": "edcc9be079",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-carrot.mp3",
+    "heard": "גזר",
+    "check": "match"
+  },
+  "hunt-lemon": {
+    "text": "לִימוֹן",
+    "hash": "52f71e42fc",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-lemon.mp3",
+    "heard": "לימון",
+    "check": "match"
+  },
+  "hunt-strawberry": {
+    "text": "תּוּת",
+    "hash": "688569dbdc",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-strawberry.mp3",
+    "heard": "תות",
+    "check": "match"
+  },
+  "hunt-cucumber": {
+    "text": "מְלָפְפוֹן",
+    "hash": "f5e76f0413",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-cucumber.mp3",
+    "heard": "מלאפון",
+    "check": "differs"
+  },
+  "hunt-grapes": {
+    "text": "עֲנָבִים",
+    "hash": "fa402768d1",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-grapes.mp3",
+    "heard": "ענבים",
+    "check": "match"
   }
 }

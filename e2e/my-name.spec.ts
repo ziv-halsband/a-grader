@@ -95,6 +95,7 @@ test("a palm resting on the board doesn't break the stroke being traced", async 
   await seedChild(page, { items: known(["vav"]) });
   await page.goto("/play/letters/write/vav");
   const rounds = page.getByLabel("שלבי הכתיבה");
+  await page.locator('svg[aria-label^="כתיבת"]').waitFor();
   const [s] = await strokesOnScreen(page);
   const mid = Math.floor(s.length / 2);
   await page.mouse.move(s[0].x, s[0].y);
