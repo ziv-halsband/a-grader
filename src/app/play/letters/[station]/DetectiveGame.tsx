@@ -7,22 +7,23 @@ import { PointHand } from "@/components/PointHand";
 import { buildDetectiveRounds, lensSpot, type LensSpot } from "@/content/lookalikes";
 import { LETTER_BY_ID } from "@/content/letters";
 import { PRAISE, line } from "@/content/voice";
-import { strokesFor, toPoints } from "@/content/writing";
 import { boingSound, rightSound, say, sparkleSound, wrongSound } from "@/lib/audio";
 import { cheer } from "@/lib/buddy";
+import { GLYPH, letterDiff, type LetterDiff } from "@/lib/glyphDiff";
 import { pick } from "@/lib/random";
 import { recordGameAnswer } from "@/lib/recordGame";
 import type { Child } from "@/lib/store";
 
-const LENS_R = 17;
+const LENS_R = 20;
 
 /**
- * A letter drawn from its writing strokes (so we know exactly where every part is), with an optional
- * magnifying glass on `spot`: inside the glass the letter turns orange, so the telling part pops out.
+ * A letter drawn from the real font (the shapes kids will read: ב's sharp corner and foot, כ's round back).
+ * With the glass on: inside a see-through magnifying glass, the letter's own telling part turns orange
+ * (lib/glyphDiff.ts). Only inside the glass, so the eye goes to one place.
  */
-function MagnifiedLetter({ letterId, spot, lens }: { letterId: string; spot: LensSpot; lens: boolean }) {
+function MagnifiedLetter({ letterId, spot, overlay, lens }: { letterId: string; spot: LensSpot; overlay?: string; lens: boolean }) {
+  const char = LETTER_BY_ID[letterId].char;
   const clip = `lens${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
-  const strokes = strokesFor(letterId).map(toPoints);
   const { x, y } = spot;
   // The handle points away from the middle of the letter, so it never covers the letter.
   const dx = x - 50 || 1;
@@ -30,15 +31,13 @@ function MagnifiedLetter({ letterId, spot, lens }: { letterId: string; spot: Len
   const d = Math.hypot(dx, dy);
   const ux = dx / d;
   const uy = dy / d;
-  const draw = (color: string, width = 10) =>
-    strokes.map((pts, i) => (
-      <polyline key={i} points={pts} fill="none" stroke={color} strokeWidth={width} strokeLinecap="round" strokeLinejoin="round" />
-    ));
   return (
-    <svg viewBox="10 2 80 98" className="h-full w-full overflow-visible" aria-hidden>
+    <svg viewBox="0 0 100 100" className="block aspect-square w-full overflow-visible" aria-hidden>
       {/* The writing line: final letters (ך ן) visibly go under it. */}
-      <line x1="12" x2="88" y1="80" y2="80" stroke="#cbd5e1" strokeWidth="1.2" strokeDasharray="3 3" />
-      {draw("#1e1b4b")}
+      <line x1="8" x2="92" y1={GLYPH.baseline} y2={GLYPH.baseline} stroke="#cbd5e1" strokeWidth="1.2" strokeDasharray="3 3" />
+      <text x={GLYPH.x} y={GLYPH.baseline} fontSize={GLYPH.size} fontWeight={GLYPH.weight} textAnchor="middle" fill="#1e1b4b">
+        {char}
+      </text>
       {lens && (
         <g className="anim-lens">
           <defs>
@@ -46,6 +45,7 @@ function MagnifiedLetter({ letterId, spot, lens }: { letterId: string; spot: Len
               <circle cx={x} cy={y} r={LENS_R} />
             </clipPath>
           </defs>
+          {overlay && <image href={overlay} x="0" y="0" width="100" height="100" clipPath={`url(#${clip})`} />}
           <line
             x1={x + ux * LENS_R}
             y1={y + uy * LENS_R}
@@ -55,11 +55,7 @@ function MagnifiedLetter({ letterId, spot, lens }: { letterId: string; spot: Len
             strokeWidth={7}
             strokeLinecap="round"
           />
-          <circle cx={x} cy={y} r={LENS_R} fill="rgb(254 240 138 / 0.35)" />
-          <g clipPath={`url(#${clip})`}>
-            {draw("#ea580c", 12)}
-          </g>
-          <circle cx={x} cy={y} r={LENS_R} fill="none" stroke="#b45309" strokeWidth={3.5} />
+          <circle cx={x} cy={y} r={LENS_R} fill="rgb(254 243 199 / 0.25)" stroke="#b45309" strokeWidth={3.5} />
           <path
             d={`M ${x - LENS_R * 0.55} ${y - LENS_R * 0.3} A ${LENS_R * 0.62} ${LENS_R * 0.62} 0 0 1 ${x - LENS_R * 0.2} ${y - LENS_R * 0.58}`}
             fill="none"
@@ -88,6 +84,21 @@ export function DetectiveGame({ stationId, child, onDone }: { stationId: string;
   const [shaking, setShaking] = useState<string | null>(null);
   const [nudge, setNudge] = useState(0);
   const [hint, setHint] = useState<string[] | null>(null);
+  /** What tells this round's letters apart, measured on the font (the hand-placed spot until then). */
+  const [measured, setMeasured] = useState<{ key: string; diffs: Record<string, LetterDiff> } | null>(null);
+  const roundKey = rounds[idx]?.key;
+  useEffect(() => {
+    const r = rounds.find((x) => x.key === roundKey);
+    if (!r) return;
+    let live = true;
+    const [a, b] = r.pair;
+    letterDiff(LETTER_BY_ID[a].char, LETTER_BY_ID[b].char, Math.round(LENS_R * 0.7)).then(
+      (d) => live && d && setMeasured({ key: r.key, diffs: { [a]: d.a, [b]: d.b } }),
+    );
+    return () => {
+      live = false;
+    };
+  }, [rounds, roundKey]);
   const alive = useRef(true);
   const finish = useRef(onDone);
   useEffect(() => {
@@ -113,7 +124,8 @@ export function DetectiveGame({ stationId, child, onDone }: { stationId: string;
 
   const round = rounds[idx];
   if (!round) return null;
-  const spot = lensSpot(round.pair[0], round.pair[1]);
+  const fallback = lensSpot(round.pair[0], round.pair[1]);
+  const diffOf = (id: string) => (measured?.key === round.key ? measured.diffs[id] : undefined);
 
   const lookCloser = () => {
     if (phase !== "look") return;
@@ -201,13 +213,18 @@ export function DetectiveGame({ stationId, child, onDone }: { stationId: string;
                   disabled={faded}
                   aria-label={`האות ${LETTER_BY_ID[id].name}`}
                   data-letter={id}
-                  className={`btn-3d relative aspect-square w-[44%] max-w-60 rounded-[2rem] border-4 bg-white p-[9%] transition-opacity ${
+                  className={`btn-3d relative aspect-square w-[44%] max-w-60 rounded-[2rem] border-4 bg-white p-[6%] transition-opacity ${
                     faded ? "border-transparent opacity-30" : "border-amber-200"
                   } ${shaking === id ? "anim-shake" : ""} ${wrong && isAnswer && phase === "ask" ? "anim-glow ring-4 ring-yellow-400" : ""} ${
                     phase === "solved" && isAnswer ? "scale-105 bg-green-50 ring-4 ring-green-400" : ""
                   }`}
                 >
-                  <MagnifiedLetter letterId={id} spot={spot} lens={phase !== "look"} />
+                  <MagnifiedLetter
+                    letterId={id}
+                    spot={diffOf(id)?.spot ?? fallback}
+                    overlay={diffOf(id)?.overlay}
+                    lens={phase !== "look"}
+                  />
                 </button>
               );
             })}

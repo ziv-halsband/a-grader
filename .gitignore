@@ -46,3 +46,6 @@ next-env.d.ts
 # playwright
 /test-results/
 /playwright-report/
+
+# Playwright MCP screenshots and snapshots
+/.playwright-mcp/
