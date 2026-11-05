@@ -6,6 +6,7 @@ import { StationDone } from "@/components/StationDone";
 import { StationSteps, type Step } from "@/components/StationSteps";
 import { WorldShell } from "@/components/WorldShell";
 import { KAMATZ, KAMATZ_STATIONS, READ_WORD_BY_ID, SYLLABLE_BY_ID } from "@/content/kamatz";
+import { say, wrongSound } from "@/lib/audio";
 import { useRequiredChild } from "@/lib/useChild";
 import { ReadGame } from "./ReadGame";
 import { SyllableFind, SyllableStarts } from "./SyllableGames";
@@ -46,14 +47,32 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
     setRun((r) => r + 1);
   };
   const after = (id: string) => () => {
-    setFinished((f) => (f.includes(id) ? f : [...f, id]));
-    go(order[order.indexOf(id) + 1]);
+    const now = finished.includes(id) ? finished : [...finished, id];
+    setFinished(now);
+    const to = order[order.indexOf(id) + 1];
+    // Steps skipped in practice mode come before the prize: go to the first one not done yet.
+    const missing = steps.find((st) => st.id !== "done" && !now.includes(st.id));
+    go(to === "done" && missing && !child.done.includes(key) ? missing.id : to);
   };
   const nextStation = KAMATZ_STATIONS[index + 1];
 
   return (
     <WorldShell child={child} back={{ href: "/play/kamatz-patach", label: "לעולם הקמץ והפתח" }}>
-      <StationSteps steps={steps} current={phase} reached={furthest} finished={finished} onPick={go} />
+      <StationSteps
+        steps={steps}
+        current={phase}
+        reached={furthest}
+        finished={finished}
+        // The prize is earned: it opens only after every other step (or if the station was finished before).
+        locked={
+          child.done.includes(key) || steps.every((s) => s.id === "done" || finished.includes(s.id)) ? [] : ["done"]
+        }
+        onLocked={() => {
+          wrongSound();
+          say("locked");
+        }}
+        onPick={go}
+      />
       <div key={run} className="flex flex-1 flex-col">
         {phase === "learn" &&
           (station.kind === "words" ? (

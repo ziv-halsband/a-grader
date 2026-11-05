@@ -25,9 +25,14 @@ export type FreeResult = { result: "firstTry" | "withHelp"; misses: number };
 
 const CRAYONS = ["#ef4444", "#f97316", "#eab308", "#22c55e", "#0ea5e9", "#8b5cf6", "#ec4899"];
 /** How far (in the 100×100 box) a finger may be from the path and still count. Generous: 5-year-old fingers. */
-const NEAR = 11;
-/** How far ahead along the path one move may jump (stops shortcuts across the letter). */
-const LOOKAHEAD = 14;
+const NEAR = 16;
+/**
+ * How far ahead along the path one move may jump. Big enough for a fast finger on an iPad (Safari sends few
+ * touch events, so one move can cover a lot of the path; founder, 5 Nov: "we can't win there").
+ */
+const LOOKAHEAD = 40;
+/** Lifting the finger after this much of a stroke counts as finishing it. */
+const LIFT_DONE = 0.8;
 /** Free writing: after this many "not yet"s, offer going back to tracing (and moving on). */
 const OFFER_HELP_AFTER = 2;
 
@@ -171,20 +176,22 @@ export function LetterWriter({
       if (best > p) p = best;
     }
     if (p === p0) return;
-    if (p >= path.length - 2) {
-      // Stroke finished.
-      drawing.current = false;
-      setIsDrawing(false);
-      popSound();
-      if (s + 1 < strokes.length) {
-        moveTo(s + 1, 0);
-      } else {
-        moveTo(s, path.length - 1);
-        finishRound();
-      }
-      return;
-    }
+    if (p >= path.length - 4) return completeStroke();
     moveTo(s, p);
+  };
+
+  /** The current stroke is done: next stroke, or the round is done. */
+  const completeStroke = () => {
+    const { stroke: s } = pos.current;
+    drawing.current = false;
+    setIsDrawing(false);
+    popSound();
+    if (s + 1 < strokes.length) {
+      moveTo(s + 1, 0);
+    } else {
+      moveTo(s, strokes[s].length - 1);
+      finishRound();
+    }
   };
 
   const finishRound = async () => {
@@ -248,7 +255,7 @@ export function LetterWriter({
     const pt = toBox(e);
     if (!pt) return;
     const start = strokes[pos.current.stroke][pos.current.progress];
-    if (Math.hypot(start.x - pt.x, start.y - pt.y) > NEAR + 4) {
+    if (Math.hypot(start.x - pt.x, start.y - pt.y) > NEAR + 6) {
       // Started in the wrong place: show where to start (in "alone" this counts as help).
       setWobble(true);
       wrongSound();
@@ -298,6 +305,12 @@ export function LetterWriter({
 
   const onUp = (e: React.PointerEvent<SVGSVGElement>) => {
     if (pointer.current === e.pointerId) pointer.current = null;
+    // Lifted near the end of a stroke (a small finger rarely lands on the exact end): count it as done.
+    const { stroke: st, progress: pr } = pos.current;
+    if (drawing.current && (mode === "trace" || mode === "alone") && pr >= strokes[st].length * LIFT_DONE) {
+      completeStroke();
+      return;
+    }
     drawing.current = false;
     setIsDrawing(false);
   };

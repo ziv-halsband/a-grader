@@ -6,6 +6,7 @@ import { StationSteps, type Step } from "@/components/StationSteps";
 import { WorldShell } from "@/components/WorldShell";
 import { LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
 import { shuffle } from "@/lib/random";
+import { say, wrongSound } from "@/lib/audio";
 import { useRequiredChild } from "@/lib/useChild";
 import { GamePicker } from "./GamePicker";
 import { LetterWall } from "./LetterWall";
@@ -55,8 +56,11 @@ export function StationPlayer({ stationId }: { stationId: string }) {
 
   /** A step was completed (not just left): mark it ✓ and move on. */
   const finish = (from: string, to: string) => {
-    setFinished((f) => (f.includes(from) ? f : [...f, from]));
-    go(to);
+    const now = finished.includes(from) ? finished : [...finished, from];
+    setFinished(now);
+    // Steps skipped in practice mode come before the prize: go to the first one not done yet.
+    const missing = STEPS.find((st) => st.id !== "done" && !now.includes(st.id));
+    go(to === "done" && missing && !child.done.includes(`letters/${stationId}`) ? missing.id : to);
   };
   const go = (id: string) => {
     const i = STEPS.findIndex((s) => s.id === id);
@@ -67,7 +71,21 @@ export function StationPlayer({ stationId }: { stationId: string }) {
 
   return (
     <WorldShell child={child} back={{ href: "/play/letters", label: "לעולם האותיות" }}>
-      <StationSteps steps={STEPS} current={phase} reached={furthest} finished={finished} onPick={go} />
+      <StationSteps
+        steps={STEPS}
+        current={phase}
+        reached={furthest}
+        finished={finished}
+        // The prize is earned: it opens only after every other step (or if the station was finished before).
+        locked={
+          child.done.includes(`letters/${stationId}`) || STEPS.every((s) => s.id === "done" || finished.includes(s.id)) ? [] : ["done"]
+        }
+        onLocked={() => {
+          wrongSound();
+          say("locked");
+        }}
+        onPick={go}
+      />
 
       <div key={run} className="flex flex-1 flex-col">
         {phase === "meet" &&

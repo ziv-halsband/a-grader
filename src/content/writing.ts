@@ -97,13 +97,15 @@ export function toPoints(pts: Pt[]): string {
 // Generous on purpose: 5-year-old fingers, and a miss only means "try again".
 
 /** Ink within this distance of a letter point "covers" it (the snapped ink is 9 wide, so ~one ink width). */
-export const COVER_NEAR = 9;
+// Loosened on 5 Nov after the founder's kids couldn't pass on an iPad with a finger (the first thresholds were
+// tuned on synthetic strokes). Winning matters more than precision at 5; lookalike letters can pass anyway.
+export const COVER_NEAR = 12;
 /** An ink point within this distance of the letter is "on the letter". */
-export const INK_NEAR = 11;
-export const COVER_PASS = 0.7;
-export const PRECISION_PASS = 0.75;
+export const INK_NEAR = 15;
+export const COVER_PASS = 0.6;
+export const PRECISION_PASS = 0.6;
 /** …and every stroke of the letter must be at least this covered (a missing stroke is a different letter). */
-export const STROKE_PASS = 0.4;
+export const STROKE_PASS = 0.3;
 
 export type FreehandScore = {
   coverage: number;
