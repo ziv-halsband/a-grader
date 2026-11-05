@@ -1,6 +1,24 @@
 {
   "version": 1,
   "skills": {
+    "analyzing-user-feedback": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/analyzing-user-feedback/SKILL.md",
+      "computedHash": "0d880d12eff9b28908b8a9a3f272e2d3e233b6c0f43e837e1ead7cd28185f58b"
+    },
+    "customer-interviews": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/customer-interviews/SKILL.md",
+      "computedHash": "5ea837efeebd598aa9305c4f062688fbb2a23ff214109089be07a9e802d236a4"
+    },
+    "defining-product-strategy": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/defining-product-strategy/SKILL.md",
+      "computedHash": "94dec7eaf0547989e72b83970e6a51731103a65d3363e1205b897f45e46783f4"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
@@ -13,11 +31,71 @@
       "skillPath": "skills/frontend-design/SKILL.md",
       "computedHash": "89496d5dd00f4810205f351759594fc2742bf8eea85a2f2b2d1de59f4bd91576"
     },
+    "idea-validation": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/idea-validation/SKILL.md",
+      "computedHash": "c6e4a127e74c6f1fe61c339c487b7e1b117a4e398c96dace8f3b3b27f09a4296"
+    },
+    "launch-planning": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/launch-planning/SKILL.md",
+      "computedHash": "07596d7114aa2169c9927d162a4be7dee1aeb562610f7938e002685069aff92b"
+    },
+    "measuring-pmf": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/measuring-pmf/SKILL.md",
+      "computedHash": "0c1bee2927085e6350adfb06c4dc3f789fd9a9c927415fe5ec462fc0b479772d"
+    },
+    "positioning": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/positioning/SKILL.md",
+      "computedHash": "06da0a19c5d5e7c5e79d0f4c9b4cc7ae902a22641a016b56ef1de79d1111a40e"
+    },
+    "pricing-strategy": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/pricing-strategy/SKILL.md",
+      "computedHash": "6ad8ce3083aba089651bca2d40ca26ecc16bdd69b9a8a9bab9199b08d59ed5ea"
+    },
+    "product-taste": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/product-taste/SKILL.md",
+      "computedHash": "278dcc3161b9eb8f8fedf422184691b0679acd25b541dbd686d5caad5a517f30"
+    },
+    "product-vision": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/product-vision/SKILL.md",
+      "computedHash": "1dff14995e6cc5f3fe56fb886d00ae6e1756773c082ed10e6f8440e52005b052"
+    },
+    "retention-engagement": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/retention-engagement/SKILL.md",
+      "computedHash": "682acfef879b788cf48a9f22d3ea2bbb9e641ed468b700fa18b56d524e213a82"
+    },
+    "roadmap-prioritization": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/roadmap-prioritization/SKILL.md",
+      "computedHash": "ef4125ab0f5aa0420e6bc4cba4b3222367b41abe892e16598b1e272b6eafc4d1"
+    },
     "text-to-speech": {
       "source": "elevenlabs/skills",
       "sourceType": "github",
       "skillPath": "text-to-speech/SKILL.md",
       "computedHash": "21391cae9c77ac1f843c2001e489f84091bfc8bd2e1199e7f63786a5609d5904"
+    },
+    "user-onboarding-activation": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/user-onboarding-activation/SKILL.md",
+      "computedHash": "426dfa73fb385ce5019907e9c1ded1d8434283adef4c5dcbaa1c4e3a3f736637"
     },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
@@ -30,6 +108,12 @@
       "sourceType": "github",
       "skillPath": "skills/web-design-guidelines/SKILL.md",
       "computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
+    },
+    "writing-prds": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/writing-prds/SKILL.md",
+      "computedHash": "b0f43e9e8e90ab3c1aaab9abb5a44464b62bcd3adc97a4ce4160a86281182197"
     }
   }
 }
