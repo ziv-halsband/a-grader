@@ -1870,5 +1870,212 @@
     "file": "hunt-grapes.mp3",
     "heard": "ענבים",
     "check": "match"
+  },
+  "hunt-cake": {
+    "text": "עוּגָה",
+    "hash": "c3e23b3738",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-cake.mp3",
+    "heard": "Uga",
+    "check": "differs"
+  },
+  "hunt-pizza": {
+    "text": "פִּיצָה",
+    "hash": "8d4587abf7",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-pizza.mp3",
+    "heard": "Pizza",
+    "check": "differs"
+  },
+  "hunt-sun": {
+    "text": "שֶׁמֶשׁ",
+    "hash": "6422609028",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-sun.mp3",
+    "heard": "שמש",
+    "check": "match"
+  },
+  "hunt-cloud": {
+    "text": "עָנָן",
+    "hash": "d25cd780ca",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-cloud.mp3",
+    "heard": "ענן",
+    "check": "match"
+  },
+  "hunt-rainbow": {
+    "text": "קֶשֶׁת",
+    "hash": "df93f6353d",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-rainbow.mp3",
+    "heard": "קשת",
+    "check": "match"
+  },
+  "hunt-bird": {
+    "text": "צִפּוֹר",
+    "hash": "ce63ae2e0b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-bird.mp3",
+    "heard": "ציפור",
+    "check": "match"
+  },
+  "hunt-bee": {
+    "text": "דְּבוֹרָה",
+    "hash": "c8d8edfaf0",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-bee.mp3",
+    "heard": "דבורה",
+    "check": "match"
+  },
+  "hunt-dog": {
+    "text": "כֶּלֶב",
+    "hash": "9aed0052d9",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-dog.mp3",
+    "heard": "כלב",
+    "check": "match"
+  },
+  "hunt-flower": {
+    "text": "פֶּרַח",
+    "hash": "297797cfe8",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-flower.mp3",
+    "heard": "פרח",
+    "check": "match"
+  },
+  "hunt-duck": {
+    "text": "בַּרְוָז",
+    "hash": "9594a9f88c",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-duck.mp3",
+    "heard": "ברוז",
+    "check": "match"
+  },
+  "hunt-snail": {
+    "text": "חִלָּזוֹן",
+    "hash": "4d13328f18",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-snail.mp3",
+    "heard": "חילזון",
+    "check": "match"
+  },
+  "hunt-frog": {
+    "text": "צְפַרְדֵּעַ",
+    "hash": "4e53407c6a",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-frog.mp3",
+    "heard": "צפרדע",
+    "check": "match"
+  },
+  "hunt-ant": {
+    "text": "נְמָלָה",
+    "hash": "61045967b2",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-ant.mp3",
+    "heard": "נמלה",
+    "check": "match"
+  },
+  "hunt-boat": {
+    "text": "סִירָה",
+    "hash": "81bae02445",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-boat.mp3",
+    "heard": "סירה",
+    "check": "match"
+  },
+  "hunt-dolphin": {
+    "text": "דּוֹלְפִין",
+    "hash": "e6951a94be",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-dolphin.mp3",
+    "heard": "דולפין",
+    "check": "match"
+  },
+  "hunt-shark": {
+    "text": "כָּרִישׁ",
+    "hash": "6b32afca12",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-shark.mp3",
+    "heard": "כריש",
+    "check": "match"
+  },
+  "hunt-octopus": {
+    "text": "תְּמָנוּן",
+    "hash": "3d1b3571e3",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-octopus.mp3",
+    "heard": "תמנון",
+    "check": "match"
+  },
+  "hunt-anchor": {
+    "text": "עֹגֶן",
+    "hash": "4b48a57687",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-anchor.mp3",
+    "heard": "אוגן",
+    "check": "differs"
+  },
+  "hunt-crab": {
+    "text": "סַרְטָן",
+    "hash": "5736163947",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-crab.mp3",
+    "heard": "סרטן",
+    "check": "match"
+  },
+  "hunt-shell": {
+    "text": "צֶדֶף",
+    "hash": "98cb318676",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-shell.mp3",
+    "heard": "צדף",
+    "check": "match"
+  },
+  "hunt-bucket": {
+    "text": "דְּלִי",
+    "hash": "a0f7ce7db1",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-bucket.mp3",
+    "heard": "דלי",
+    "check": "match"
+  },
+  "hunt-umbrella": {
+    "text": "שִׁמְשִׁיָּה",
+    "hash": "2b236a6c99",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-umbrella.mp3",
+    "heard": "שמשיה",
+    "check": "match"
+  },
+  "hunt-icecream": {
+    "text": "גְּלִידָה",
+    "hash": "d97de3e7e9",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "hunt-icecream.mp3",
+    "heard": "גלדה",
+    "check": "match"
   }
 }
