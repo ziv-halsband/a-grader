@@ -127,26 +127,67 @@ export function buildReadItems(wordIds: string[]) {
   }));
 }
 
-export type QuizItem = { kind: "find" | "starts"; target: string; options: string[] };
+/**
+ * A quiz question. `kind` says what it asks (counted per kind for mastery):
+ *  "find"   where is ב? (letter by its name)
+ *  "starts" what starts with ב? (pictures)
+ *  "hear"   the guide says "בַּיִת": which letter does it start with? (sound → letter; "ends with" for finals)
+ */
+export type QuizItem = {
+  kind: "find" | "starts" | "hear";
+  target: string;
+  options: string[];
+  /** "hear" only: no picture, the child goes by ear alone (the harder variant). */
+  noPicture?: boolean;
+};
 
 /**
- * One mixed quiz per station (Matific-style variety instead of a drill): every new letter once by name
- * ("where is ב?", scored), 2 picture questions ("what starts with ב?"), and 1 review letter from before.
+ * "Hear the word, pick its first letter" (the last letter, for a final letter): 3 letters of the same kind
+ * (final or not). Never a sound-alike as a wrong option (ט for תַּפּוּחַ would be a right ear marked wrong);
+ * a lookalike only once the child has met both letters (`distractors` takes care of that).
+ * DRAFT for mom: by ear through the example word, until she decides how to say a bare letter sound.
+ */
+function hearItem(target: string, known: string[], noPicture = false): QuizItem {
+  const finals = !!LETTER_BY_ID[target].final;
+  const pool = known.filter((id) => !!LETTER_BY_ID[id].final === finals && !soundsAlike(id, target));
+  return { kind: "hear", target, options: shuffle([target, ...distractors(target, pool, 2)]), noPicture };
+}
+
+/** How many letters of the same kind as `target` (final or not) are in `known`, the target included. */
+function sameKind(target: string, known: string[]): number {
+  return known.filter((id) => !!LETTER_BY_ID[id].final === !!LETTER_BY_ID[target].final).length;
+}
+
+/**
+ * One mixed quiz per station (Matific-style variety instead of a drill), 8 short questions:
+ * every new letter once by name ("where is ב?"), 1 picture question ("what starts with ב?"),
+ * 2 by ear ("בַּיִת: which letter?", with the picture) and 1 review letter from before, last.
+ * By-ear questions go to letters that didn't get the picture question, so more letters are met two ways.
  */
 export function buildQuizItems(stationId: string): QuizItem[] {
   const station = LETTER_STATIONS.find((s) => s.id === stationId)!;
   if (station.mix) return buildMixQuizItems(station.letterIds);
+  const known = lettersUpTo(stationId);
   const find = buildFindItems(stationId);
-  const news = find.filter((f) => station.letterIds.includes(f.target)).map((f) => ({ ...f, kind: "find" as const }));
+  // Each new letter once (the first station has no earlier letters, so its "review" repeats would come back here).
+  const news = find
+    .filter((f, i) => station.letterIds.includes(f.target) && find.findIndex((g) => g.target === f.target) === i)
+    .map((f) => ({ ...f, kind: "find" as const }));
   const review = find.filter((f) => !station.letterIds.includes(f.target)).slice(0, 1).map((f) => ({ ...f, kind: "find" as const }));
-  const starts = buildStartsItems(stationId).slice(0, 2).map((s) => ({ ...s, kind: "starts" as const }));
-  // find, find, starts, find, starts, find…, review last.
-  const out: QuizItem[] = [];
-  news.forEach((f, i) => {
-    out.push(f);
-    if ((i === 1 || i === 2) && starts.length) out.push(starts.shift()!);
+  const starts = buildStartsItems(stationId).slice(0, 1).map((s) => ({ ...s, kind: "starts" as const }));
+  const hearTargets = shuffle(station.letterIds.filter((id) => !starts.some((s) => s.target === id))).slice(0, 2);
+  const others: QuizItem[] = [...starts, ...hearTargets.map((id) => hearItem(id, known))];
+  // find, find, (other), find, (other), find, (other)…, review last. Never the same letter twice in a row.
+  const out: QuizItem[] = [...news];
+  others.forEach((o, k) => {
+    const fits = (p: number) => out[p - 1]?.target !== o.target && out[p]?.target !== o.target;
+    // The slot closest to "after the 2nd question, then every other one" where it doesn't touch the same letter.
+    const want = Math.min(out.length, 2 + k * 2);
+    const slots = [...out.keys(), out.length].sort((a, b) => Math.abs(a - want) - Math.abs(b - want) || b - a);
+    const p = slots.find((x) => x > 0 && fits(x)) ?? slots.find(fits) ?? out.length;
+    out.splice(p, 0, o);
   });
-  return [...out, ...starts, ...review];
+  return [...out, ...review];
 }
 
 /**
@@ -166,10 +207,14 @@ export function buildReviewItems(
   const nonFinal = reached.filter((id) => !LETTER_BY_ID[id].final);
   return shuffle(picks).map((target, i) => {
     const canPicture = !LETTER_BY_ID[target].final && nonFinal.length >= 3;
+    const canHear = sameKind(target, reached) >= 3;
     const kinds = successKinds(stats[target]);
-    // Missing a kind? Ask that one. Otherwise every third question is a picture question.
+    // Missing a kind? Ask one it hasn't had. Otherwise by name, by ear, by picture, in turns.
     const has = (k: string) => kinds.includes(k);
-    const missing = has("find") && !has("starts") ? "starts" : has("starts") && !has("find") ? "find" : null;
+    const missing = kinds.length !== 1 ? null : has("starts") ? (canHear ? "hear" : "find") : canPicture ? "starts" : canHear ? "hear" : null;
+    // By ear without the picture when the letter was right on the first try last time (harder).
+    if (missing === "hear" || (!missing && i % 3 === 1 && canHear))
+      return hearItem(target, reached, !!stats[target]?.lastFirstTry);
     const pictures = canPicture && (missing ? missing === "starts" : i % 3 === 2);
     if (pictures) {
       return {
@@ -183,17 +228,21 @@ export function buildReviewItems(
 }
 
 /**
- * A mixed station's quiz: 10 letters at random from everything learned so far. 7 by name (with lookalike
- * distractors from the whole range) and 3 picture questions (non-final letters, so no picture is ambiguous).
+ * A mixed station's quiz: 10 letters at random from everything learned so far. 6 by name (with lookalike
+ * distractors from the whole range), 2 picture questions (non-final letters, so no picture is ambiguous)
+ * and 2 by ear, one of them without the picture (a review station is a good place for the harder one).
  */
 export function buildMixQuizItems(letterIds: string[], n = 10): QuizItem[] {
   const nonFinal = letterIds.filter((id) => !LETTER_BY_ID[id].final);
   const picks = shuffle(letterIds).slice(0, n);
-  const pictureTargets = new Set(shuffle(picks.filter((id) => !LETTER_BY_ID[id].final)).slice(0, 3));
+  const pictureTargets = shuffle(picks.filter((id) => !LETTER_BY_ID[id].final)).slice(0, 2);
+  const hearTargets = shuffle(picks.filter((id) => !pictureTargets.includes(id) && sameKind(id, letterIds) >= 3)).slice(0, 2);
   return picks.map((target) =>
-    pictureTargets.has(target)
+    pictureTargets.includes(target)
       ? { kind: "starts" as const, target, options: pictureOptions(target, nonFinal) }
-      : { kind: "find" as const, target, options: shuffle([target, ...distractors(target, letterIds, 2)]) },
+      : hearTargets.includes(target)
+        ? hearItem(target, letterIds, target === hearTargets[1])
+        : { kind: "find" as const, target, options: shuffle([target, ...distractors(target, letterIds, 2)]) },
   );
 }
 

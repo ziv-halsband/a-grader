@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { GUIDE_NAME } from "@/content/worlds";
 import { VOICE_BY_ID } from "@/content/voice";
-import { dynamicText, say, stopAudio } from "@/lib/audio";
+import { dynamicText, sayStepped, stopAudio } from "@/lib/audio";
 
 /**
  * Mom, the guide. Placeholder portrait for now: later this becomes her photo,
@@ -20,6 +20,8 @@ export function Guide({
   cue = 0,
   once = false,
   intro = [],
+  onStep,
+  unseen = [],
 }: {
   lines: string[];
   compact?: boolean;
@@ -29,10 +31,20 @@ export function Guide({
   once?: boolean;
   /** Said before `lines` only the first time this session (e.g. "new letters!" then the letter). */
   intro?: string[];
+  /** Called with each line's id as it starts, then null when done (e.g. to light up what is being said). */
+  onStep?: (id: string | null) => void;
+  /** Lines said but not written in the caption (shown as 👂): a by-ear question must not show the word. */
+  unseen?: string[];
 }) {
   const [talking, setTalking] = useState(false);
   const key = `${cue}#${lines.join("|")}`;
   const introKey = intro.join("|");
+  const step = useEffectEvent((id: string | null) => onStep?.(id));
+  const speak = useEffectEvent((ids: string[]) =>
+    sayStepped(ids, (i) => step(ids[i])).then((all) => {
+      if (all) step(null);
+    }),
+  );
 
   useEffect(() => {
     let alive = true;
@@ -50,7 +62,7 @@ export function Guide({
     const started = performance.now();
     // eslint-disable-next-line react-hooks/set-state-in-effect -- reflects an external audio process
     setTalking(true);
-    say(...ids).then(() => alive && setTalking(false));
+    speak(ids).then(() => alive && setTalking(false));
     return () => {
       alive = false;
       stopAudio();
@@ -64,11 +76,14 @@ export function Guide({
 
   const replay = () => {
     setTalking(true);
-    say(...lines).then(() => setTalking(false));
+    sayStepped(lines, (i) => onStep?.(lines[i])).then((all) => {
+      if (all) onStep?.(null);
+      setTalking(false);
+    });
   };
 
   const caption = lines
-    .map((id) => VOICE_BY_ID[id]?.text ?? dynamicText(id) ?? "")
+    .map((id) => (unseen.includes(id) ? "👂" : (VOICE_BY_ID[id]?.text ?? dynamicText(id) ?? "")))
     .filter(Boolean)
     .join(" ");
 

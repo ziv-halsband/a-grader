@@ -62,6 +62,8 @@ export function BoxGame({ stationId, child, onDone }: { stationId: string; child
     const item = {
       ...box,
       prompt: [`word-${box.target}`, l.final ? "box-which-end" : "box-which"],
+      // By ear: the written word would give the letter away.
+      unseen: [`word-${box.target}`],
       cue: (
         <span className="anim-fly relative flex h-32 w-32 items-center justify-center rounded-[2rem] border-8 border-yellow-300 bg-white text-8xl shadow-xl sm:h-40 sm:w-40 sm:text-9xl">
           <span aria-hidden>{l.emoji}</span>
