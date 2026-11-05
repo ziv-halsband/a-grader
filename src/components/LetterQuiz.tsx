@@ -25,7 +25,7 @@ export function toChoiceItem(it: QuizItem) {
 /**
  * Everything ChoiceGame needs to run letter questions (shared by the quiz, the quiz show and the wheel):
  * how options look, what the guide says on a wrong tap ("כִּמְעַט! קוֹף מַתְחִיל בָּאוֹת קוֹף"), and scoring
- * ("where is ב?" feeds "knows on their own"; picture questions are practice).
+ * (every answer is scored with its question kind; see lib/mastery.ts).
  */
 export function letterQuizProps(child: Child) {
   const pic = (it: QuizItem) => it.kind === "starts";
@@ -42,16 +42,16 @@ export function letterQuizProps(child: Child) {
       return ["almost", `word-${tapped}`, `${w.final ? "ends" : "starts"}-with-${g}`, `letter-${tapped}`];
     },
     onSolved: (it: QuizItem) => (pic(it) ? [`word-${it.target}`] : [`letter-${it.target}`]),
-    onAnswer: (it: QuizItem, result: "firstTry" | "withHelp", misses: number) => {
-      if (it.kind === "find") actions.recordLetter(child.id, it.target, result, misses);
-    },
+    // Every kind is scored with its kind: real mastery needs first-try answers in 2 kinds, on 2 days.
+    onAnswer: (it: QuizItem, result: "firstTry" | "withHelp", misses: number) =>
+      actions.recordLetter(child.id, it.target, result, misses, it.kind ?? "find"),
   };
 }
 
 /**
  * A letters quiz (station quiz, surprise round), mixing two kinds of questions:
- *  🎯 "where is ב?" (letter by its name; scored, it feeds "knows on their own")
- *  🖼️ "what starts with ב?" (letter → the sound at the start of a word; practice)
+ *  🎯 "where is ב?" (letter by its name)
+ *  🖼️ "what starts with ב?" (letter → the sound at the start of a word)
  */
 export function LetterQuiz({
   build,

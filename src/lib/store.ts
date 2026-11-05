@@ -5,6 +5,9 @@
 
 import { useSyncExternalStore } from "react";
 import type { Gender, World } from "@/content/worlds";
+import { addTo, dayKey, type AnswerKind } from "./mastery";
+
+export { letterMastery, type Mastery } from "./mastery";
 
 export type LetterStat = {
   /** Answered right on the first try (no hint). */
@@ -17,6 +20,10 @@ export type LetterStat = {
   lastFirstTry: boolean;
   /** When it was last practiced (ms). Missing in older saves. */
   at?: number;
+  /** Local days ("2026-11-05") with a first-try right answer, last 10. Missing in older saves. */
+  days?: string[];
+  /** Question kinds answered right on the first try ("find", "starts", "hear"…). Missing in older saves. */
+  kinds?: string[];
 };
 
 export type Child = {
@@ -43,6 +50,10 @@ export type Child = {
   /** Sticker emojis collected, in order. */
   stickers: string[];
   lastPlayedAt?: string;
+  /** Local days the child played ("2026-11-05"), last 60: the garden's ☀️/💧 for this week. Missing in older saves. */
+  playDays?: string[];
+  /** Letters whose bloom in the garden was already celebrated. Missing in older saves. */
+  bloomSeen?: string[];
 };
 
 export type AppState = { version: 1; children: Child[]; activeChildId: string | null };
@@ -107,15 +118,25 @@ function updateChild(id: string, fn: (c: Child) => Child) {
 
 export type Result = "firstTry" | "withHelp";
 
-function bump(prev: LetterStat | undefined, result: Result, misses: number): LetterStat {
+function bump(prev: LetterStat | undefined, result: Result, misses: number, kind?: AnswerKind): LetterStat {
   const p = prev ?? { firstTry: 0, withHelp: 0, misses: 0, lastFirstTry: false };
+  const now = Date.now();
+  const right = result === "firstTry";
   return {
-    firstTry: p.firstTry + (result === "firstTry" ? 1 : 0),
-    withHelp: p.withHelp + (result === "withHelp" ? 1 : 0),
+    ...p,
+    firstTry: p.firstTry + (right ? 1 : 0),
+    withHelp: p.withHelp + (right ? 0 : 1),
     misses: p.misses + misses,
-    lastFirstTry: result === "firstTry",
-    at: Date.now(),
+    lastFirstTry: right,
+    at: now,
+    ...(right && { days: addTo(p.days, dayKey(now), 10) }),
+    ...(right && kind && { kinds: addTo(p.kinds, kind, 10) }),
   };
+}
+
+/** Every answer or finished station marks today as a day played (no streak: nothing is lost on a missed day). */
+function played(c: Child): Pick<Child, "lastPlayedAt" | "playDays"> {
+  return { lastPlayedAt: new Date().toISOString(), playDays: addTo(c.playDays, dayKey(Date.now()), 60) };
 }
 
 export const actions = {
@@ -160,21 +181,27 @@ export const actions = {
       stickers: [],
       wardrobe: [],
       wearing: [],
+      bloomSeen: [],
       buddy: c.starter ?? c.buddy,
     }));
   },
-  recordLetter(childId: string, letterId: string, result: Result, misses: number) {
+  /** `kind`: which kind of question it was ("find", "starts", "hear"…); real mastery needs 2 kinds on 2 days. */
+  recordLetter(childId: string, letterId: string, result: Result, misses: number, kind?: AnswerKind) {
     updateChild(childId, (c) => ({
       ...c,
-      lastPlayedAt: new Date().toISOString(),
-      letters: { ...c.letters, [letterId]: bump(c.letters[letterId], result, misses) },
+      ...played(c),
+      letters: { ...c.letters, [letterId]: bump(c.letters[letterId], result, misses, kind) },
     }));
+  },
+  /** The garden celebrated these letters' first bloom (once each). */
+  markBloomsSeen(childId: string, letterIds: string[]) {
+    updateChild(childId, (c) => ({ ...c, bloomSeen: [...new Set([...(c.bloomSeen ?? []), ...letterIds])] }));
   },
   /** Syllables, words…: key is "<kind>:<id>". */
   recordItem(childId: string, key: string, result: Result, misses: number) {
     updateChild(childId, (c) => ({
       ...c,
-      lastPlayedAt: new Date().toISOString(),
+      ...played(c),
       items: { ...c.items, [key]: bump(c.items?.[key], result, misses) },
     }));
   },
@@ -194,16 +221,14 @@ export const actions = {
         stickers: [...x.stickers, sticker],
         wardrobe: has ? wardrobe : [...wardrobe, accessory],
         wearing: has ? x.wearing : [accessory],
-        lastPlayedAt: new Date().toISOString(),
+        ...played(x),
       };
     });
   },
 };
 
-export type Mastery = "new" | "practicing" | "knows";
-
-/** Deliberately simple and explainable to a parent; mom will define the real rule per topic. */
-export function letterMastery(stat: LetterStat | undefined): Mastery {
+/** Old rule, kept for syllables and words (they have no question kinds yet). Mom will define it per topic. */
+export function itemMastery(stat: LetterStat | undefined): "new" | "practicing" | "knows" {
   if (!stat || stat.firstTry + stat.withHelp === 0) return "new";
   if (stat.firstTry >= 2 && stat.lastFirstTry) return "knows";
   return "practicing";

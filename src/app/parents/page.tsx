@@ -6,7 +6,8 @@ import { KAMATZ, READ_WORDS, SYLLABLES } from "@/content/kamatz";
 import { LETTERS, LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
 import { NameRecorder } from "@/components/NameRecorder";
 import { WORLDS } from "@/content/worlds";
-import { actions, letterMastery, useAppState, type Child, type Mastery } from "@/lib/store";
+import { daysThisWeek, masteryMissing, successDays, successKinds } from "@/lib/mastery";
+import { actions, itemMastery, letterMastery, useAppState, type Child, type LetterStat, type Mastery } from "@/lib/store";
 
 /** Parents' area: behind a gate a 5-year-old can't pass (the number is written in words). */
 export default function ParentsPage() {
@@ -50,11 +51,53 @@ function Gate({ onPass }: { onPass: () => void }) {
   );
 }
 
-const MASTERY: Record<Mastery, { label: string; cls: string }> = {
-  new: { label: "עוד לא תרגלנו", cls: "bg-slate-100 text-slate-400" },
-  practicing: { label: "בתרגול", cls: "bg-amber-100 text-amber-800 ring-2 ring-amber-300" },
-  knows: { label: "מזהה לבד", cls: "bg-emerald-100 text-emerald-800 ring-2 ring-emerald-400" },
+const MASTERY: Record<Mastery, { label: string; cls: string; dot: string; means: string }> = {
+  new: {
+    label: "עוד לא תרגלנו",
+    cls: "bg-slate-100 text-slate-400",
+    dot: "bg-slate-300",
+    means: "עוד לא נפגשנו עם האות הזאת במשחק.",
+  },
+  practicing: {
+    label: "בתרגול",
+    cls: "bg-amber-100 text-amber-800 ring-2 ring-amber-300",
+    dot: "bg-amber-400",
+    means: "כבר נפגשנו, אבל עוד לא זוהתה לבד בשני ימים שונים ובשני סוגי שאלות.",
+  },
+  knows: {
+    label: "מזהה לבד",
+    cls: "bg-emerald-100 text-emerald-800 ring-2 ring-emerald-400",
+    dot: "bg-emerald-500",
+    means: "זוהתה נכון בניסיון הראשון בשני ימים שונים ובשני סוגי שאלות לפחות.",
+  },
 };
+
+/** Question kinds, in words a parent understands. */
+const KIND_NAMES: Record<string, string> = {
+  find: "איפה האות",
+  starts: "מה מתחיל באות",
+  hear: "שמיעה",
+  "first-letter": "באיזו אות מתחילה התמונה",
+  write: "כתיבה",
+};
+
+/** The tooltip on a letter: the numbers behind the color, and what is still missing. */
+function letterDetails(s: LetterStat | undefined, label: string): string {
+  if (!s) return label;
+  const days = successDays(s).length;
+  const kinds = successKinds(s).map((k) => KIND_NAMES[k] ?? k);
+  const miss = masteryMissing(s);
+  const missing = [miss.days && "עוד יום אחד", miss.kinds && "עוד סוג שאלה"].filter(Boolean).join(" ו");
+  return [
+    `${label}.`,
+    `ימים עם תשובה נכונה מהניסיון הראשון: ${days}.`,
+    kinds.length ? `סוגי שאלות: ${kinds.join(", ")}.` : "",
+    missing ? `חסר: ${missing}.` : "",
+    `(ניסיון ראשון: ${s.firstTry} · עם עזרה: ${s.withHelp} · טעויות: ${s.misses})`,
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
 
 function Dashboard() {
   const state = useAppState();
@@ -150,6 +193,7 @@ function Summary({ child }: { child: Child }) {
         <p className="mt-1 text-sm text-slate-500">
           {child.lastPlayedAt ? `שיחקנו לאחרונה: ${new Date(child.lastPlayedAt).toLocaleDateString("he-IL")}` : "עוד לא שיחקנו"}
         </p>
+        <WeekCount child={child} />
       </div>
       <div className="rounded-2xl bg-indigo-50 p-5 shadow-sm">
         <p className="text-sm text-indigo-700">הצעה לצעד הבא</p>
@@ -160,6 +204,14 @@ function Summary({ child }: { child: Child }) {
   );
 }
 
+/** Days played this week (no streak, nothing lost on a missed day). */
+function WeekCount({ child }: { child: Child }) {
+  const [now] = useState(() => Date.now());
+  const days = daysThisWeek(child.playDays, now).length;
+  if (!days) return null;
+  return <p className="mt-1 text-sm text-slate-500">השבוע שיחקנו {days === 1 ? "יום אחד" : `${days} ימים`}</p>;
+}
+
 function LetterGrid({ child }: { child: Child }) {
   return (
     <section className="rounded-2xl bg-white p-5 shadow-sm">
@@ -168,19 +220,31 @@ function LetterGrid({ child }: { child: Child }) {
         <div className="flex flex-wrap gap-3 text-xs">
           {Object.values(MASTERY).map((m) => (
             <span key={m.label} className="flex items-center gap-1">
-              <span className={`inline-block h-3 w-3 rounded ${m.cls}`} /> {m.label}
+              <span className={`inline-block h-3 w-3 rounded-full ${m.dot}`} /> {m.label}
             </span>
           ))}
         </div>
       </div>
+      <ul className="mb-4 flex flex-col gap-1 text-sm text-slate-600">
+        {(["knows", "practicing", "new"] as const).map((k) => (
+          <li key={k} className="flex items-start gap-2">
+            <span className={`mt-1.5 inline-block h-3 w-3 shrink-0 rounded-full ${MASTERY[k].dot}`} />
+            <span>
+              <b>{MASTERY[k].label}:</b> {MASTERY[k].means}
+            </span>
+          </li>
+        ))}
+      </ul>
       <div className="grid grid-cols-7 gap-2 sm:grid-cols-9">
         {LETTERS.map((l) => {
           const s = child.letters[l.id];
-          const m = MASTERY[letterMastery(s)];
+          const level = letterMastery(s);
+          const m = MASTERY[level];
           return (
             <div
               key={l.id}
-              title={s ? `ניסיון ראשון: ${s.firstTry} · עם עזרה: ${s.withHelp} · טעויות: ${s.misses}` : m.label}
+              data-mastery={level}
+              title={letterDetails(s, m.label)}
               className={`flex aspect-square items-center justify-center rounded-xl text-2xl font-extrabold ${m.cls}`}
             >
               {l.char}
@@ -189,8 +253,8 @@ function LetterGrid({ child }: { child: Child }) {
         })}
       </div>
       <p className="mt-3 text-xs text-slate-500">
-        ״מזהה לבד״ = זיהה את האות בניסיון ראשון לפחות פעמיים, כולל בפעם האחרונה. זה תרגול במשחק, לא אבחון. הכלל
-        הזה זמני עד שהמורה תגדיר מתי עוברים הלאה.
+        ״שני סוגי שאלות״: למשל ״איפה האות?״ וגם ״מה מתחיל באות?״. בגינה של הילד/ה כל אות היא צמח: זרע, נבט ופרח
+        (באי: אגוז קוקוס, נבט ודקל). זה תרגול במשחק, לא אבחון. הכלל זמני עד שהמורה תגדיר מתי עוברים הלאה.
       </p>
     </section>
   );
@@ -209,7 +273,7 @@ function KamatzGrid({ child }: { child: Child }) {
       <div className="flex flex-wrap gap-2">
         {cells.map((c) => {
           const st = child.items?.[c.key];
-          const m = MASTERY[letterMastery(st)];
+          const m = MASTERY[itemMastery(st)];
           return (
             <div
               key={c.key}

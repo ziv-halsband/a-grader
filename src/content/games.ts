@@ -1,6 +1,7 @@
 // Builds rounds for the letter games from what the child has already met.
 // Rule from the brief: practice uses only material already taught.
 
+import { reviewWeight, successKinds, type MasteryStat } from "../lib/mastery.ts";
 import { shuffle } from "../lib/random.ts";
 import { KAMATZ_STATIONS, SYLLABLE_BY_ID, syllablesUpTo } from "./kamatz.ts";
 import { CONFUSABLE, LETTER_BY_ID, LETTER_STATIONS, lettersUpTo, soundsAlike } from "./letters.ts";
@@ -148,27 +149,28 @@ export function buildQuizItems(stationId: string): QuizItem[] {
   return [...out, ...starts, ...review];
 }
 
-type Stat = { firstTry: number; withHelp: number; misses: number; lastFirstTry: boolean; at?: number };
-
 /**
- * The surprise round (Matific-style adaptive review): 6 quick questions for THIS child.
- * Letters that needed help last time come first, then letters not seen for a while (spaced review),
- * then a little randomness so it never feels the same. Only letters the child has already reached.
+ * 🎲 The daily practice (spaced review): 6 quick questions for THIS child, from letters already reached.
+ * Weak letters first, then letters due again after ~1, 3, 7 days, letters that already bloomed less often,
+ * plus a little randomness so it never feels the same (lib/mastery.ts `reviewWeight`).
+ * The question kind helps a letter bloom: one answered only by name gets a picture question, and the reverse.
  */
-export function buildReviewItems(reached: string[], stats: Record<string, Stat>, now: number, n = 6): QuizItem[] {
-  const day = 86_400_000;
-  const weight = (id: string) => {
-    const s = stats[id];
-    if (!s) return 2 + Math.random();
-    const struggled = s.lastFirstTry ? 0 : 3;
-    const stale = Math.min(3, s.at ? (now - s.at) / day : 2);
-    return struggled + Math.min(3, s.misses) * 0.5 + stale + Math.random() * 1.5;
-  };
-  const picks = [...reached].sort((a, b) => weight(b) - weight(a)).slice(0, n);
+export function buildReviewItems(
+  reached: string[],
+  stats: Record<string, MasteryStat>,
+  now: number,
+  n = 6,
+): QuizItem[] {
+  const weights = Object.fromEntries(reached.map((id) => [id, reviewWeight(stats[id], now, Math.random())]));
+  const picks = [...reached].sort((a, b) => weights[b] - weights[a]).slice(0, n);
   const nonFinal = reached.filter((id) => !LETTER_BY_ID[id].final);
   return shuffle(picks).map((target, i) => {
-    // Every third question is a picture question, when there are enough pictures to choose from.
-    const pictures = !LETTER_BY_ID[target].final && nonFinal.length >= 3 && i % 3 === 2;
+    const canPicture = !LETTER_BY_ID[target].final && nonFinal.length >= 3;
+    const kinds = successKinds(stats[target]);
+    // Missing a kind? Ask that one. Otherwise every third question is a picture question.
+    const has = (k: string) => kinds.includes(k);
+    const missing = has("find") && !has("starts") ? "starts" : has("starts") && !has("find") ? "find" : null;
+    const pictures = canPicture && (missing ? missing === "starts" : i % 3 === 2);
     if (pictures) {
       return {
         kind: "starts" as const,

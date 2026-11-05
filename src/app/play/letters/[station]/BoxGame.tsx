@@ -10,14 +10,15 @@ import { LETTER_BY_ID } from "@/content/letters";
 import { line } from "@/content/voice";
 import { boingSound, say, sparkleSound } from "@/lib/audio";
 import { cheer } from "@/lib/buddy";
-import type { Child } from "@/lib/store";
+import { actions, type Child } from "@/lib/store";
 
 const BOX_COLORS = ["#f97316", "#ec4899", "#8b5cf6", "#3b82f6", "#14b8a6", "#eab308"];
 
 /**
  * 🎁 Open a box: numbered surprise boxes. A tapped box shakes and opens on a picture; the guide says the word
  * and asks which letter it starts with (ends with, for final letters), 3 big letters to choose from.
- * The reverse of "what starts with ב?": sound → letter. An opened box stays open with a ⭐. Not scored.
+ * The reverse of "what starts with ב?": sound → letter. An opened box stays open with a ⭐. Scored as its own
+ * question kind ("first-letter"), so it counts toward real mastery.
  */
 export function BoxGame({ stationId, child, onDone }: { stationId: string; child: Child; onDone: () => void }) {
   const [boxes] = useState(() => buildBoxItems(stationId));
@@ -81,7 +82,7 @@ export function BoxGame({ stationId, child, onDone }: { stationId: string; child
         reveal={(it) => ["here-it-is", `letter-${it.target}`]}
         explainWrong={(_, tapped) => ["this-is", `letter-${tapped}`]}
         onSolved={(it) => [`letter-${it.target}`, "like", `word-${it.target}`]}
-        onAnswer={() => {}}
+        onAnswer={(it, result, misses) => actions.recordLetter(child.id, it.target, result, misses, "first-letter")}
         onDone={solved}
       />
     );

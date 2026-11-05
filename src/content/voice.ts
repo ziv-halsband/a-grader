@@ -31,6 +31,9 @@ const gendered: Record<string, { m: string; f: string }> = {
   "memory-intro": { m: "מְצָא זוּגוֹת!", f: "מִצְאִי זוּגוֹת!" },
   "pick-game": { m: "בְּחַר מִשְׂחָק!", f: "בַּחֲרִי מִשְׂחָק!" },
   "ready-daily": { m: "מוּכָן לָאִמּוּן הַיּוֹמִי?", f: "מוּכָנָה לָאִמּוּן הַיּוֹמִי?" },
+  // 🌱 The letter garden (garden world) / the island of palm trees (island world).
+  "garden-intro": { m: "הַגִּנָּה שֶׁלְּךָ!", f: "הַגִּנָּה שֶׁלָּךְ!" },
+  "island-intro": { m: "הָאִי שֶׁלְּךָ!", f: "הָאִי שֶׁלָּךְ!" },
   "kp-world": {
     m: "בָּרוּךְ הַבָּא לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
     f: "בְּרוּכָה הַבָּאָה לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
@@ -116,6 +119,9 @@ const neutral: Record<string, string> = {
   "read-prompt": "מָה כָּתוּב כָּאן?",
   "it-says": "כָּתוּב",
   "here-sound": "הִנֵּה! זֶה הַצְּלִיל",
+  // A letter bloomed in the garden for the first time (real mastery: 2 days, 2 kinds of question).
+  "garden-bloom": "פֶּרַח חָדָשׁ פָּרַח!",
+  "island-bloom": "עֵץ חָדָשׁ צָמַח!",
 };
 
 export const VOICE_LINES: VoiceLine[] = [

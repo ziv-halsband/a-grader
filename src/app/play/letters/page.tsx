@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { AdventureMap, type MapStation } from "@/components/AdventureMap";
 import { Guide } from "@/components/Guide";
+import { GardenPreview } from "@/components/LetterGarden";
 import { WorldShell } from "@/components/WorldShell";
 import { LETTER_STATIONS } from "@/content/letters";
 import { rewardFor } from "@/content/rewards";
@@ -49,6 +50,9 @@ export default function LettersWorldPage() {
             🎲 הָאִמּוּן הַיּוֹמִי
           </Link>
         )}
+      </div>
+      <div className="mt-5 px-4">
+        <GardenPreview child={child} />
       </div>
       <div className="mt-6">
         <AdventureMap stations={stations} />
