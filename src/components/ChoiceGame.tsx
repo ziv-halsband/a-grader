@@ -15,8 +15,10 @@ export type ChoiceItem = {
   options: string[];
   /** What the guide asks (audio ids). */
   prompt: string[];
-  /** Shown above the options (e.g. the letter, or the word to read). */
-  cue?: ReactNode;
+  /** Shown above the options (e.g. the letter, or the word to read). A function gets "solved" (e.g. to reveal a hidden picture). */
+  cue?: ReactNode | ((solved: boolean) => ReactNode);
+  /** Audio ids said but not written in the caption (a by-ear question must not show the word to match by eye). */
+  unseen?: string[];
   /** Card style for this question (a quiz can mix letters and pictures). */
   size?: "big" | "picture";
 };
@@ -120,7 +122,7 @@ export function ChoiceGame<T extends ChoiceItem>({
   const big = (item.size ?? size) === "big";
   return (
     <div className="flex flex-1 flex-col gap-5 py-4">
-      <Guide compact lines={hint?.lines ?? prompt} cue={idx * 100 + (hint?.n ?? 0)} />
+      <Guide compact lines={hint?.lines ?? prompt} unseen={item.unseen} cue={idx * 100 + (hint?.n ?? 0)} />
 
       {progress && (
         <div className="flex justify-center gap-2" aria-label={`שאלה ${idx + 1} מתוך ${items.length}`}>
@@ -134,7 +136,7 @@ export function ChoiceGame<T extends ChoiceItem>({
       )}
 
       <div key={idx} className="anim-rise flex flex-1 flex-col items-center justify-center gap-6 px-4">
-        {item.cue}
+        {typeof item.cue === "function" ? item.cue(solved) : item.cue}
         <div className="flex items-center justify-center gap-3 sm:gap-4">
           {item.options.map((id) => {
             const isWrong = wrong.includes(id);

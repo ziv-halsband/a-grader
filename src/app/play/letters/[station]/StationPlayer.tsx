@@ -92,7 +92,7 @@ export function StationPlayer({ stationId }: { stationId: string }) {
           (station.mix ? (
             <LetterWall letterIds={station.letterIds} onDone={() => finish("meet", "quiz")} />
           ) : (
-            <Meet letters={letters} onDone={() => finish("meet", "quiz")} />
+            <Meet letters={letters} gender={child.gender} onDone={() => finish("meet", "quiz")} />
           ))}
         {phase === "quiz" && <LetterQuiz build={() => buildQuizItems(stationId)} child={child} onDone={() => finish("quiz", "write")} />}
         {phase === "write" && <WriteStep letterIds={writeIds} child={child} onDone={() => finish("write", "play")} />}

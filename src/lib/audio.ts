@@ -43,11 +43,20 @@ export function audioUrl(id: string) {
 
 /** Resolves when the whole sequence finished or was interrupted by another call. */
 export async function say(...ids: string[]): Promise<void> {
+  await sayStepped(ids);
+}
+
+/**
+ * Like `say`, and calls `onStep(i)` as line i starts (e.g. to light up the letter while its name is said).
+ * Resolves true if every line played to the end, false if another call cut it off. A line without audio is skipped.
+ */
+export async function sayStepped(ids: string[], onStep?: (i: number) => void): Promise<boolean> {
   stopAudio();
   const mine = token;
-  for (const id of ids) {
-    if (mine !== token) return;
+  for (const [i, id] of ids.entries()) {
+    if (mine !== token) return false;
     if (!hasAudio(id)) continue;
+    onStep?.(i);
     await new Promise<void>((resolve) => {
       const a = new Audio(audioUrl(id));
       current = a;
@@ -56,6 +65,7 @@ export async function say(...ids: string[]): Promise<void> {
       a.play().catch(() => resolve()); // autoplay blocked: the caption is still on screen
     });
   }
+  return mine === token;
 }
 
 // Sound effects, synthesized (no files): they carry the feedback so the voice can say less.
