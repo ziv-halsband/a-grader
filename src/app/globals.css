@@ -287,6 +287,8 @@ body {
 }
 .anim-twinkle {
   animation: twinkle 1.4s ease-in-out infinite;
+}
+
 /* 🔍 Detective: the magnifying glass lands on the letter (an SVG group, so it scales around its own box). */
 .anim-lens {
   transform-box: fill-box;
@@ -316,18 +318,18 @@ body {
 .anim-snooze {
   animation: snooze 2.2s ease-in-out infinite;
 }
-@keyframes twinkle {
+@keyframes glimmer {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.35; transform: scale(0.8); }
 }
-.anim-twinkle {
-  animation: twinkle 2s ease-in-out infinite;
+.anim-glimmer {
+  animation: glimmer 2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .anim-zzz,
   .anim-snooze,
-  .anim-twinkle,
+  .anim-glimmer,
   .anim-bulb,
   .anim-bob,
   .anim-glow,

@@ -1555,5 +1555,95 @@
     "file": "box-which-end.mp3",
     "heard": "מה האות האחרונה?",
     "check": "match"
+  },
+  "name-intro-m": {
+    "text": "כְּתֹב אֶת הַשֵּׁם שֶׁלְּךָ!",
+    "hash": "6776b4ac31",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "name-intro-m.mp3",
+    "heard": "כתוב את השם שלך",
+    "check": "match"
+  },
+  "name-intro-f": {
+    "text": "כִּתְבִי אֶת הַשֵּׁם שֶׁלָּךְ!",
+    "hash": "e965f08243",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "name-intro-f.mp3",
+    "heard": "כתבי את השם שלך",
+    "check": "match"
+  },
+  "name-done-m": {
+    "text": "כָּתַבְתָּ אֶת הַשֵּׁם!",
+    "hash": "24122c875b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "name-done-m.mp3",
+    "heard": "כתבת את השם",
+    "check": "match"
+  },
+  "name-done-f": {
+    "text": "כָּתַבְתְּ אֶת הַשֵּׁם!",
+    "hash": "d93536cd5b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "name-done-f.mp3",
+    "heard": "כתבתי את השם",
+    "check": "match"
+  },
+  "say-aloud-m": {
+    "text": "אֵיזוֹ אוֹת? תַּגִּיד בְּקוֹל!",
+    "hash": "6a2fa91ed0",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "say-aloud-m.mp3",
+    "heard": "איזו אות? תגיד בקול",
+    "check": "match"
+  },
+  "say-aloud-f": {
+    "text": "אֵיזוֹ אוֹת? תַּגִּידִי בְּקוֹל!",
+    "hash": "e81c051c43",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "say-aloud-f.mp3",
+    "heard": "איזו אות? תגידי בקול",
+    "check": "match"
+  },
+  "det-intro-m": {
+    "text": "מְצָא אֶת הַהֶבְדֵּל!",
+    "hash": "7170e79f69",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "det-intro-m.mp3",
+    "heard": "מצא את ההבדל",
+    "check": "match"
+  },
+  "det-intro-f": {
+    "text": "מִצְאִי אֶת הַהֶבְדֵּל!",
+    "hash": "3f6727dc17",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "det-intro-f.mp3",
+    "heard": "מצאי את ההבדל",
+    "check": "match"
+  },
+  "garden-intro-m": {
+    "text": "הַגִּנָּה שֶׁלְּךָ!",
+    "hash": "ed0f836ef5",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "garden-intro-m.mp3",
+    "heard": "הגינה שלך",
+    "check": "match"
+  },
+  "garden-intro-f": {
+    "text": "הַגִּנָּה שֶׁלָּךְ!",
+    "hash": "d3271539b8",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "garden-intro-f.mp3",
+    "heard": "הגינה שלך",
+    "check": "match"
   }
 }

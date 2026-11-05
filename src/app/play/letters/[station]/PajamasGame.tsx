@@ -233,7 +233,7 @@ function Stars() {
         <span
           key={i}
           aria-hidden
-          className="anim-twinkle absolute text-lg text-yellow-200"
+          className="anim-glimmer absolute text-lg text-yellow-200"
           style={{ left: `${x}%`, top: `${y}%`, animationDelay: `${i * 300}ms` }}
         >
           ✦
