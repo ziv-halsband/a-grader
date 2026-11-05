@@ -82,6 +82,20 @@ export function toPoints(pts: Pt[]): string {
   return pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
 }
 
+/** A soft SVG path through a finger's points: straight to each midpoint, curving around the points between. */
+export function smoothPath(pts: Pt[]): string {
+  const f = (n: number) => n.toFixed(1);
+  if (pts.length === 1) return `M ${f(pts[0].x)} ${f(pts[0].y)} l 0.01 0`; // a tap: a round dot
+  let d = `M ${f(pts[0].x)} ${f(pts[0].y)}`;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const a = pts[i];
+    const b = pts[i + 1];
+    d += ` Q ${f(a.x)} ${f(a.y)} ${f((a.x + b.x) / 2)} ${f((a.y + b.y) / 2)}`;
+  }
+  const last = pts[pts.length - 1];
+  return `${d} L ${f(last.x)} ${f(last.y)}`;
+}
+
 // ── Free writing: the child's own ink (not snapped), checked against the letter. ──
 // Nothing fancy, so a parent can follow it: both live in the same 100×100 box, and we only measure distances.
 // - coverage: the share of the letter's points that have ink within COVER_NEAR → "did you write all of it?"

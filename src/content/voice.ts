@@ -27,6 +27,9 @@ const gendered: Record<string, { m: string; f: string }> = {
   "station-done": { m: "סִיַּמְתָּ! כָּל הַכָּבוֹד!", f: "סִיַּמְתְּ! כָּל הַכָּבוֹד!" },
   // Free writing (🖍️ round), followed by the letter's name.
   "write-free": { m: "כְּתֹב אֶת הָאוֹת", f: "כִּתְבִי אֶת הָאוֹת" },
+  // ✍️ Write my name: the intro, then at the end "you wrote the name!" + the child's name (if we have it).
+  "name-intro": { m: "כְּתֹב אֶת הַשֵּׁם שֶׁלְּךָ!", f: "כִּתְבִי אֶת הַשֵּׁם שֶׁלָּךְ!" },
+  "name-done": { m: "כָּתַבְתָּ אֶת הַשֵּׁם!", f: "כָּתַבְתְּ אֶת הַשֵּׁם!" },
   "pick-buddy": { m: "בְּחַר חָבֵר לַמַּסָּע!", f: "בַּחֲרִי חָבֵר לַמַּסָּע!" },
   "memory-intro": { m: "מְצָא זוּגוֹת!", f: "מִצְאִי זוּגוֹת!" },
   "pick-game": { m: "בְּחַר מִשְׂחָק!", f: "בַּחֲרִי מִשְׂחָק!" },

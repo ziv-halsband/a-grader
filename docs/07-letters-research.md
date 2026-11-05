@@ -21,7 +21,7 @@
 7. **Final letters as the end-of-word forms** of letters the child knows, plus a "start or end of the word?" game.
 8. **Last-sound and syllable games** (clap the syllables, "what does it end with?"); these also bridge to kamatz/patach.
 9. **Free writing with a gentle check** (being built).
-10. **Write my name** (a Ministry kindergarten goal; highly motivating).
+10. ✅ **Write my name** (a Ministry kindergarten goal; highly motivating): the ✍️ notebook's first tile (built 5 Nov).
 11. **The dot in בּ/כּ/פּ:** teach the dotted sound first, "without the dot it says v" later. *Mom decides.*
 12. **Teaching order:** distinct and frequent letters early, lookalikes spread apart. *Mom decides.*
 13. **Silent letters א/ע** ("they borrow the vowel's sound"). *Mom's wording.*
