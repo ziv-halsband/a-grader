@@ -94,7 +94,7 @@ function StationButton({
   const body = (
     <>
       <span className="relative flex items-center justify-center">
-        {pointed && (
+        {pointed && hand && (
           <span aria-hidden className="anim-halo absolute -inset-4 rounded-full bg-[var(--sun)]" />
         )}
         <span
