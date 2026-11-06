@@ -53,6 +53,9 @@ const gendered: Record<string, { m: string; f: string }> = {
   // 📚 Stories (DRAFT, mom): the child reads first (said once, on the first page), then the end of a story.
   "read-yourself": { m: "קְרָא לְבַד!", f: "קִרְאִי לְבַד!" },
   "story-done": { m: "קָרָאתָ סִפּוּר!", f: "קָרָאתְ סִפּוּר!" },
+  // 📗 אֲנִי קוֹרֵא (DRAFT, mom): the library shelf (said once), and the end of a book.
+  "library-intro": { m: "הַסִּפְרִיָּה שֶׁלְּךָ!", f: "הַסִּפְרִיָּה שֶׁלָּךְ!" },
+  "book-done": { m: "קָרָאתָ סֵפֶר שָׁלֵם!", f: "קָרָאתְ סֵפֶר שָׁלֵם!" },
   "kp-world": {
     m: "בָּרוּךְ הַבָּא לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
     f: "בְּרוּכָה הַבָּאָה לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
@@ -184,6 +187,8 @@ const neutral: Record<string, string> = {
   "island-bloom": "עֵץ חָדָשׁ צָמַח!",
   // 📚 The story shelf. (The stories themselves are voiced by scripts/gen-story-audio.ts, with word timings.)
   "stories-shelf": "מָה נִקְרָא הַיּוֹם?",
+  // 📗 A library book's "who said it?" question (the quote is on screen in a bubble).
+  "who-said": "מִי אָמַר?",
 };
 
 /** Lines whose sound is clearer read another way than the caption (a bare "אִ" is read as "אִי"). */

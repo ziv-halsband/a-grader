@@ -21,10 +21,12 @@ export const NIKUD_TOPICS: Topic[] = ([
   { id: "shva", title: "שְׁוָא", goal: "קורא מילים עם שווא", icon: "בְּ" },
 ] as Topic[]).map((t) => ({ ...t, href: `/play/nikud/${t.id}` }));
 
+/**
+ * The big map: 3 chapters (founder, 6 Nov). Each nikud world already teaches syllables → words → short stories,
+ * so there are no separate "words", "sentences" or "stories" topics; /play/stories stays as an all-shelves page.
+ */
 export const TOPICS: Topic[] = [
   { id: "letters", title: "מַכִּירִים אוֹתִיּוֹת", goal: "מזהה את כל האותיות, כולל סופיות", icon: "אב", href: "/play/letters" },
-  { id: "nikud", title: "נִקּוּד", goal: "קורא צירופים עם כל סימני הניקוד", icon: "בָּ", href: "/play/nikud" },
-  { id: "words", title: "מִלִּים רִאשׁוֹנוֹת", goal: "קורא מילים קצרות", icon: "📖" },
-  { id: "sentences", title: "מִשְׁפָּטִים", goal: "קורא משפט ומבין אותו", icon: "💬" },
-  { id: "stories", title: "סִפּוּרִים", goal: "קורא סיפור קצר", icon: "📚", href: "/play/stories" },
+  { id: "nikud", title: "נִקּוּד", goal: "קורא צירופים, מילים וסיפורים קצרים בכל הניקוד", icon: "בָּ", href: "/play/nikud" },
+  { id: "i-read", title: "אֲנִי קוֹרֵא", goal: "קורא ספרונים לבד", icon: "📗", href: "/play/i-read" },
 ];

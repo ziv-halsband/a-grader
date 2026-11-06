@@ -6,9 +6,11 @@
 //       npm run audio:stories -- --dry            # only count characters (credits)
 //       npm run audio:stories -- --only kamatz-patach-1/2,hiriq-3/q   # (re)generate these pages
 //       npm run audio:stories -- --story holam-2  # every page of one story
+//       npm run audio:stories -- --story i-read/a-1   # every line of one library book (📗 אֲנִי קוֹרֵא)
+//       npm run audio:stories -- --library        # only the library books (content/library.ts)
 //       ELEVEN_VOICE_ID=... npm run audio:stories # another voice (e.g. mom's clone)
 //
-// Writes public/audio/stories/<story>-<page>.mp3 and src/content/story-audio.json.
+// Writes public/audio/stories/<story>-<page>.mp3 (library: i-read-<book>-<page>-<line>.mp3) and src/content/story-audio.json.
 // Refuses to run if a story isn't decodable (lib/decodable.ts): no credits spent on text mom will send back.
 // Needs ELEVENLABS_API_KEY in .env (never committed).
 
@@ -16,7 +18,8 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { STORIES, storyAudioItems, storyWords } from "../src/content/stories.ts";
-import { checkText } from "../src/lib/decodable.ts";
+import { bookTexts, LIBRARY, libraryAudioItems } from "../src/content/library.ts";
+import { checkStage, checkText } from "../src/lib/decodable.ts";
 
 /** Per page: the text it was made from (hash), the file, and [start, end] seconds per word (as storyWords splits it). */
 type Entry = { text: string; hash: string; file: string; source: string; words: [number, number][] };
@@ -37,9 +40,12 @@ const only = arg("--only") ? new Set(arg("--only")!.split(",")) : null;
 const storyOnly = arg("--story");
 
 // 1. Every story must be decodable before we spend anything.
-const problems = STORIES.flatMap((s) =>
-  [s.title, ...s.pages.map((p) => p.text), s.question.text].flatMap((t) => checkText(t, s.world).map((p) => `${s.id}: ${p}`)),
-);
+const problems = [
+  ...STORIES.flatMap((s) =>
+    [s.title, ...s.pages.map((p) => p.text), s.question.text].flatMap((t) => checkText(t, s.world).map((p) => `${s.id}: ${p}`)),
+  ),
+  ...LIBRARY.flatMap((b) => bookTexts(b).flatMap((t) => checkStage(t, b.stage).map((p) => `i-read/${b.id}: ${p}`))),
+];
 if (problems.length) {
   console.error(`Not decodable, fix content/stories.ts first:\n  ${problems.join("\n  ")}`);
   process.exit(1);
@@ -47,12 +53,14 @@ if (problems.length) {
 
 const manifest: Record<string, Entry> = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, "utf8")) : {};
 const hash = (s: string) => createHash("sha1").update(s).digest("hex").slice(0, 10);
-const fileOf = (key: string) => `${key.replace("/", "-")}.mp3`;
-const items = storyAudioItems();
+const fileOf = (key: string) => `${key.replaceAll("/", "-")}.mp3`;
+const items = [...storyAudioItems(), ...libraryAudioItems()];
+const libraryOnly = args.includes("--library");
 
 const todo = items.filter(({ key, text }) => {
   if (only) return only.has(key);
   if (storyOnly) return key.startsWith(`${storyOnly}/`);
+  if (libraryOnly && !key.startsWith("i-read/")) return false;
   const prev = manifest[key];
   return !prev || prev.hash !== hash(text) || !existsSync(join(outDir, prev.file));
 });
@@ -67,7 +75,10 @@ for (const key of Object.keys(manifest)) {
 
 const chars = todo.reduce((n, l) => n + l.text.length, 0);
 const all = items.reduce((n, l) => n + l.text.length, 0);
-console.log(`${todo.length} of ${items.length} pages, ${chars} characters (≈ credits; all stories: ${all}) · voice ${VOICE} · model ${MODEL}`);
+const lib = libraryAudioItems().reduce((n, l) => n + l.text.length, 0);
+console.log(
+  `${todo.length} of ${items.length} pages/lines, ${chars} characters (≈ credits; everything: ${all}, of it the library: ${lib}) · voice ${VOICE} · model ${MODEL}`,
+);
 if (dry || !todo.length) process.exit(0);
 if (!KEY) throw new Error("ELEVENLABS_API_KEY is missing in .env");
 mkdirSync(outDir, { recursive: true });

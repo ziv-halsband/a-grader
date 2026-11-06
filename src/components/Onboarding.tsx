@@ -192,9 +192,8 @@ function WorldCard({ world, selected, onPick }: { world: World; selected: boolea
 /** The road from letters to grade 1, drawn as a little adventure map. Stations come from the real curriculum. */
 const ROAD = [
   { x: 278, y: 150, label: TOPICS[0].icon },
-  { x: 214, y: 92, label: TOPICS[1].icon },
-  { x: 140, y: 128, label: TOPICS[2].icon },
-  { x: 98, y: 72, label: TOPICS[4].icon },
+  { x: 200, y: 96, label: TOPICS[1].icon },
+  { x: 118, y: 112, label: TOPICS[2].icon },
   { x: 38, y: 40, label: "🎒" },
 ];
 
@@ -213,7 +212,7 @@ function Welcome({ onStart }: { onStart: () => void }) {
           {/* On a phone the button comes right after the map, so it is on the first screen. */}
           <ul className="order-last mt-4 flex flex-col gap-3 text-lg md:order-none md:mt-0">
             <Point icon="🗺️" title="מפת הרפתקה">
-              תחנה אחר תחנה, מהאותיות ועד סיפור ראשון.
+              תחנה אחר תחנה, מהאותיות ועד ספרון ראשון שקוראים לבד.
             </Point>
             <Point icon="✏️" title="לומדים, כותבים ומשחקים">
               כל הוראה מוקראת בקול, אין צורך לדעת לקרוא.
