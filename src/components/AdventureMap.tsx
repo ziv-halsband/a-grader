@@ -27,7 +27,16 @@ const XS = [50, 24, 50, 76];
  * Exactly one thing calls the child: the next station to play (the first open, not-done one). It is bigger,
  * glows, has a pointing hand, and the child's own buddy stands next to it ("you are here").
  */
-export function AdventureMap({ stations, here }: { stations: MapStation[]; here?: { buddy?: string; wearing?: string[] } }) {
+export function AdventureMap({
+  stations,
+  here,
+  hand = true,
+}: {
+  stations: MapStation[];
+  here?: { buddy?: string; wearing?: string[] };
+  /** False when the page's one big next step is somewhere else (e.g. the daily practice): the halo stays, the 👆 goes. */
+  hand?: boolean;
+}) {
   const next = stations.find((s) => s.state === "open")?.key;
   return (
     <ol className="relative mx-auto w-full max-w-lg px-4 pb-28">
@@ -59,7 +68,7 @@ export function AdventureMap({ stations, here }: { stations: MapStation[]; here?
               </svg>
             )}
             <div className="absolute top-0 -translate-x-1/2" style={{ left: `${100 - x}%` }}>
-              <StationButton station={s} index={i} pointed={s.key === next} here={s.key === next ? here : undefined} />
+              <StationButton station={s} index={i} pointed={s.key === next} hand={hand} here={s.key === next ? here : undefined} />
             </div>
           </li>
         );
@@ -72,11 +81,13 @@ function StationButton({
   station: s,
   index,
   pointed,
+  hand,
   here,
 }: {
   station: MapStation;
   index: number;
   pointed: boolean;
+  hand: boolean;
   here?: { buddy?: string; wearing?: string[] };
 }) {
   const size = pointed ? "h-32 w-32" : "h-28 w-28";
@@ -124,7 +135,7 @@ function StationButton({
               {s.icon}
             </span>
           )}
-          {pointed && <PointHand className="-bottom-6 -left-7" />}
+          {pointed && hand && <PointHand className="-bottom-6 -left-7" />}
         </span>
         {/* You are here: the child's buddy waits next to the next station. */}
         {here?.buddy && (

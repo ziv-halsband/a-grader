@@ -5,6 +5,7 @@ import { AdventureMap, type MapStation } from "@/components/AdventureMap";
 import { BuddyPicker } from "@/components/BuddyPicker";
 import { BuddyTour } from "@/components/BuddyTour";
 import { Guide } from "@/components/Guide";
+import { PointHand } from "@/components/PointHand";
 import { WorldShell } from "@/components/WorldShell";
 import { TOPICS } from "@/content/curriculum";
 import { WORLDS } from "@/content/worlds";
@@ -31,7 +32,9 @@ export default function AdventurePage() {
   registerLine("child-name", `${child.nickname}!`, recorded ?? (ready ? audioUrl(ready) : undefined));
   const hour = new Date().getHours();
   const greet = hour >= 5 && hour < 12 ? "good-morning" : hour >= 12 && hour < 17 ? "good-noon" : "good-evening";
-  const greeting = [greet, "child-name", line("ready-daily", child.gender)];
+  // Daily practice needs letters to practice: it appears after the first letters station.
+  const canPractice = child.done.some((d) => d.startsWith("letters/"));
+  const greeting = [greet, "child-name", line(canPractice ? "ready-daily" : "go-next", child.gender)];
 
   // A topic opens when the one before it is done (or a parent opened all worlds). Topics not built yet stay locked.
   const stations: MapStation[] = TOPICS.map((t, i) => {
@@ -47,20 +50,30 @@ export default function AdventurePage() {
     };
   });
 
+  const here = { buddy: child.buddy, wearing: child.wearing };
+
   return (
     <WorldShell child={child} back={{ href: "/", label: "מסך הבית" }}>
-      <h1 className="nikud mt-4 text-center text-3xl font-extrabold drop-shadow-sm">{world.name}</h1>
-      <div className="mt-4">
+      <h1 className="nikud mt-3 text-center text-4xl font-extrabold drop-shadow-[0_2px_0_rgb(255_255_255/0.8)]">{world.name}</h1>
+      <div className="mt-3">
         {/* Quiet while the buddy picker / tour talks, so the greeting isn't cut off. */}
         <Guide compact once lines={!child.buddy || !child.tourSeen ? [] : firstVisit ? ["welcome"] : greeting} />
       </div>
-      <div className="mt-5 flex justify-center">
-        <Link href="/play/letters/review" className="btn-3d nikud anim-glow bg-accent px-7 py-3 text-2xl font-extrabold text-white">
-          🎲 הָאִמּוּן הַיּוֹמִי
-        </Link>
-      </div>
+      {/* One big next step: the daily practice for a returning child (the greeting asks for it), else the next station. */}
+      {canPractice && (
+        <div className="mt-5 flex justify-center">
+          <Link
+            href="/play/letters/review"
+            className="btn-3d tile-accent nikud anim-glow relative flex items-center gap-3 px-8 py-4 text-3xl font-extrabold"
+          >
+            <span aria-hidden className="text-4xl">🎲</span>
+            הָאִמּוּן הַיּוֹמִי
+            <PointHand className="-bottom-7 -left-5" />
+          </Link>
+        </div>
+      )}
       <div className="mt-8">
-        <AdventureMap stations={stations} />
+        <AdventureMap stations={stations} here={here} hand={!canPractice} />
       </div>
       {!child.buddy ? (
         <BuddyPicker gender={child.gender} onPick={(id) => actions.updateChild(child.id, { buddy: id, starter: id })} />

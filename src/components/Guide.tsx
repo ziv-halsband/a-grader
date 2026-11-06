@@ -107,8 +107,8 @@ export function Guide({
       </button>
       {caption && (
         <p
-          className={`nikud relative mb-2 rounded-3xl rounded-br-md bg-white/95 px-4 py-2 font-medium shadow-md ${
-            compact ? "text-base" : "text-lg"
+          className={`nikud relative mb-2 rounded-3xl rounded-br-md border-2 border-white bg-white/95 px-4 py-2 font-bold shadow-md ${
+            compact ? "text-lg" : "text-xl"
           }`}
         >
           {caption}

@@ -70,7 +70,7 @@ export function Onboarding({ onCancel }: { onCancel?: () => void }) {
               )}
             </div>
             {!onCancel && (
-              <button type="button" onClick={() => setStep("welcome")} className="self-start text-sm underline opacity-70">
+              <button type="button" onClick={() => setStep("welcome")} className="min-h-11 self-start px-1 text-base underline opacity-80">
                 חזרה
               </button>
             )}
@@ -103,7 +103,7 @@ export function Onboarding({ onCancel }: { onCancel?: () => void }) {
                 </button>
               ))}
             </div>
-            <button onClick={() => setStep(0)} className="self-start text-sm underline opacity-70">
+            <button onClick={() => setStep(0)} className="min-h-11 self-start px-1 text-base underline opacity-80">
               חזרה
             </button>
           </section>
@@ -121,7 +121,7 @@ export function Onboarding({ onCancel }: { onCancel?: () => void }) {
             <button onClick={finish} className="btn-3d bg-accent px-6 py-4 text-2xl font-extrabold text-white">
               יוצאים לדרך! 🚀
             </button>
-            <button onClick={() => setStep(1)} className="self-start text-sm underline opacity-70">
+            <button onClick={() => setStep(1)} className="min-h-11 self-start px-1 text-base underline opacity-80">
               חזרה
             </button>
           </section>

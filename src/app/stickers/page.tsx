@@ -5,7 +5,10 @@ import { useState } from "react";
 import { BuddyAvatar } from "@/components/BuddyAvatar";
 import { NameSignature } from "@/components/NameSignature";
 import { canWriteName, nameText } from "@/content/myName";
+import { Guide } from "@/components/Guide";
+import { PointHand } from "@/components/PointHand";
 import { WorldShell } from "@/components/WorldShell";
+import { line } from "@/content/voice";
 import { ACCESSORIES, ACCESSORY_BY_ID, BUDDY_BY_ID, HEROES, ownedBuddies } from "@/content/buddies";
 import { ownedGifts, rewardPath, type StationReward } from "@/content/rewards";
 import { WORLDS } from "@/content/worlds";
@@ -55,13 +58,16 @@ export default function MyRoomPage() {
 
   return (
     <WorldShell child={child} back={{ href: "/play", label: "למפה" }}>
-      <h1 className="nikud mt-4 text-center text-3xl font-extrabold">הַחֶדֶר שֶׁלִּי</h1>
+      <h1 className="nikud mt-3 text-center text-4xl font-extrabold drop-shadow-[0_2px_0_rgb(255_255_255/0.8)]">הַחֶדֶר שֶׁלִּי</h1>
+      <div className="mt-3">
+        <Guide compact once lines={[wardrobe.length ? line("room-dress", child.gender) : "room-empty"]} />
+      </div>
 
       {child.buddy && (
         <section className="mx-auto mt-4 flex w-full max-w-md flex-col items-center gap-3 px-6">
-          <div className="flex h-44 w-44 items-center justify-center rounded-full border-8 border-white bg-[var(--card)] shadow-xl">
+          <div className="flex h-48 w-48 items-center justify-center rounded-full border-8 border-white bg-[var(--card)] shadow-xl">
             <span key={wiggle} className={wiggle ? "anim-wiggle inline-block" : "anim-bob inline-block"}>
-              <BuddyAvatar buddy={child.buddy} wearing={wearing} size={100} />
+              <BuddyAvatar buddy={child.buddy} wearing={wearing} size={112} />
             </span>
           </div>
 
@@ -90,18 +96,24 @@ export default function MyRoomPage() {
                   key={a.id}
                   onClick={() => toggle(a.id)}
                   aria-pressed={on}
-                  className={`btn-3d flex h-16 w-16 items-center justify-center text-4xl ${
-                    on ? "bg-accent ring-4 ring-white" : "bg-white"
+                  className={`btn-3d flex h-20 w-20 items-center justify-center border-4 text-5xl ${
+                    on ? "border-white bg-accent" : "border-white bg-[var(--card)]"
                   }`}
                 >
                   {a.emoji}
                 </button>
               );
             })}
+            {/* Nothing to wear yet: the closed surprise is a door to the stations, where the gifts are. */}
             {wardrobe.length === 0 && (
-              <span className="flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-dashed border-white/80 bg-white/30 text-3xl opacity-60">
-                {world.surprise.closed}
-              </span>
+              <Link
+                href="/play/letters"
+                aria-label="לתחנות, שם מחכות המתנות"
+                className="btn-3d relative flex h-20 w-20 items-center justify-center border-4 border-dashed border-white bg-white/50 text-5xl"
+              >
+                <span aria-hidden className="anim-bob inline-block">{world.surprise.closed}</span>
+                <PointHand className="-bottom-6 -left-5" />
+              </Link>
             )}
           </div>
 
@@ -115,8 +127,8 @@ export default function MyRoomPage() {
                   onClick={() => pick(id)}
                   aria-pressed={active}
                   aria-label={BUDDY_BY_ID[id]?.name}
-                  className={`btn-3d flex h-16 w-16 items-center justify-center text-4xl ${
-                    active ? "bg-accent ring-4 ring-white" : "bg-white"
+                  className={`btn-3d flex h-20 w-20 items-center justify-center border-4 text-5xl ${
+                    active ? "border-white bg-accent" : "border-white bg-[var(--card)]"
                   }`}
                 >
                   {BUDDY_BY_ID[id]?.emoji}
@@ -127,7 +139,7 @@ export default function MyRoomPage() {
               <div
                 key={h.id}
                 aria-label="חבר שעוד מחכה"
-                className="relative flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-dashed border-white/80 bg-white/30 text-4xl"
+                className="relative flex h-20 w-20 items-center justify-center rounded-3xl border-4 border-dashed border-white/80 bg-white/30 text-5xl"
               >
                 <span className="brightness-0 opacity-25">{h.emoji}</span>
                 <span className="nikud absolute -bottom-2 -left-2 flex h-8 min-w-8 items-center justify-center rounded-full bg-white px-1 text-base font-extrabold shadow">

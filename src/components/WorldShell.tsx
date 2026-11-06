@@ -70,7 +70,7 @@ function Backdrop() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle at 12% 6%, color-mix(in srgb, var(--sun) 85%, transparent) 0 4.5rem, color-mix(in srgb, var(--sun) 30%, transparent) 4.6rem 7rem, transparent 7.1rem), linear-gradient(180deg, var(--sky) 0%, var(--sky-2) 55%, var(--card) 100%)",
+            "radial-gradient(circle at calc(100% - 2.5rem) 34%, var(--sun) 0 2.6rem, color-mix(in srgb, var(--sun) 35%, transparent) 2.7rem 4.2rem, transparent 4.3rem), linear-gradient(180deg, var(--sky) 0%, var(--sky-2) 55%, var(--card) 100%)",
         }}
       />
       <svg className="absolute inset-x-0 bottom-0 h-[16vh] min-h-24 w-full" viewBox="0 0 1000 160" preserveAspectRatio="none">

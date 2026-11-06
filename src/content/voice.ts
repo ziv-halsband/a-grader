@@ -24,7 +24,8 @@ const gendered: Record<string, { m: string; f: string }> = {
   "try-again": { m: "נַסֵּה שׁוּב", f: "נַסִּי שׁוּב" },
   // "עַכְשָׁו אַתָּה" came out slurred in every take; "תּוֹרְךָ" is clear (4 Nov).
   "your-turn": { m: "תּוֹרְךָ!", f: "תּוֹרֵךְ!" },
-  champ: { m: "אַלּוּף!", f: "אַלּוּפָה!" },
+  // One word alone came out rushed; two words land clearly (6 Nov).
+  champ: { m: "אֵיזֶה אַלּוּף!", f: "אֵיזוֹ אַלּוּפָה!" },
   "station-done": { m: "סִיַּמְתָּ! כָּל הַכָּבוֹד!", f: "סִיַּמְתְּ! כָּל הַכָּבוֹד!" },
   // Free writing (🖍️ round), followed by the letter's name.
   "write-free": { m: "כְּתֹב אֶת הָאוֹת", f: "כִּתְבִי אֶת הָאוֹת" },
@@ -42,6 +43,11 @@ const gendered: Record<string, { m: string; f: string }> = {
   // 🌱 The letter garden (garden world) / the island of palm trees (island world).
   "garden-intro": { m: "הַגִּנָּה שֶׁלְּךָ!", f: "הַגִּנָּה שֶׁלָּךְ!" },
   "island-intro": { m: "הָאִי שֶׁלְּךָ!", f: "הָאִי שֶׁלָּךְ!" },
+  // What now? Said on a map when there is a next station (with the 👆 on it), and when a whole world is done.
+  "go-next": { m: "בּוֹא לַתַּחֲנָה הַבָּאָה!", f: "בּוֹאִי לַתַּחֲנָה הַבָּאָה!" },
+  "world-done": { m: "סִיַּמְתָּ אֶת כָּל הָעוֹלָם!", f: "סִיַּמְתְּ אֶת כָּל הָעוֹלָם!" },
+  // My room: dress the buddy (when there are gifts).
+  "room-dress": { m: "בּוֹא נַלְבִּישׁ אֶת הֶחָבֵר!", f: "בּוֹאִי נַלְבִּישׁ אֶת הֶחָבֵר!" },
   "kp-world": {
     m: "בָּרוּךְ הַבָּא לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
     f: "בְּרוּכָה הַבָּאָה לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
@@ -73,12 +79,18 @@ const neutral: Record<string, string> = {
   "find-prompt": "אֵיפֹה הָאוֹת",
   like: "כְּמוֹ",
   "here-it-is": "הִנֵּה הִיא!",
-  "praise-1": "יֹפִי!",
+  // Praise: two or three words each (single words came out rushed), and more of them for variety.
+  "praise-1": "אֵיזֶה יֹפִי!",
   "praise-2": "כָּל הַכָּבוֹד!",
   "praise-3": "מְצֻיָּן!",
-  "praise-4": "וָאוּ!",
-  "praise-5": "בְּדִיּוּק!",
-  locked: "עוֹד סָגוּר!",
+  "praise-4": "וָאוּ, מַמָּשׁ טוֹב!",
+  "praise-5": "בְּדִיּוּק כָּכָה!",
+  "praise-6": "נָכוֹן מְאוֹד!",
+  "praise-7": "יֹפִי שֶׁל עֲבוֹדָה!",
+  // A locked station: a promise, not a "no".
+  locked: "עוֹד מְעַט זֶה יִפָּתַח!",
+  // My room before the first station: where the gifts come from.
+  "room-empty": "הַמַּתָּנוֹת מְחַכּוֹת בַּתַּחֲנוֹת!",
   "starts-prompt": "מָה מַתְחִיל בָּאוֹת",
   "ends-prompt": "מָה נִגְמָר בָּאוֹת",
   "write-watch": "כָּכָה כּוֹתְבִים",
@@ -177,4 +189,4 @@ export function line(id: string, gender: Gender): string {
   return id in gendered ? `${id}-${gender}` : id;
 }
 
-export const PRAISE = ["praise-1", "praise-2", "praise-3", "praise-4", "praise-5", "champ"];
+export const PRAISE = ["praise-1", "praise-2", "praise-3", "praise-4", "praise-5", "praise-6", "praise-7", "champ"];
