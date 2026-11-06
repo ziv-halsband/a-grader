@@ -13,6 +13,8 @@ import { boingSound } from "@/lib/audio";
 import { openAll, topicsDone } from "@/lib/progress";
 import { useRequiredChild } from "@/lib/useChild";
 import { Glyph } from "@/components/nikud/Glyph";
+import { shelfTitle, STORY_COLORS } from "@/components/StoryShelf";
+import { storiesOf } from "@/content/stories";
 
 /**
  * The nikud station opened up: every vowel world as a big island card in teaching order, each in its own color,
@@ -94,6 +96,31 @@ export default function NikudMapPage() {
             </li>
           );
         })}
+        {/* 🌈 The last shelf of short stories: every vowel in every story (/play/stories/all-nikud). */}
+        <li className="col-span-2">
+          <Link
+            href="/play/stories/all-nikud"
+            onPointerDown={() => boingSound()}
+            className={`btn-3d anim-rise relative flex items-center justify-center gap-4 rounded-[2rem] border-4 border-white px-4 py-4 ${!next ? "anim-glow" : ""}`}
+            style={{ background: `linear-gradient(100deg, ${STORY_COLORS["all-nikud"].spine}, #f59e0b, #10b981, #0ea5e9, #8b5cf6)`, animationDelay: `${cards.length * 70}ms` }}
+            data-story-shelf="all-nikud"
+          >
+            <span className="text-6xl drop-shadow" aria-hidden>
+              🌈
+            </span>
+            <span className="flex flex-col items-start gap-1">
+              <span className="nikud text-2xl font-extrabold text-white drop-shadow">{shelfTitle("all-nikud").title}</span>
+              <span className="flex gap-1 rounded-full bg-white/80 px-2 py-0.5 text-2xl">
+                {storiesOf("all-nikud").map((s) => (
+                  <span key={s.id} className={child.stories?.[s.id] ? "" : "opacity-30 grayscale"}>
+                    {s.cover}
+                  </span>
+                ))}
+              </span>
+            </span>
+            {!next && <PointHand className="-bottom-5 -left-3" />}
+          </Link>
+        </li>
       </ol>
     </WorldShell>
   );

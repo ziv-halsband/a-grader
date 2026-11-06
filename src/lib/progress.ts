@@ -1,6 +1,7 @@
 import { NIKUD_TOPICS } from "@/content/curriculum";
 import { NIKUD_WORLDS } from "@/content/nikud";
 import { LETTER_STATIONS } from "@/content/letters";
+import { LIBRARY } from "@/content/library";
 import type { Child } from "./store";
 
 /** Which topics this child finished (every station done). Used by the big map and the nikud map. */
@@ -11,6 +12,7 @@ export function topicsDone(child: Child): Record<string, boolean> {
   };
   for (const w of NIKUD_WORLDS) done[w.id] = allDone(w.id, w.stations);
   done.nikud = NIKUD_TOPICS.every((t) => done[t.id]);
+  done["i-read"] = LIBRARY.every((b) => child.books?.[b.id]);
   return done;
 }
 

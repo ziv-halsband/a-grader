@@ -72,16 +72,9 @@ export async function sayStepped(ids: string[], onStep?: (i: number) => void, ra
     if (!hasAudio(id)) {
       // No recording yet (ElevenLabs credits ran out): the device's own Hebrew voice says it instead.
       const line = VOICE_BY_ID[id];
-      if (!line || typeof speechSynthesis === "undefined") continue;
+      if (!line || !canSpeak()) continue;
       onStep?.(i);
-      await new Promise<void>((resolve) => {
-        const u = new SpeechSynthesisUtterance(line.spoken ?? line.text);
-        u.lang = "he-IL";
-        u.rate = 0.85 * rate;
-        finishCurrent = resolve;
-        u.onend = u.onerror = () => resolve();
-        speechSynthesis.speak(u);
-      });
+      await utter(line.spoken ?? line.text, 0.85 * rate);
       continue;
     }
     onStep?.(i);
@@ -97,6 +90,64 @@ export async function sayStepped(ids: string[], onStep?: (i: number) => void, ra
       a.play().catch(() => resolve()); // autoplay blocked: the caption is still on screen
     });
   }
+  return mine === token;
+}
+
+// ── The device's own Hebrew voice (speechSynthesis): for lines and story pages without a recording yet ──
+
+export function canSpeak(): boolean {
+  return typeof window !== "undefined" && "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
+}
+
+/** A Hebrew voice if the device has one (iPad: "Carmit"); otherwise lang alone picks one. */
+function hebrewVoice(): SpeechSynthesisVoice | undefined {
+  try {
+    return speechSynthesis.getVoices().find((v) => v.lang.replace("_", "-").toLowerCase().startsWith("he"));
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Speaks one text and resolves when it's done or cut off (stopAudio). `onBoundary(charIndex)` fires on each word
+ * when the browser reports word boundaries (Safari does; some Chrome voices don't). A safety timer resolves it
+ * if the device never says "done" (no voice installed, a headless browser).
+ */
+function utter(text: string, rate: number, onBoundary?: (charIndex: number) => void): Promise<void> {
+  return new Promise<void>((resolve) => {
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      clearTimeout(safety);
+      resolve();
+    };
+    const safety = setTimeout(finish, 2500 + text.length * 160);
+    try {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "he-IL";
+      const v = hebrewVoice();
+      if (v) u.voice = v;
+      u.rate = rate;
+      if (onBoundary) u.onboundary = (e) => e.name === "word" && onBoundary(e.charIndex);
+      u.onend = u.onerror = finish;
+      finishCurrent = finish;
+      speechSynthesis.speak(u);
+    } catch {
+      finish();
+    }
+  });
+}
+
+/**
+ * Says any text with the device's Hebrew voice (rate ~0.85: children read along), stopping whatever was playing.
+ * Resolves true if it was said to the end, false if cut off or there is no voice at all.
+ */
+export async function speakText(text: string, onBoundary?: (charIndex: number) => void, rate = 0.85): Promise<boolean> {
+  stopAudio();
+  if (!canSpeak()) return false;
+  const mine = token;
+  await utter(text, rate, onBoundary);
   return mine === token;
 }
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Guide } from "@/components/Guide";
-import { firstBookHand, WorldShelf } from "@/components/StoryShelf";
+import { allShelvesHand, firstBookHand, WorldShelf } from "@/components/StoryShelf";
 import { WorldShell } from "@/components/WorldShell";
 import { storiesOf, type StoryWorld } from "@/content/stories";
 import { useRequiredChild } from "@/lib/useChild";
@@ -17,7 +17,7 @@ export function WorldShelfPage({ world }: { world: StoryWorld }) {
         <Guide compact once lines={["stories-shelf"]} />
       </div>
       <div className="mx-auto mt-6 w-full max-w-3xl px-4">
-        <WorldShelf child={child} world={world} handOn={firstBookHand(child, storiesOf(world))} />
+        <WorldShelf child={child} world={world} handOn={world === "all-nikud" ? allShelvesHand(child) : firstBookHand(child, storiesOf(world))} />
       </div>
       <div className="mt-6 flex justify-center pb-32">
         <Link href="/play/stories" className="btn-3d nikud bg-white px-5 py-3 text-xl font-bold">

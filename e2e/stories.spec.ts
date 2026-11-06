@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
 import timings from "../src/content/story-audio.json";
 import { STORIES, STORY_WORLDS, storiesOf, storyAudioItems, storyWords } from "../src/content/stories.ts";
-import { analyzeWord, checkText, usesVowel } from "../src/lib/decodable.ts";
+import { libraryAudioItems } from "../src/content/library.ts";
+import { analyzeWord, checkText, usesVowel, VOWEL_SHAPES, vowelShapes, type Vowel } from "../src/lib/decodable.ts";
 import { seedChild } from "./helpers";
 
 test.describe("decodable stories (content/stories.ts)", () => {
@@ -36,11 +37,24 @@ test.describe("decodable stories (content/stories.ts)", () => {
     for (const w of STORY_WORLDS) {
       const list = storiesOf(w);
       expect(list, w).toHaveLength(6);
-      for (const s of list) expect(usesVowel([s.title, ...s.pages.map((p) => p.text)].join(" "), w), s.id).toBe(true);
+      if (w === "all-nikud") continue;
+      for (const s of list) expect(usesVowel([s.title, ...s.pages.map((p) => p.text)].join(" "), w as Vowel), s.id).toBe(true);
     }
   });
 
-  test("short: 3–5 pages, 2–6 words a page, 3 different picture answers, ≤ ~3,500 characters", () => {
+  test("🌈 כָּל הַנִּקּוּד: the last shelf, and every story on it shows all 9 vowel shapes", () => {
+    expect(STORY_WORLDS.at(-1)).toBe("all-nikud");
+    // The checker tells the shapes apart (kamatz ≠ patach, shuruk ≠ kubutz, holam male counts as holam).
+    expect([...vowelShapes("כַּדּוּר")].sort()).toEqual(["patach", "shuruk"]);
+    expect([...vowelShapes("שָׁלוֹם")].sort()).toEqual(["holam", "kamatz"]);
+    expect([...vowelShapes("כֻּלָּם")].sort()).toEqual(["kamatz", "kubutz"]);
+    for (const s of storiesOf("all-nikud")) {
+      const shapes = vowelShapes(s.pages.map((p) => p.text).join(" "));
+      expect(VOWEL_SHAPES.filter((v) => !shapes.has(v)), `${s.id} is missing`).toEqual([]);
+    }
+  });
+
+  test("short: 3–5 pages, 2–6 words a page, 3 different picture answers, ≤ ~4,700 characters", () => {
     for (const s of STORIES) {
       expect(s.pages.length, s.id).toBeGreaterThanOrEqual(3);
       expect(s.pages.length, s.id).toBeLessThanOrEqual(5);
@@ -53,11 +67,11 @@ test.describe("decodable stories (content/stories.ts)", () => {
       expect(new Set(s.question.options).size, s.id).toBe(3);
     }
     const chars = storyAudioItems().reduce((n, i) => n + i.text.length, 0);
-    expect(chars).toBeLessThanOrEqual(3600);
+    expect(chars).toBeLessThanOrEqual(4700);
   });
 
   test("story audio timings, when there are any, match their pages", () => {
-    const items = new Map(storyAudioItems().map((i) => [i.key, i.text]));
+    const items = new Map([...storyAudioItems(), ...libraryAudioItems()].map((i) => [i.key, i.text]));
     for (const [key, e] of Object.entries(timings as unknown as Record<string, { text: string; words: [number, number][] }>)) {
       expect(items.has(key), key).toBe(true);
       if (items.get(key) === e.text) expect(e.words, key).toHaveLength(storyWords(e.text).length);
@@ -66,15 +80,36 @@ test.describe("decodable stories (content/stories.ts)", () => {
 });
 
 test.describe("the story reader", () => {
-  test("the big map's 📚 opens every world's shelf, and a world has its own shelf", async ({ page }) => {
+  test("every shelf on /play/stories, a world has its own shelf, and the nikud map's 🌈 opens the last one", async ({ page }) => {
     await seedChild(page);
-    await page.goto("/play");
-    await page.getByRole("link", { name: /סִפּוּרִים/ }).first().click();
-    await expect(page).toHaveURL(/\/play\/stories$/);
+    await page.goto("/play/stories");
     await expect(page.locator('a[href^="/play/stories/"]')).toHaveCount(STORIES.length);
 
     await page.goto("/play/stories/hiriq");
     await expect(page.locator('a[href^="/play/stories/hiriq/"]')).toHaveCount(6);
+
+    await page.goto("/play/nikud");
+    await page.locator('[data-story-shelf="all-nikud"]').click();
+    await expect(page).toHaveURL(/\/play\/stories\/all-nikud$/);
+    await expect(page.locator('a[href^="/play/stories/all-nikud/"]')).toHaveCount(6);
+  });
+
+  test("the 👆 moves to the 🌈 shelf once every other shelf is read", async ({ page }) => {
+    const at = new Date().toISOString();
+    const stories = Object.fromEntries(STORIES.filter((s) => s.world !== "all-nikud").map((s) => [s.id, { reads: 1, star: true, at }]));
+    await seedChild(page, { stories });
+    await page.goto("/play/stories");
+    const first = storiesOf("all-nikud")[0];
+    await expect(page.getByRole("link", { name: first.title }).locator(".anim-point")).toBeVisible();
+  });
+
+  test("the big map has 3 chapters: letters, nikud, אֲנִי קוֹרֵא", async ({ page }) => {
+    await seedChild(page);
+    await page.goto("/play");
+    await expect(page.getByRole("link", { name: /אֲנִי קוֹרֵא/ })).toBeVisible();
+    await expect(page.getByText("מִלִּים רִאשׁוֹנוֹת")).toHaveCount(0);
+    await expect(page.getByText("מִשְׁפָּטִים")).toHaveCount(0);
+    await expect(page.getByText("סִפּוּרִים", { exact: true })).toHaveCount(0);
   });
 
   test("read a story to the end without audio: tap words, turn pages, answer, get the sticker", async ({ page }) => {

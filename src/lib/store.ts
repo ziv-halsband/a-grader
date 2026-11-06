@@ -70,6 +70,8 @@ export type Child = {
   bloomSeen?: string[];
   /** 📚 Stories read to the end (content/stories.ts id): how often, and ⭐ if a question was ever answered on the first try. Missing in older saves. */
   stories?: Record<string, StoryRead>;
+  /** 📗 "אֲנִי קוֹרֵא" library books read to the end (content/library.ts id), like `stories`. Missing in older saves. */
+  books?: Record<string, StoryRead>;
 };
 
 export type StoryRead = { reads: number; star: boolean; at: string };
@@ -218,6 +220,14 @@ export const actions = {
       const prev = c.stories?.[storyId];
       const read: StoryRead = { reads: (prev?.reads ?? 0) + 1, star: !!prev?.star || firstTry, at: new Date().toISOString() };
       return { ...c, ...played(c), stories: { ...c.stories, [storyId]: read } };
+    });
+  },
+  /** 📗 A library book read to the end and its questions answered (`firstTry`: every answer right on the first tap = ⭐). */
+  finishBook(childId: string, bookId: string, firstTry: boolean) {
+    updateChild(childId, (c) => {
+      const prev = c.books?.[bookId];
+      const read: StoryRead = { reads: (prev?.reads ?? 0) + 1, star: !!prev?.star || firstTry, at: new Date().toISOString() };
+      return { ...c, ...played(c), books: { ...c.books, [bookId]: read } };
     });
   },
   /** The garden celebrated these letters' first bloom (once each). */
