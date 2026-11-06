@@ -13,6 +13,10 @@ mark content as a draft for her to check).
 ## Working with the founder
 - Writes in English (informal); all product content is Hebrew with full nikud. Explain choices in plain words, no jargon.
 - Likes to plan, then hands off big chunks ("act like a senior product designer"). Build fully, test in Chrome, commit, push.
+- Works in both Claude Code and Cursor; this file is the shared memory, so put lasting notes here (not in a tool's private memory).
+ In Cursor chats: explain the plan briefly in plain words, wait for an OK, then build the whole chunk.
+- Sends feedback in batches, often with screenshots: fix every item, verify in the browser, push.
+- The founder's own kids test the app on an iPad. Mom has agreed to an AI avatar and voice clone (later).
 - UX rules (from `docs/06`): talk less, show more (voice lines ≤ ~5 words); a pointing hand 👆 instead of explaining;
   sounds + the buddy carry feedback; no timers, no losing, no leaderboards; forgiving for small fingers (iPad).
 
@@ -53,4 +57,6 @@ npm run audio:eleven -- --only id1,id2 --retakes 3    # re-take specific lines
   Test on a separate origin: `npm run build && npx next start -p 3030`, use a throwaway child, `localStorage.clear()` there after.
 - Agent worktrees live in `.claude/worktrees/` (gitignored). A symlinked `node_modules` breaks Turbopack builds there: use `cp -Rc` (APFS clone).
 - ElevenLabs: free plan (10k credits/month, non-commercial, key is TTS + STT only, no library voices). Model `eleven_v3`, stock voice "Sarah" until mom's clone.
+- Cursor loads every file named `AGENTS.md` into every chat, so the React skill's compiled guide is `full-guide.md`.
+ If `npx skills` updates that skill, rename its `AGENTS.md` again. The Playwright MCP is set in both `.mcp.json` and `.cursor/mcp.json`.
 - Commits end with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
