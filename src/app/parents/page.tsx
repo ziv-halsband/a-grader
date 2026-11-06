@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { KAMATZ, READ_WORDS, SYLLABLES } from "@/content/kamatz";
+import { NIKUD_SYLLABLES, NIKUD_WORD_BY_ID, NIKUD_WORLDS, shownSyllable } from "@/content/nikud";
 import { LETTERS, LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
 import { NameRecorder } from "@/components/NameRecorder";
 import { WORLDS } from "@/content/worlds";
@@ -136,7 +136,9 @@ function Dashboard() {
             )}
             <Summary child={child} />
             <LetterGrid child={child} />
-            <KamatzGrid child={child} />
+            {NIKUD_WORLDS.map((w) => (
+              <NikudGrid key={w.id} child={child} worldId={w.id} />
+            ))}
             <Settings key={child.id} child={child} />
           </>
         )}
@@ -260,15 +262,18 @@ function LetterGrid({ child }: { child: Child }) {
   );
 }
 
-function KamatzGrid({ child }: { child: Child }) {
+/** One nikud world: its syllables (heard → found) and its words (read alone), once the child played it. */
+function NikudGrid({ child, worldId }: { child: Child; worldId: string }) {
+  const w = NIKUD_WORLDS.find((x) => x.id === worldId)!;
+  const words = w.stations.filter((s) => s.kind === "words").flatMap((s) => s.itemIds);
   const cells = [
-    ...SYLLABLES.map((x) => ({ key: `syl:${x.id}`, label: x.base + KAMATZ })),
-    ...READ_WORDS.map((w) => ({ key: `read:${w.id}`, label: w.word })),
+    ...NIKUD_SYLLABLES.filter((x) => x.worldId === worldId).map((x) => ({ key: `syl:${x.id}`, label: shownSyllable(x) })),
+    ...words.map((id) => ({ key: `read:${id}`, label: NIKUD_WORD_BY_ID[id].word })),
   ];
   if (!cells.some((c) => child.items?.[c.key])) return null;
   return (
     <section className="rounded-2xl bg-white p-5 shadow-sm">
-      <h2 className="mb-1 text-lg font-bold">קמץ ופתח: צירופים ומילים</h2>
+      <h2 className="nikud mb-1 text-lg font-bold">{w.title}: צירופים ומילים</h2>
       <p className="mb-4 text-xs text-slate-500">צירוף = שמע צליל ובחר אותו. מילה = קרא לבד (בלי שמיעה) ובחר תמונה.</p>
       <div className="flex flex-wrap gap-2">
         {cells.map((c) => {

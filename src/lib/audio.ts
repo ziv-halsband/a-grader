@@ -50,7 +50,7 @@ export async function say(...ids: string[]): Promise<void> {
  * Like `say`, and calls `onStep(i)` as line i starts (e.g. to light up the letter while its name is said).
  * Resolves true if every line played to the end, false if another call cut it off. A line without audio is skipped.
  */
-export async function sayStepped(ids: string[], onStep?: (i: number) => void): Promise<boolean> {
+export async function sayStepped(ids: string[], onStep?: (i: number) => void, rate = 1): Promise<boolean> {
   stopAudio();
   const mine = token;
   for (const [i, id] of ids.entries()) {
@@ -59,6 +59,10 @@ export async function sayStepped(ids: string[], onStep?: (i: number) => void): P
     onStep?.(i);
     await new Promise<void>((resolve) => {
       const a = new Audio(audioUrl(id));
+      if (rate !== 1) {
+        a.playbackRate = rate;
+        a.preservesPitch = true; // slower, not deeper: "לְאַט…"
+      }
       current = a;
       finishCurrent = resolve;
       a.onended = a.onerror = () => resolve();
@@ -66,6 +70,11 @@ export async function sayStepped(ids: string[], onStep?: (i: number) => void): P
     });
   }
   return mine === token;
+}
+
+/** Says lines at another speed (0.6 = slowly, to stretch a syllable or a word while blending). */
+export async function sayAt(rate: number, ...ids: string[]): Promise<boolean> {
+  return sayStepped(ids, undefined, rate);
 }
 
 // Sound effects, synthesized (no files): they carry the feedback so the voice can say less.

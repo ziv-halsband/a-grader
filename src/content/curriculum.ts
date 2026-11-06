@@ -11,15 +11,15 @@ export type Topic = {
   href?: string;
 };
 
-/** Every vowel world, in teaching order (only kamatz/patach is built so far). */
-export const NIKUD_TOPICS: Topic[] = [
-  { id: "kamatz-patach", title: "קָמָץ וּפַתָּח", goal: "קורא צירופים עם קמץ ופתח", icon: "בָּ", href: "/play/kamatz-patach" },
+/** Every vowel world, in teaching order (content: content/nikud.ts; screens: /play/nikud/<id>). */
+export const NIKUD_TOPICS: Topic[] = ([
+  { id: "kamatz-patach", title: "קָמָץ וּפַתָּח", goal: "קורא צירופים עם קמץ ופתח", icon: "בָּ" },
   { id: "tsere-segol", title: "צֵירֵה וְסֶגּוֹל", goal: "קורא צירופים עם צירה וסגול", icon: "בֵּ" },
   { id: "hiriq", title: "חִירִיק", goal: "קורא צירופים עם חיריק", icon: "בִּ" },
   { id: "holam", title: "חוֹלָם", goal: "קורא צירופים עם חולם", icon: "בֹּ" },
   { id: "shuruk-kubutz", title: "שׁוּרוּק וְקֻבּוּץ", goal: "קורא צירופים עם שורוק וקובוץ", icon: "בּוּ" },
   { id: "shva", title: "שְׁוָא", goal: "קורא מילים עם שווא", icon: "בְּ" },
-];
+] as Topic[]).map((t) => ({ ...t, href: `/play/nikud/${t.id}` }));
 
 export const TOPICS: Topic[] = [
   { id: "letters", title: "מַכִּירִים אוֹתִיּוֹת", goal: "מזהה את כל האותיות, כולל סופיות", icon: "אב", href: "/play/letters" },

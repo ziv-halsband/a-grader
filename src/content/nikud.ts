@@ -426,7 +426,7 @@ export const NIKUD_WORLDS: NikudWorld[] = [
     color: "#9333ea",
     tint: "#f3e8ff",
     stickers: ["🦖", "🦕", "🌋", "🦴"],
-    gifts: ["sunflower", "viking", "paddle", "trumpet"],
+    gifts: ["sunflower", "flag", "paddle", "trumpet"],
     stations: [
       { id: "o1", kind: "syllables", itemIds: syl("o", "dalet", "kaf", "gimel", "tav") },
       { id: "o2", kind: "syllables", itemIds: syl("o", "resh", "mem", "yod", "qof") },
@@ -581,6 +581,12 @@ export function readWord(word: string): WordReading {
     if (v) vowels.add(v);
 
     if (v && v !== "shva") {
+      // A patach under a final ח / ע is read before the letter ("תַּפּוּחַ" = tapu-ach): it joins the syllable before.
+      if (last && v === "a" && "חע".includes(ch) && prevChip && !prevChip.closed && marks.includes("ַ")) {
+        prevChip.text += text;
+        prevChip.closed = true;
+        continue;
+      }
       chips.push({ text, vowel: v, closed: false });
       continue;
     }
@@ -604,7 +610,8 @@ export function readWord(word: string): WordReading {
       if (prevChip) {
         prevChip.text += text;
         // A silent letter at the end doesn't close the syllable (אַבָּא, מַפָּה).
-        if (!"אה".includes(ch)) prevChip.closed = true;
+        const silent = "אה".includes(ch) || (ch === "י" && (prevChip.vowel === "i" || prevChip.vowel === "e"));
+        if (!silent) prevChip.closed = true;
       } else chips.push({ text, closed: true });
       continue;
     }

@@ -7,6 +7,7 @@ import { NameSignature } from "@/components/NameSignature";
 import { canWriteName, nameText } from "@/content/myName";
 import { WorldShell } from "@/components/WorldShell";
 import { ACCESSORIES, ACCESSORY_BY_ID, BUDDY_BY_ID, HEROES, ownedBuddies } from "@/content/buddies";
+import { NIKUD_WORLDS } from "@/content/nikud";
 import { ownedGifts, rewardPath, type StationReward } from "@/content/rewards";
 import { WORLDS } from "@/content/worlds";
 import { boingSound } from "@/lib/audio";
@@ -16,7 +17,7 @@ import { useRequiredChild } from "@/lib/useChild";
 
 const SECTIONS: { id: StationReward["section"]; title: string }[] = [
   { id: "letters", title: "עוֹלַם הָאוֹתִיּוֹת" },
-  { id: "kamatz-patach", title: "עוֹלַם הַקָּמָץ וְהַפַּתָּח" },
+  ...NIKUD_WORLDS.map((w) => ({ id: w.id, title: w.mapTitle })),
 ];
 
 /**

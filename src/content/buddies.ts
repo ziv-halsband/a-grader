@@ -24,7 +24,12 @@ export const HEROES: Hero[] = [
   { id: "owl", emoji: "🦉", name: "יַנְשׁוּף", milestone: "letters/m1", hint: "🔀" },
   { id: "lion", emoji: "🦁", name: "אַרְיֵה", milestone: "letters/m2", hint: "🏆" },
   { id: "whale", emoji: "🐳", name: "לִוְיָתָן", milestone: "kamatz-patach/k5", hint: "בָּ" },
-  // Next vowel world, e.g.: { id: "tiger", emoji: "🐯", name: "טִיגְרִיס", milestone: "tsere-segol/<last>", hint: "בֵּ" },
+  // DRAFT (mom): one hero per vowel world, earned at its reading-words station (its name has the world's vowel).
+  { id: "leopard", emoji: "🐆", name: "נָמֵר", milestone: "tsere-segol/e4", hint: "בֵּ" },
+  { id: "giraffe", emoji: "🦒", name: "גִּ'ירָפָה", milestone: "hiriq/i4", hint: "בִּ" },
+  { id: "koala", emoji: "🐨", name: "קוֹאָלָה", milestone: "holam/o4", hint: "בּוֹ" },
+  { id: "octopus", emoji: "🐙", name: "תְּמָנוּן", milestone: "shuruk-kubutz/u4", hint: "בּוּ" },
+  { id: "zebra", emoji: "🦓", name: "זֶבְּרָה", milestone: "shva/v4", hint: "בְּ" },
 ];
 
 export const BUDDY_BY_ID = Object.fromEntries([...BUDDIES, ...HEROES].map((b) => [b.id, b])) as Record<string, Buddy>;
@@ -59,6 +64,22 @@ export const ACCESSORIES: Accessory[] = [
   { id: "gradcap", emoji: "🎓", spot: "head" },
   { id: "lollipop", emoji: "🍭", spot: "hand" },
   { id: "umbrella", emoji: "🌂", spot: "hand" },
+  // The nikud worlds' gifts.
+  { id: "headphones", emoji: "🎧", spot: "head" },
+  { id: "kite", emoji: "🪁", spot: "hand" },
+  { id: "snorkel", emoji: "🤿", spot: "face" },
+  { id: "icecream", emoji: "🍦", spot: "hand" },
+  { id: "helmet", emoji: "⛑️", spot: "head" },
+  { id: "yoyo", emoji: "🪀", spot: "hand" },
+  { id: "flower", emoji: "🌼", spot: "head" },
+  { id: "magnifier", emoji: "🔍", spot: "hand" },
+  { id: "sunflower", emoji: "🌻", spot: "hand" },
+  { id: "flag", emoji: "🚩", spot: "hand" },
+  { id: "paddle", emoji: "🏓", spot: "hand" },
+  { id: "trumpet", emoji: "🎺", spot: "hand" },
+  { id: "cupcake", emoji: "🧁", spot: "hand" },
+  { id: "lantern", emoji: "🏮", spot: "hand" },
+  { id: "popcorn", emoji: "🍿", spot: "hand" },
 ];
 
 export const ACCESSORY_BY_ID = Object.fromEntries(ACCESSORIES.map((a) => [a.id, a])) as Record<string, Accessory>;

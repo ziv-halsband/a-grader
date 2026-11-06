@@ -3,7 +3,7 @@
 // so the child always sees the same pair for the same station.
 
 import { heroForStation, type Hero } from "./buddies.ts";
-import { KAMATZ_STATIONS } from "./kamatz.ts";
+import { NIKUD_WORLDS, stationTitle } from "./nikud.ts";
 import { LETTER_STATIONS } from "./letters.ts";
 import type { World } from "./worlds.ts";
 
@@ -18,17 +18,14 @@ const GIFTS: Record<string, string> = {
   "letters/s6": "sunhat",
   "letters/s7": "wand",
   "letters/m2": "crown",
-  "kamatz-patach/k1": "goggles",
-  "kamatz-patach/k2": "lollipop",
-  "kamatz-patach/k3": "party",
-  "kamatz-patach/k4": "umbrella",
-  "kamatz-patach/k5": "gradcap",
+  // The nikud worlds' gifts are in content/nikud.ts (one per station, in order).
 };
 
 export type StationReward = {
   key: string;
   /** Which part of the journey (a heading in my room). */
-  section: "letters" | "kamatz-patach";
+  /** "letters", or a nikud world's id. */
+  section: string;
   /** The station's name as on the map, readable (mix stations get their badge). */
   title: string;
   /** The station's badge on the map (a letter, 🔀, 🏆, a syllable…). */
@@ -38,7 +35,7 @@ export type StationReward = {
   hero?: Hero;
 };
 
-/** Every station's reward, in map order (letters, then kamatz/patach). */
+/** Every station's reward, in map order (letters, then each nikud world). */
 export function rewardPath(world: World): StationReward[] {
   const letters = LETTER_STATIONS.map((s, i): StationReward => {
     const key = `letters/${s.id}`;
@@ -53,19 +50,23 @@ export function rewardPath(world: World): StationReward[] {
       hero: heroForStation(key),
     };
   });
-  const kamatz = KAMATZ_STATIONS.map((s, i): StationReward => {
-    const key = `kamatz-patach/${s.id}`;
-    return {
-      key,
-      section: "kamatz-patach",
-      title: s.title,
-      badge: s.kind === "words" ? "📖" : s.title.split(" ")[0],
-      sticker: world.kpStickers[i % world.kpStickers.length],
-      gift: GIFTS[key],
-      hero: heroForStation(key),
-    };
-  });
-  return [...letters, ...kamatz];
+  // The nikud worlds: kamatz keeps its stickers per visual world (from before), the others have their own set.
+  const nikud = NIKUD_WORLDS.flatMap((w) =>
+    w.stations.map((s, i): StationReward => {
+      const key = `${w.id}/${s.id}`;
+      const stickers = w.stickers.length ? w.stickers : world.kpStickers;
+      return {
+        key,
+        section: w.id,
+        title: stationTitle(s),
+        badge: s.kind === "words" ? "📖" : stationTitle(s).split(" ")[0],
+        sticker: stickers[i % stickers.length],
+        gift: w.gifts[i % w.gifts.length],
+        hero: heroForStation(key),
+      };
+    }),
+  );
+  return [...letters, ...nikud];
 }
 
 export function rewardFor(world: World, stationKey: string): StationReward | undefined {
