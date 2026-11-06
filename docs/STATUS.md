@@ -22,7 +22,7 @@
 - **Real mastery (`lib/mastery.ts`, draft rule):** a letter "knows" = right on the first try on 2 different days, in 2 kinds of question. The 🎲 daily practice brings back weak letters first, then letters due after ~1, 3, 7 days, and asks a letter a kind it hasn't had.
 - **🌱 Letter garden (`/play/letters/garden`):** every letter is a plant (seed → sprout → flower; coconut → palm on the island), a first-bloom celebration, 💧/☀️ for each day played this week (nothing lost on a missed day). A preview card on the letters map.
 - **✍️ Write my name (`/play/letters/write/name`):** the nickname letter by letter (finals at the end of each word), then the whole name re-drawn in the child's own ink; the signature shows on the home card and in "my room".
-- **Kamatz/patach world** (`/play/kamatz-patach`, inside nikud): 4 syllable stations (builder, hear-and-find, first sound) + reading words alone. **Paused**: founder: "we really need to improve it", with mom.
+- **Nikud: all 6 vowel worlds** (`/play/nikud`, one engine, content in `content/nikud.ts`, all DRAFT for mom): קָמָץ/פַּתָּח → צֵירֵה/סֶגּוֹל → חִירִיק → חוֹלָם → שׁוּרוּק/קֻבּוּץ → שְׁוָא, each with its own color, stickers, gifts and a hero (🐳 🐆 🦒 🐨 🐙 🦓). A syllables station: 📖 meet the vowel + build (tap the mark, it jumps under the letter, then a word that starts with it) → 🐢/🐇 blend slow then fast → 👂 hear and find → 🖼️ first sound of a picture → 🎁 (locked until all done). The last station of each world: read together (syllable chips, slow/fast) → read alone (picture choice) → 🎁, then a 📚 stories tile (`/play/stories/<world>`). A big step splash before each step. Reading words use only vowels learned so far (checked by `e2e/nikud.spec.ts`). The shva world only teaches the "closing" shva (מַ + זְ → מַזְ). `/play/kamatz-patach` redirects.
 - **Parents (`/parents`, code 17):** progress grids (letters green/yellow/gray by the mastery rule, days played this week), a next-step suggestion, settings (nickname, grammar, world, "open all worlds", record the name, reset), 🖨️ printable writing pages (`/print`).
 - **Studio (`/studio`):** every voice line with play + the automatic-ear transcript, and all 27 letters' writing strokes for mom to review.
 
@@ -59,4 +59,4 @@
 - Free-writing check can't tell lookalike letters apart (ד for ר passes), so writing doesn't count toward mastery.
 - The Playwright MCP browser draws ך and ן without their tails (a font quirk of that browser, not the app); check finals on a real iPad.
 - The voice is a generic AI voice; short lines can sound rushed. Check `/studio` → "לבדוק באוזן".
-- Kamatz world content and wording are drafts and paused.
+- Nikud content (letters per station, words, pictures, mark descriptions, the shva approach) is a draft for mom. The new voice lines (≈1,400 characters) still need `npm run audio:eleven`.

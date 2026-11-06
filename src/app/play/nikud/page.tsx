@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { Guide } from "@/components/Guide";
 import { PointHand } from "@/components/PointHand";
 import { WorldShell } from "@/components/WorldShell";
@@ -51,7 +52,10 @@ export default function NikudMapPage() {
                   <span className={finished ? "" : "brightness-0 opacity-40"}>{hero.emoji}</span>
                 </span>
               )}
-              <span className="flex h-28 w-28 items-center justify-center rounded-full border-4 border-white bg-white pb-3 text-7xl font-extrabold shadow-inner">
+              <span
+                className="flex h-28 w-28 items-center justify-center rounded-full border-4 border-white bg-white pb-3 text-7xl font-extrabold shadow-inner"
+                style={{ "--accent": w.color } as CSSProperties}
+              >
                 <Glyph s={{ base: "בּ", mark: w.marks[0].id }} />
               </span>
               <span className="nikud text-center text-2xl font-extrabold leading-tight text-white drop-shadow">{w.title}</span>

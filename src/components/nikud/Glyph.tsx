@@ -23,13 +23,14 @@ export function Glyph({
     <span className={`nikud inline-grid leading-none ${className}`} aria-hidden>
       <span
         key={`${mark}-${pop}`}
-        className={`col-start-1 row-start-1 text-accent transition-opacity duration-300 ${showMark ? "opacity-100" : "opacity-0"} ${
+        className={`col-start-1 row-start-1 text-start text-accent transition-opacity duration-300 ${showMark ? "opacity-100" : "opacity-0"} ${
           pop && showMark ? "anim-mark-in" : ""
         }`}
       >
         {full}
       </span>
-      <span className="col-start-1 row-start-1">{(s.pre ?? "") + s.base}</span>
+      {/* `relative`: stays above the colored layer even while that one animates (a transform paints on top). */}
+      <span className="relative col-start-1 row-start-1 text-start">{(s.pre ?? "") + s.base}</span>
     </span>
   );
 }
