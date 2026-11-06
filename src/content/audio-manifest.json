@@ -2221,5 +2221,32 @@
     "file": "stories-shelf.mp3",
     "heard": "מה נקרא היום?",
     "check": "match"
+  },
+  "write-look-here-m": {
+    "text": "תִּרְאֶה כָּאן!",
+    "hash": "615c4033fa",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-look-here-m.mp3",
+    "heard": "תראה כאן",
+    "check": "match"
+  },
+  "write-look-here-f": {
+    "text": "תִּרְאִי כָּאן!",
+    "hash": "cebc40dc9b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-look-here-f.mp3",
+    "heard": "תראי כאן",
+    "check": "match"
+  },
+  "write-pretty": {
+    "text": "אֵיזוֹ אוֹת יָפָה!",
+    "hash": "ec86dfe3e2",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "write-pretty.mp3",
+    "heard": "איזו אות יפה",
+    "check": "match"
   }
 }
