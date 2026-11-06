@@ -135,46 +135,51 @@ export function StationSteps({
                   }`}
                 />
               )}
-              <div className="relative flex flex-col items-center">
-                <button
-                  ref={(el) => {
-                    if (el) buttons.current.set(s.id, el);
-                    else buttons.current.delete(s.id);
-                  }}
+              <button
+                ref={(el) => {
+                  if (el) buttons.current.set(s.id, el);
+                  else buttons.current.delete(s.id);
+                }}
+                onClick={() => (isLocked ? tapLocked() : open && !isNow && onPick(s.id))}
+                disabled={!open && !isLocked}
+                aria-current={isNow ? "step" : undefined}
+                aria-label={
+                  isPrize
+                    ? `${s.label}${showLock ? " סגור" : ""} ${stars} מתוך ${work.length} כוכבים`
+                    : `${s.label}${done ? " ✓" : ""}`
+                }
+                data-step={s.id}
+                data-state={isPrize ? (showLock ? "locked" : collected ? "collected" : "ready") : done ? "done" : isNow ? "now" : "ahead"}
+                className="relative flex touch-manipulation flex-col items-center px-0.5"
+              >
+                <span
                   key={isPrize ? `prize-${nudge}` : s.id}
-                  onClick={() => (isLocked ? tapLocked() : open && !isNow && onPick(s.id))}
-                  disabled={!open && !isLocked}
-                  aria-current={isNow ? "step" : undefined}
-                  aria-label={
-                    isPrize
-                      ? `${s.label}${showLock ? " סגור" : ""} ${stars} מתוך ${work.length} כוכבים`
-                      : `${s.label}${done ? " ✓" : ""}`
-                  }
-                  data-step={s.id}
-                  data-state={isPrize ? (showLock ? "locked" : collected ? "collected" : "ready") : done ? "done" : isNow ? "now" : "ahead"}
+                  data-circle
                   className={`relative flex items-center justify-center rounded-full transition-all duration-300 ${
                     isNow
                       ? "h-16 w-16 bg-white text-4xl shadow-[0_0_0_5px_var(--accent),0_8px_20px_rgb(0_0_0/0.2)] sm:h-20 sm:w-20 sm:text-5xl"
                       : done
-                        ? "h-14 w-14 bg-green-100 text-3xl shadow-[0_0_0_4px_#22c55e] sm:h-16 sm:w-16"
+                        ? "h-14 w-14 bg-emerald-100 text-3xl shadow-[0_0_0_4px_#22c55e] sm:h-16 sm:w-16"
                         : isPrize && ready
                           ? "anim-prize-ready h-14 w-14 bg-amber-100 text-4xl shadow-[0_0_0_4px_#f59e0b,0_0_24px_#fbbf24] sm:h-16 sm:w-16"
-                          : open || isPrize
-                            ? "h-14 w-14 bg-white/70 text-3xl shadow sm:h-16 sm:w-16"
-                            : "h-14 w-14 bg-white/40 text-3xl opacity-50 grayscale sm:h-16 sm:w-16"
+                          : isPrize
+                            ? "h-14 w-14 border-[3px] border-dashed border-amber-400 bg-amber-50/80 text-3xl shadow sm:h-16 sm:w-16"
+                            : open
+                              ? "h-14 w-14 bg-white/70 text-3xl shadow sm:h-16 sm:w-16"
+                              : "h-14 w-14 bg-white/40 text-3xl opacity-50 grayscale sm:h-16 sm:w-16"
                   } ${isPrize && nudge ? "anim-wiggle" : ""}`}
                 >
                   <span aria-hidden className={isPrize && showLock ? "opacity-70" : ""}>
                     {s.icon}
                   </span>
                   {isPrize && showLock && (
-                    <span aria-hidden className="absolute -bottom-1 -left-1 text-xl drop-shadow">
+                    <span aria-hidden className="absolute -top-3 -left-3 text-2xl drop-shadow">
                       🔒
                     </span>
                   )}
                   {isPrize && popLock > 0 && !showLock && (
                     <span key={popLock} aria-hidden className="pointer-events-none absolute inset-0">
-                      <span className="anim-unlock absolute -bottom-1 -left-1 text-xl">🔓</span>
+                      <span className="anim-unlock absolute -top-3 -left-3 text-2xl">🔓</span>
                       <span className="anim-burst absolute inset-0 flex items-center justify-center text-4xl">✨</span>
                     </span>
                   )}
@@ -191,13 +196,13 @@ export function StationSteps({
                       ✓
                     </span>
                   )}
-                </button>
+                </span>
                 {isPrize && !collected ? (
-                  <span ref={starRow} aria-hidden className="mt-1.5 flex gap-px text-xs leading-none sm:text-sm">
+                  <span ref={starRow} aria-hidden data-stars={stars} className="mt-1 flex gap-px rounded-full bg-amber-100/90 px-1.5 py-0.5 text-sm leading-none shadow-sm sm:text-base">
                     {work.map((w, k) => (
                       <span
                         key={w.id}
-                        className={k < stars ? (k === stars - 1 && !flight ? "anim-pop inline-block" : "") : "opacity-30 grayscale"}
+                        className={k < stars ? (k === stars - 1 && !flight ? "anim-pop inline-block" : "") : "opacity-45 grayscale"}
                       >
                         ⭐
                       </span>
@@ -210,8 +215,9 @@ export function StationSteps({
                     {s.label}
                   </span>
                 )}
+                {isPrize && <span className="sr-only">{s.label}</span>}
                 {nudge > 0 && nextToDo?.id === s.id && <PointHand key={nudge} className="-bottom-10 -left-3" />}
-              </div>
+              </button>
             </div>
           );
         })}
@@ -259,7 +265,7 @@ function FlyingStar({
   });
   useEffect(() => {
     const el = star.current;
-    const a = buttons.current.get(fromId)?.getBoundingClientRect();
+    const a = buttons.current.get(fromId)?.querySelector("[data-circle]")?.getBoundingClientRect();
     const b = (starRow.current ?? buttons.current.get(PRIZE))?.getBoundingClientRect();
     let finished = false;
     const finish = () => {
