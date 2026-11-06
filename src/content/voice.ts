@@ -2,7 +2,7 @@
 // Pipeline: generate (placeholder voice now, mom's ElevenLabs voice later) → mom approves → frozen.
 // Gendered lines exist twice: <id>-m and <id>-f.
 
-import { KAMATZ, READ_WORDS, SYLLABLES } from "./kamatz.ts";
+import { NIKUD_SYLLABLES, NIKUD_WORDS, NIKUD_WORLDS, shownSyllable, spokenSyllable } from "./nikud.ts";
 import { LETTERS } from "./letters.ts";
 import { NAMES } from "./names.ts";
 import { huntWordLines } from "./scenes.ts";
@@ -73,6 +73,10 @@ const gendered: Record<string, { m: string; f: string }> = {
     m: "בּוֹא נִקְרָא מִלִּים רִאשׁוֹנוֹת. לְחַץ עַל כָּל חֵלֶק, וְאַחַר כָּךְ עַל כָּל הַמִּלָּה.",
     f: "בּוֹאִי נִקְרָא מִלִּים רִאשׁוֹנוֹת. לַחֲצִי עַל כָּל חֵלֶק, וְאַחַר כָּךְ עַל כָּל הַמִּלָּה.",
   },
+  // The nikud worlds (DRAFT (mom)): ≤ 5 words, a 👆 hand does the explaining.
+  "tap-mark": { m: "לְחַץ עַל הַסִּימָן!", f: "לַחֲצִי עַל הַסִּימָן!" },
+  "tap-parts": { m: "לְחַץ עַל כָּל חֵלֶק!", f: "לַחֲצִי עַל כָּל חֵלֶק!" },
+  "read-alone": { m: "קְרָא לְבַד!", f: "קִרְאִי לְבַד!" },
 };
 
 const neutral: Record<string, string> = {
@@ -151,11 +155,26 @@ const neutral: Record<string, string> = {
   "pj-night": "לַיְלָה טוֹב!",
   // 🔎 Letter hunt in a picture scene (then "מָה מַתְחִיל בָּאוֹת" + the letter).
   "hunt-intro": "מְחַפְּשִׂים בַּתְּמוּנָה!",
-  // Kamatz/patach world (paused; to be reworked with mom).
+  // The nikud worlds. DRAFT (mom): how each mark is described, and how she says the sounds.
   where: "אֵיפֹה",
   "kamatz-is": "זֶה קָמָץ: קַו, וּמִתַּחְתָּיו נְקֻדָּה קְטַנָּה.",
   "patach-is": "וְזֶה פַּתָּח: רַק קַו.",
   "both-say-a": "קָמָץ וּפַתָּח אוֹמְרִים אוֹתוֹ דָּבָר: אָ!",
+  "tsere-is": "זֶה צֵירֵה: שְׁתֵּי נְקֻדּוֹת.",
+  "segol-is": "וְזֶה סֶגּוֹל: שָׁלוֹשׁ נְקֻדּוֹת.",
+  "both-say-e": "שְׁנֵיהֶם אוֹמְרִים: אֵ!",
+  "hiriq-is": "זֶה חִירִיק: נְקֻדָּה אַחַת לְמַטָּה.",
+  "hiriq-says": "חִירִיק אוֹמֵר: אִ!",
+  "holam-is": "זֶה חוֹלָם: וָו עִם נְקֻדָּה לְמַעְלָה.",
+  "holam-haser-is": "וְגַם נְקֻדָּה לְמַעְלָה, בְּלִי וָו.",
+  "holam-says": "חוֹלָם אוֹמֵר: אוֹ!",
+  "shuruk-is": "זֶה שׁוּרוּק: וָו עִם נְקֻדָּה בָּאֶמְצַע.",
+  "kubutz-is": "וְזֶה קֻבּוּץ: שָׁלוֹשׁ נְקֻדּוֹת בַּאֲלַכְסוֹן.",
+  "both-say-u": "שְׁנֵיהֶם אוֹמְרִים: אוּ!",
+  "shva-is": "זֶה שְׁוָא: נְקֻדָּה מֵעַל נְקֻדָּה.",
+  "shva-says": "הַשְּׁוָא סוֹגֵר אֶת הַצְּלִיל!",
+  "slow-fast": "לְאַט… וְעַכְשָׁו מַהֵר!",
+  "find-sound": "שׁוֹמְעִים וּמוֹצְאִים!",
   "syl-starts-prompt": "אֵיזוֹ מִלָּה מַתְחִילָה כְּמוֹ",
   "read-prompt": "מָה כָּתוּב כָּאן?",
   "it-says": "כָּתוּב",
@@ -167,32 +186,34 @@ const neutral: Record<string, string> = {
   "stories-shelf": "מָה נִקְרָא הַיּוֹם?",
 };
 
+/** Lines whose sound is clearer read another way than the caption (a bare "אִ" is read as "אִי"). */
+const SPOKEN: Record<string, string> = {
+  "hiriq-says": "חִירִיק אוֹמֵר: אִי!",
+  "both-say-e": "שְׁנֵיהֶם אוֹמְרִים: אֶה!",
+};
+
 export const VOICE_LINES: VoiceLine[] = [
   ...Object.entries(gendered).flatMap(([id, v]) => [
     { id: `${id}-m`, text: v.m, group: "guide" },
     { id: `${id}-f`, text: v.f, group: "guide" },
   ]),
-  ...Object.entries(neutral).map(([id, text]) => ({ id, text, group: "guide" })),
+  ...Object.entries(neutral).map(([id, text]) => ({ id, text, group: "guide", spoken: SPOKEN[id] })),
   ...LETTERS.map((l) => ({ id: `letter-${l.id}`, text: l.name, group: "letter" })),
   ...LETTERS.map((l) => ({ id: `word-${l.id}`, text: l.word, group: "word" })),
-  ...SYLLABLES.map((x) => ({ id: `syl-${x.id}`, text: x.base + KAMATZ, group: "syllable" })),
-  ...SYLLABLES.flatMap((x) =>
-    x.starts && !LETTERS.some((l) => l.word === x.starts!.word)
-      ? [{ id: `sw-${x.id}`, text: x.starts.word, group: "word" }]
-      : [],
+  // The nikud worlds: each world's name, every syllable (spoken with a little carrier so it isn't slurred: "בֵּה"),
+  // and every word that isn't already a letters-world word.
+  ...NIKUD_WORLDS.map((w) => ({ id: `nw-${w.id}`, text: `${w.mapTitle}!`, group: "guide" })),
+  ...NIKUD_SYLLABLES.map((x) =>
+    // Kamatz syllables keep their old caption (and so their audio): the letter with a kamatz.
+    x.worldId === "kamatz-patach"
+      ? { id: x.audio, text: shownSyllable(x, "kamatz"), group: "syllable", spoken: spokenSyllable(x) }
+      : { id: x.audio, text: shownSyllable(x), group: "syllable", spoken: spokenSyllable(x) },
   ),
-  ...READ_WORDS.map((w) => ({ id: `rw-${w.id}`, text: w.word, group: "read" })),
+  ...NIKUD_WORDS.filter((w) => w.audio.startsWith("rw-")).map((w) => ({ id: w.audio, text: w.word, group: "read" })),
   // Things in the letter-hunt scenes (words the letters world doesn't already have).
   ...huntWordLines().map((w) => ({ ...w, group: "word" })),
   ...NAMES.map((n) => ({ id: `name-${n.id}`, text: `${n.text}!`, group: "name" })),
 ];
-
-/** Audio id of the picture word that starts like this syllable (reuses the letters-world word when it is the same). */
-export function startsWordId(syllableId: string): string {
-  const x = SYLLABLES.find((s) => s.id === syllableId)!;
-  const same = LETTERS.find((l) => l.word === x.starts?.word);
-  return same ? `word-${same.id}` : `sw-${x.id}`;
-}
 
 export const VOICE_BY_ID = Object.fromEntries(VOICE_LINES.map((l) => [l.id, l])) as Record<string, VoiceLine>;
 

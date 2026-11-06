@@ -1,5 +1,5 @@
 import { NIKUD_TOPICS } from "@/content/curriculum";
-import { KAMATZ_STATIONS } from "@/content/kamatz";
+import { NIKUD_WORLDS } from "@/content/nikud";
 import { LETTER_STATIONS } from "@/content/letters";
 import type { Child } from "./store";
 
@@ -8,8 +8,8 @@ export function topicsDone(child: Child): Record<string, boolean> {
   const allDone = (prefix: string, ids: { id: string }[]) => ids.every((s) => child.done.includes(`${prefix}/${s.id}`));
   const done: Record<string, boolean> = {
     letters: allDone("letters", LETTER_STATIONS),
-    "kamatz-patach": allDone("kamatz-patach", KAMATZ_STATIONS),
   };
+  for (const w of NIKUD_WORLDS) done[w.id] = allDone(w.id, w.stations);
   done.nikud = NIKUD_TOPICS.every((t) => done[t.id]);
   return done;
 }

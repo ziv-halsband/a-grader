@@ -3,7 +3,6 @@
 
 import { reviewWeight, successKinds, type MasteryStat } from "../lib/mastery.ts";
 import { shuffle } from "../lib/random.ts";
-import { KAMATZ_STATIONS, SYLLABLE_BY_ID, syllablesUpTo } from "./kamatz.ts";
 import { CONFUSABLE, LETTER_BY_ID, LETTER_STATIONS, lettersUpTo, soundsAlike } from "./letters.ts";
 
 /** Known letters that look like `id` (only ones the child has met). */
@@ -89,41 +88,6 @@ export function buildStartsItems(stationId: string): StartsItem[] {
   return shuffle(station.letterIds).map((target) => ({
     target,
     options: pictureOptions(target, pool),
-  }));
-}
-
-/** "Where is בָּ?": every syllable of the station + 2 review, 3 options from syllables already learned. */
-export function buildSyllableItems(stationId: string) {
-  const station = KAMATZ_STATIONS.find((s) => s.id === stationId)!;
-  const known = syllablesUpTo(stationId);
-  const earlier = known.filter((x) => !station.itemIds.includes(x));
-  const targets = [...shuffle(station.itemIds), ...shuffle(earlier.length ? earlier : station.itemIds).slice(0, 2)];
-  return targets.map((target) => ({
-    target,
-    options: shuffle([target, ...distractors(target, known, 2)]),
-    // Each option is shown with kamatz or patach at random: both say "a".
-    marks: Object.fromEntries(known.map((id) => [id, Math.random() < 0.5 ? "kamatz" : "patach"])) as Record<
-      string,
-      "kamatz" | "patach"
-    >,
-  }));
-}
-
-/** "Which word starts like בָּ?": pictures whose first syllable is a known syllable. */
-export function buildSyllableStartsItems(stationId: string) {
-  const station = KAMATZ_STATIONS.find((s) => s.id === stationId)!;
-  const known = syllablesUpTo(stationId).filter((id) => SYLLABLE_BY_ID[id].starts);
-  return shuffle(station.itemIds.filter((id) => SYLLABLE_BY_ID[id].starts)).map((target) => ({
-    target,
-    options: shuffle([target, ...shuffle(known.filter((x) => x !== target)).slice(0, 2)]),
-  }));
-}
-
-/** Read the word, pick its picture: every word once, 3 pictures. */
-export function buildReadItems(wordIds: string[]) {
-  return shuffle(wordIds).map((target) => ({
-    target,
-    options: shuffle([target, ...shuffle(wordIds.filter((x) => x !== target)).slice(0, 2)]),
   }));
 }
 
