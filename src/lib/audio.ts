@@ -17,6 +17,18 @@ export function stopAudio() {
   finishCurrent = null;
 }
 
+/**
+ * Another player (the story reader) takes the speaker: whatever was playing stops, and the next `say` stops it.
+ * Returns a check: is it still ours?
+ */
+export function claimAudio(a: HTMLAudioElement, finish: () => void): () => boolean {
+  stopAudio();
+  const mine = token;
+  current = a;
+  finishCurrent = finish;
+  return () => mine === token;
+}
+
 const files = manifest as Record<string, { file?: string }>;
 
 /**

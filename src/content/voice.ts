@@ -48,6 +48,9 @@ const gendered: Record<string, { m: string; f: string }> = {
   "world-done": { m: "סִיַּמְתָּ אֶת כָּל הָעוֹלָם!", f: "סִיַּמְתְּ אֶת כָּל הָעוֹלָם!" },
   // My room: dress the buddy (when there are gifts).
   "room-dress": { m: "בּוֹא נַלְבִּישׁ אֶת הֶחָבֵר!", f: "בּוֹאִי נַלְבִּישׁ אֶת הֶחָבֵר!" },
+  // 📚 Stories (DRAFT, mom): the child reads first (said once, on the first page), then the end of a story.
+  "read-yourself": { m: "קְרָא לְבַד!", f: "קִרְאִי לְבַד!" },
+  "story-done": { m: "קָרָאתָ סִפּוּר!", f: "קָרָאתְ סִפּוּר!" },
   "kp-world": {
     m: "בָּרוּךְ הַבָּא לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
     f: "בְּרוּכָה הַבָּאָה לְעוֹלַם הַקָּמָץ וְהַפַּתָּח! כָּאן הָאוֹתִיּוֹת מַתְחִילוֹת לְדַבֵּר.",
@@ -156,6 +159,8 @@ const neutral: Record<string, string> = {
   // A letter bloomed in the garden for the first time (real mastery: 2 days, 2 kinds of question).
   "garden-bloom": "פֶּרַח חָדָשׁ פָּרַח!",
   "island-bloom": "עֵץ חָדָשׁ צָמַח!",
+  // 📚 The story shelf. (The stories themselves are voiced by scripts/gen-story-audio.ts, with word timings.)
+  "stories-shelf": "מָה נִקְרָא הַיּוֹם?",
 };
 
 export const VOICE_LINES: VoiceLine[] = [

@@ -26,5 +26,5 @@ export const TOPICS: Topic[] = [
   { id: "nikud", title: "נִקּוּד", goal: "קורא צירופים עם כל סימני הניקוד", icon: "בָּ", href: "/play/nikud" },
   { id: "words", title: "מִלִּים רִאשׁוֹנוֹת", goal: "קורא מילים קצרות", icon: "📖" },
   { id: "sentences", title: "מִשְׁפָּטִים", goal: "קורא משפט ומבין אותו", icon: "💬" },
-  { id: "stories", title: "סִפּוּרִים", goal: "קורא סיפור קצר", icon: "📚" },
+  { id: "stories", title: "סִפּוּרִים", goal: "קורא סיפור קצר", icon: "📚", href: "/play/stories" },
 ];

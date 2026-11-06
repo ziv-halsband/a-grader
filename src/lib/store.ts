@@ -68,7 +68,11 @@ export type Child = {
   playDays?: string[];
   /** Letters whose bloom in the garden was already celebrated. Missing in older saves. */
   bloomSeen?: string[];
+  /** 📚 Stories read to the end (content/stories.ts id): how often, and ⭐ if a question was ever answered on the first try. Missing in older saves. */
+  stories?: Record<string, StoryRead>;
 };
+
+export type StoryRead = { reads: number; star: boolean; at: string };
 
 export type AppState = { version: 1; children: Child[]; activeChildId: string | null };
 
@@ -207,6 +211,14 @@ export const actions = {
       ...played(c),
       letters: { ...c.letters, [letterId]: bump(c.letters[letterId], result, misses, kind) },
     }));
+  },
+  /** 📚 A story read to the end and its question answered (`firstTry`: right on the first tap = ⭐). */
+  finishStory(childId: string, storyId: string, firstTry: boolean) {
+    updateChild(childId, (c) => {
+      const prev = c.stories?.[storyId];
+      const read: StoryRead = { reads: (prev?.reads ?? 0) + 1, star: !!prev?.star || firstTry, at: new Date().toISOString() };
+      return { ...c, ...played(c), stories: { ...c.stories, [storyId]: read } };
+    });
   },
   /** The garden celebrated these letters' first bloom (once each). */
   markBloomsSeen(childId: string, letterIds: string[]) {

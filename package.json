@@ -9,7 +9,8 @@
     "lint": "eslint",
     "audio:placeholder": "node scripts/gen-placeholder-audio.ts",
     "audio:eleven": "node scripts/gen-elevenlabs-audio.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "audio:stories": "node scripts/gen-story-audio.ts"
   },
   "dependencies": {
     "next": "16.4.5",
