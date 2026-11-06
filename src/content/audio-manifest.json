@@ -953,42 +953,6 @@
     "heard": "סה",
     "check": "differs"
   },
-  "sw-mem": {
-    "text": "מַפָּה",
-    "hash": "10eb3c9096",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "sw-mem.mp3",
-    "heard": "MAPA",
-    "check": "differs"
-  },
-  "sw-lamed": {
-    "text": "לַהַב",
-    "hash": "0e70907cee",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "sw-lamed.mp3",
-    "heard": "להב",
-    "check": "match"
-  },
-  "sw-bet": {
-    "text": "בַּנָּנָה",
-    "hash": "0ca1f00fcc",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "sw-bet.mp3",
-    "heard": "בנה",
-    "check": "differs"
-  },
-  "sw-samekh": {
-    "text": "סַבָּא",
-    "hash": "f247190501",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "sw-samekh.mp3",
-    "heard": "סבא",
-    "check": "match"
-  },
   "rw-aba": {
     "text": "אַבָּא",
     "hash": "2e5d65e7c1",
@@ -1006,51 +970,6 @@
     "file": "rw-saba.mp3",
     "heard": "סבא",
     "check": "match"
-  },
-  "rw-dag": {
-    "text": "דָּג",
-    "hash": "59a2ebd746",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "rw-dag.mp3",
-    "heard": "דג",
-    "check": "match"
-  },
-  "rw-yad": {
-    "text": "יָד",
-    "hash": "3d41ee7cec",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "rw-yad.mp3",
-    "heard": "יד",
-    "check": "match"
-  },
-  "rw-yam": {
-    "text": "יָם",
-    "hash": "d5f8068a5f",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "rw-yam.mp3",
-    "heard": "Yum!",
-    "check": "differs"
-  },
-  "rw-tsav": {
-    "text": "צָב",
-    "hash": "bf6855ccc2",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "rw-tsav.mp3",
-    "heard": "Sav",
-    "check": "differs"
-  },
-  "rw-kaf": {
-    "text": "כַּף",
-    "hash": "e855b058e4",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "rw-kaf.mp3",
-    "heard": "Cuff",
-    "check": "differs"
   },
   "rw-mapa": {
     "text": "מַפָּה",
@@ -1086,15 +1005,6 @@
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "here-sound.mp3",
     "heard": "הנה זה הצליל",
-    "check": "match"
-  },
-  "rw-kad": {
-    "text": "כַּד",
-    "hash": "9f1b264b99",
-    "status": "generated",
-    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
-    "file": "rw-kad.mp3",
-    "heard": "כד",
     "check": "match"
   },
   "write-alone": {
@@ -2247,6 +2157,60 @@
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "write-pretty.mp3",
     "heard": "איזו אות יפה",
+    "check": "match"
+  },
+  "tap-mark-m": {
+    "text": "לְחַץ עַל הַסִּימָן!",
+    "hash": "03a226d0d2",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "tap-mark-m.mp3",
+    "heard": "לחץ על הסימן",
+    "check": "match"
+  },
+  "tap-mark-f": {
+    "text": "לַחֲצִי עַל הַסִּימָן!",
+    "hash": "70bc7c4c2f",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "tap-mark-f.mp3",
+    "heard": "לחצי על הסימן",
+    "check": "match"
+  },
+  "tap-parts-m": {
+    "text": "לְחַץ עַל כָּל חֵלֶק!",
+    "hash": "19cc843148",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "tap-parts-m.mp3",
+    "heard": "לחץ על כל חלק",
+    "check": "match"
+  },
+  "tap-parts-f": {
+    "text": "לַחֲצִי עַל כָּל חֵלֶק!",
+    "hash": "3e1fe7f3e1",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "tap-parts-f.mp3",
+    "heard": "לחצי על כל חלק",
+    "check": "match"
+  },
+  "read-alone-m": {
+    "text": "קְרָא לְבַד!",
+    "hash": "e4e9c2ab8b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "read-alone-m.mp3",
+    "heard": "קרא לבד",
+    "check": "match"
+  },
+  "read-alone-f": {
+    "text": "קִרְאִי לְבַד!",
+    "hash": "141a3baeb1",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "read-alone-f.mp3",
+    "heard": "קיראי לבד",
     "check": "match"
   }
 }

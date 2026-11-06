@@ -4,6 +4,7 @@
 // A new call stops whatever is playing, so fast taps never mix sounds from two questions.
 
 import manifest from "@/content/audio-manifest.json";
+import { VOICE_BY_ID } from "@/content/voice";
 
 let current: HTMLAudioElement | null = null;
 let finishCurrent: (() => void) | null = null;
@@ -11,6 +12,7 @@ let token = 0;
 
 export function stopAudio() {
   token++;
+  if (typeof speechSynthesis !== "undefined") speechSynthesis.cancel();
   current?.pause();
   current = null;
   finishCurrent?.();
@@ -67,7 +69,21 @@ export async function sayStepped(ids: string[], onStep?: (i: number) => void, ra
   const mine = token;
   for (const [i, id] of ids.entries()) {
     if (mine !== token) return false;
-    if (!hasAudio(id)) continue;
+    if (!hasAudio(id)) {
+      // No recording yet (ElevenLabs credits ran out): the device's own Hebrew voice says it instead.
+      const line = VOICE_BY_ID[id];
+      if (!line || typeof speechSynthesis === "undefined") continue;
+      onStep?.(i);
+      await new Promise<void>((resolve) => {
+        const u = new SpeechSynthesisUtterance(line.spoken ?? line.text);
+        u.lang = "he-IL";
+        u.rate = 0.85 * rate;
+        finishCurrent = resolve;
+        u.onend = u.onerror = () => resolve();
+        speechSynthesis.speak(u);
+      });
+      continue;
+    }
     onStep?.(i);
     await new Promise<void>((resolve) => {
       const a = new Audio(audioUrl(id));
