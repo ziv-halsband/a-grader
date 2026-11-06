@@ -89,14 +89,22 @@ export function analyzeWord(raw: string): { vowels: Set<Vowel>; problems: string
   return { vowels, problems };
 }
 
-/** Vowels allowed in a world: its own and every world's before it. */
-export function allowedVowels(world: Vowel): Set<Vowel> {
+/** A story shelf: a nikud world, or "all-nikud" (the last shelf: every vowel). */
+export type VowelWorld = Vowel | "all-nikud";
+
+/** Vowels allowed in a world: its own and every world's before it ("all-nikud": all of them). */
+export function allowedVowels(world: VowelWorld): Set<Vowel> {
+  if (world === "all-nikud") return new Set(VOWEL_ORDER);
   return new Set(VOWEL_ORDER.slice(0, VOWEL_ORDER.indexOf(world) + 1));
 }
 
 /** Problems of one sentence for a world (empty = decodable). */
-export function checkText(text: string, world: Vowel): string[] {
-  const allowed = allowedVowels(world);
+export function checkText(text: string, world: VowelWorld): string[] {
+  return checkAllowed(text, allowedVowels(world));
+}
+
+/** Problems of one sentence given the vowels a reader knows (empty = decodable). */
+export function checkAllowed(text: string, allowed: Set<Vowel>): string[] {
   return text
     .split(/\s+/)
     .filter((w) => w.replace(PUNCT, ""))
@@ -107,7 +115,71 @@ export function checkText(text: string, world: Vowel): string[] {
     });
 }
 
+/** The 9 vowel shapes a child learns to see (finer than Vowel: kamatz ≠ patach, shuruk ≠ kubutz). */
+export const VOWEL_SHAPES = ["kamatz", "patach", "tsere", "segol", "hiriq", "holam", "shuruk", "kubutz", "shva"] as const;
+export type VowelShape = (typeof VOWEL_SHAPES)[number];
+
+const SHAPE: Record<string, VowelShape> = {
+  "ָ": "kamatz",
+  "ַ": "patach",
+  "ֵ": "tsere",
+  "ֶ": "segol",
+  "ִ": "hiriq",
+  "ֹ": "holam",
+  "ֺ": "holam",
+  "ֻ": "kubutz",
+  "ְ": "shva",
+};
+
+/** Every vowel shape this text shows (holam male וֹ counts as holam, a vowel-vav וּ as shuruk). Hatafs don't count. */
+export function vowelShapes(text: string): Set<VowelShape> {
+  const out = new Set<VowelShape>();
+  for (const raw of text.split(/\s+/)) {
+    const { list } = clusters(raw.replace(PUNCT, ""));
+    for (const c of list) {
+      if (vowelVav(c) === "shuruk-kubutz") out.add("shuruk");
+      for (const m of c.marks) if (SHAPE[m]) out.add(SHAPE[m]);
+    }
+  }
+  return out;
+}
+
 /** Does this text use the world's own new vowel at least once? */
 export function usesVowel(text: string, vowel: Vowel): boolean {
   return text.split(/\s+/).some((w) => analyzeWord(w).vowels.has(vowel));
+}
+
+// ── 📗 "אֲנִי קוֹרֵא" (content/library.ts): the library's reading stages ──────────────────────────────────
+// DRAFT (mom): stage order from a published series; mom decides.
+// It differs from the nikud worlds' order (VOWEL_ORDER): the shva comes first, with kamatz/patach.
+// Each stage adds its vowels to every stage before it.
+
+export type ReadingStage = {
+  id: "a" | "b" | "c" | "d" | "e";
+  title: string;
+  /** The vowels this stage adds. */
+  adds: Vowel[];
+  /** The new marks, shown on the shelf (on a ב). */
+  marks: string;
+};
+
+export const READING_STAGES: ReadingStage[] = [
+  { id: "a", title: "שָׁלָב א׳", adds: ["kamatz-patach", "shva"], marks: "בָּ בַּ בְּ" },
+  { id: "b", title: "שָׁלָב ב׳", adds: ["holam"], marks: "בֹּ בּוֹ" },
+  { id: "c", title: "שָׁלָב ג׳", adds: ["hiriq"], marks: "בִּ בִּי" },
+  { id: "d", title: "שָׁלָב ד׳", adds: ["tsere-segol"], marks: "בֵּ בֶּ" },
+  { id: "e", title: "שָׁלָב ה׳", adds: ["shuruk-kubutz"], marks: "בּוּ בֻּ" },
+];
+
+export type StageId = ReadingStage["id"];
+
+/** Vowels a reader knows at this stage: its own and every stage's before it. */
+export function stageVowels(stage: StageId): Set<Vowel> {
+  const i = READING_STAGES.findIndex((s) => s.id === stage);
+  return new Set(READING_STAGES.slice(0, i + 1).flatMap((s) => s.adds));
+}
+
+/** Problems of one line for a library stage (empty = decodable). */
+export function checkStage(text: string, stage: StageId): string[] {
+  return checkAllowed(text, stageVowels(stage));
 }
