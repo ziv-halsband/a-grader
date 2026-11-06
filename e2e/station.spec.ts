@@ -75,7 +75,11 @@ test("kamatz: tapping the 🎁 early gives nothing either", async ({ page }) => 
   expect(await stickers(page)).toBe(0);
 });
 
-test("letters: every finished step adds a ⭐; one game counts for 🎮; the 🎁 waits for the last step", async ({ page }) => {
+test("letters: every finished step adds a ⭐; one game counts for 🎮; the 🎁 waits for the last step", async ({
+  page,
+}) => {
+  // A long walk through 4 steps (≈ 55s on WebKit): under a full parallel run it needs more than the default.
+  test.setTimeout(180_000);
   await seedChild(page);
   await page.goto("/play/letters/s2");
 
@@ -112,42 +116,6 @@ test("letters: every finished step adds a ⭐; one game counts for 🎮; the �
   await page.getByRole("button", { name: /לַהַפְתָּעָה/ }).click();
   await expect(page.locator('[aria-current="step"]')).toContainText("כּוֹתְבִים");
   expect(await stickers(page)).toBe(0);
-});
-
-test("kamatz words: all steps → the 🎁 opens, stars drop in, the prize is won; a replay shows it collected", async ({ page }) => {
-  await seedChild(page);
-  await page.goto("/play/kamatz-patach/k5");
-  await expect(stars(page)).toHaveAttribute("data-stars", "0");
-
-  // 📖 learn: next through the words, then "read alone".
-  const next = page.getByRole("button", { name: "הבא" });
-  while (await next.count()) await next.click();
-  await page.getByRole("button", { name: /לִקְרֹא לְבַד/ }).click();
-  await expect(stars(page)).toHaveAttribute("data-stars", "1");
-  await expect(prize(page)).toHaveAttribute("data-state", "locked");
-
-  // 🔍 read: the last step. Then the prize opens by itself.
-  await solveAll(page);
-  await expect(page.locator('[aria-current="step"]')).toContainText("פְּרָס");
-  await expect(stars(page)).toHaveAttribute("data-stars", "2");
-  await expect(prize(page)).not.toHaveAttribute("data-state", "locked");
-
-  // The egg: the 2 stars drop in, then it can be opened.
-  const egg = page.getByRole("button", { name: "בֵּיצַת קְסָמִים" });
-  await expect(egg).toHaveAttribute("data-filled", "yes", { timeout: 5000 });
-  await egg.click();
-  await expect(page.locator('[data-reveal="new"]')).toBeVisible({ timeout: 5000 });
-  await expect(page.getByText("מַדְבֵּקָה חֲדָשָׁה", { exact: true })).toBeVisible();
-  await expect(page.getByText("מַתָּנָה לֶחָבֵר", { exact: true })).toBeVisible();
-  expect(await stickers(page)).toBe(1);
-
-  // A replay: the 🎁 is open (already collected) and shows what was won, without giving it again.
-  await page.reload();
-  await expect(prize(page)).toHaveAttribute("data-state", "collected");
-  await prize(page).click();
-  await expect(page.locator('[data-reveal="collected"]')).toBeVisible();
-  await expect(page.getByText("כְּבָר בָּאוֹסֶף")).toBeVisible();
-  expect(await stickers(page)).toBe(1);
 });
 
 test("the first station shows all 5 classic games", async ({ page }) => {

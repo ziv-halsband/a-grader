@@ -212,8 +212,20 @@ test("the reading-words station: read together, read alone, the surprise, then �
   await skipSplash(page);
   await answerAll(page, "read");
   await skipSplash(page);
+  // Every step done: the 🎁 is open and holds a ⭐ for each step (the shared prize rule, StationSteps).
+  const prize = page.getByRole("navigation", { name: "שלבי התחנה" }).locator('[data-step="done"]');
+  await expect(prize.locator("[data-stars]")).toHaveAttribute("data-stars", "2");
+  await expect(prize).not.toHaveAttribute("data-state", "locked");
   await page.getByRole("button", { name: WORLDS.garden.surprise.label }).click({ force: true });
   await expect(page.getByRole("link", { name: /לַסִּפּוּרִים/ })).toHaveAttribute("href", "/play/stories/shva", { timeout: 10_000 });
-  const items = await page.evaluate(() => JSON.parse(localStorage.getItem("grade-a-prepare:v1")!).children[0].items);
+  const saved = () => page.evaluate(() => JSON.parse(localStorage.getItem("grade-a-prepare:v1")!).children[0]);
+  const items = (await saved()).items;
   expect(Object.keys(items).filter((k) => k.startsWith("read:")).length).toBe(8);
+  const stickers = (await saved()).stickers.length;
+  expect(stickers).toBe(1);
+
+  // A replay: the 🎁 shows "already collected" and gives nothing twice.
+  await page.reload();
+  await expect(prize).toHaveAttribute("data-state", "collected");
+  expect((await saved()).stickers.length).toBe(1);
 });

@@ -55,6 +55,33 @@ export function audioUrl(id: string) {
   return dynamic.get(id)?.url ?? `/audio/${files[id]?.file ?? `${id}.m4a`}`;
 }
 
+/** The device's Hebrew voice (iPad: built in), or null: then a line without a recording stays silent. */
+function hebrewVoice(): SpeechSynthesisVoice | null {
+  if (typeof speechSynthesis === "undefined") return null;
+  return speechSynthesis.getVoices().find((v) => v.lang.toLowerCase().startsWith("he")) ?? null;
+}
+
+/**
+ * Says text with the device's voice. Never waits longer than the text could take (some browsers never send
+ * "end"), so a game waiting for the line can't get stuck.
+ */
+function speak(text: string, rate: number): Promise<void> {
+  return new Promise<void>((resolve) => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.voice = hebrewVoice();
+    u.lang = "he-IL";
+    u.rate = 0.85 * rate;
+    const done = () => {
+      clearTimeout(t);
+      resolve();
+    };
+    const t = setTimeout(done, 1500 + text.length * 180);
+    finishCurrent = done;
+    u.onend = u.onerror = done;
+    speechSynthesis.speak(u);
+  });
+}
+
 /** Resolves when the whole sequence finished or was interrupted by another call. */
 export async function say(...ids: string[]): Promise<void> {
   await sayStepped(ids);
@@ -72,16 +99,9 @@ export async function sayStepped(ids: string[], onStep?: (i: number) => void, ra
     if (!hasAudio(id)) {
       // No recording yet (ElevenLabs credits ran out): the device's own Hebrew voice says it instead.
       const line = VOICE_BY_ID[id];
-      if (!line || typeof speechSynthesis === "undefined") continue;
+      if (!line || !hebrewVoice()) continue;
       onStep?.(i);
-      await new Promise<void>((resolve) => {
-        const u = new SpeechSynthesisUtterance(line.spoken ?? line.text);
-        u.lang = "he-IL";
-        u.rate = 0.85 * rate;
-        finishCurrent = resolve;
-        u.onend = u.onerror = () => resolve();
-        speechSynthesis.speak(u);
-      });
+      await speak(line.spoken ?? line.text, rate);
       continue;
     }
     onStep?.(i);
