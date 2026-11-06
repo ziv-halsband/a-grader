@@ -1,1 +1,570 @@
-{}
+{
+  "kamatz-patach-1/1": {
+    "text": "דָּנָה, מַתָּנָה!",
+    "hash": "f22daa68e4",
+    "file": "kamatz-patach-1-1.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.427
+      ],
+      [
+        0.52,
+        1.013
+      ]
+    ]
+  },
+  "kamatz-patach-1/2": {
+    "text": "מָה בַּמַּתָּנָה?",
+    "hash": "1558910249",
+    "file": "kamatz-patach-1-2.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.16
+      ],
+      [
+        0.2,
+        0.853
+      ]
+    ]
+  },
+  "kamatz-patach-1/3": {
+    "text": "בָּנָנָה? חַלָּה?",
+    "hash": "a5cf47b72e",
+    "file": "kamatz-patach-1-3.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.587
+      ],
+      [
+        1.44,
+        1.787
+      ]
+    ]
+  },
+  "kamatz-patach-1/4": {
+    "text": "צָב! צָב קָטָן!",
+    "hash": "702272a0ca",
+    "file": "kamatz-patach-1-4.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.48
+      ],
+      [
+        1.12,
+        1.28
+      ],
+      [
+        1.44,
+        2.08
+      ]
+    ]
+  },
+  "kamatz-patach-1/q": {
+    "text": "מָה הָיָה בַּמַּתָּנָה?",
+    "hash": "db37643b10",
+    "file": "kamatz-patach-1-q.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.16
+      ],
+      [
+        0.2,
+        0.48
+      ],
+      [
+        0.52,
+        1.2
+      ]
+    ]
+  },
+  "kamatz-patach-2/1": {
+    "text": "דָּנָה שָׂמָה חַסָּה.",
+    "hash": "482f2abb1c",
+    "file": "kamatz-patach-2-1.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.293
+      ],
+      [
+        0.307,
+        0.587
+      ],
+      [
+        0.64,
+        0.96
+      ]
+    ]
+  },
+  "kamatz-patach-2/2": {
+    "text": "הַצָּב בָּא.",
+    "hash": "072c4d8b9f",
+    "file": "kamatz-patach-2-2.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.4
+      ],
+      [
+        0.44,
+        0.64
+      ]
+    ]
+  },
+  "kamatz-patach-2/3": {
+    "text": "גַּם אַבָּא בָּא!",
+    "hash": "9af33a8d42",
+    "file": "kamatz-patach-2-3.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.32
+      ],
+      [
+        0.36,
+        0.613
+      ],
+      [
+        0.627,
+        0.907
+      ]
+    ]
+  },
+  "kamatz-patach-2/4": {
+    "text": "אַבָּא אָכַל חַסָּה!",
+    "hash": "a4d02e0a43",
+    "file": "kamatz-patach-2-4.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.4
+      ],
+      [
+        0.44,
+        0.64
+      ],
+      [
+        0.72,
+        1.2
+      ]
+    ]
+  },
+  "kamatz-patach-2/q": {
+    "text": "מָה אָכַל אַבָּא?",
+    "hash": "12c386e8e5",
+    "file": "kamatz-patach-2-q.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.16
+      ],
+      [
+        0.2,
+        0.56
+      ],
+      [
+        0.58,
+        0.96
+      ]
+    ]
+  },
+  "kamatz-patach-3/1": {
+    "text": "חַם, חַם בַּיָּם!",
+    "hash": "eda7a4904c",
+    "file": "kamatz-patach-3-1.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.28
+      ],
+      [
+        0.48,
+        0.613
+      ],
+      [
+        0.627,
+        1.08
+      ]
+    ]
+  },
+  "kamatz-patach-3/2": {
+    "text": "גָּמָל בָּא.",
+    "hash": "01d31b86f6",
+    "file": "kamatz-patach-3-2.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.4
+      ],
+      [
+        0.48,
+        0.72
+      ]
+    ]
+  },
+  "kamatz-patach-3/3": {
+    "text": "הַגָּמָל קָפַץ לַיָּם!",
+    "hash": "4d1a10bf80",
+    "file": "kamatz-patach-3-3.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.587
+      ],
+      [
+        0.64,
+        1.12
+      ],
+      [
+        1.16,
+        1.68
+      ]
+    ]
+  },
+  "kamatz-patach-3/4": {
+    "text": "דָּנָה עַל הַגָּמָל!",
+    "hash": "e1f20eea5a",
+    "file": "kamatz-patach-3-4.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.4
+      ],
+      [
+        0.48,
+        0.544
+      ],
+      [
+        0.552,
+        1.12
+      ]
+    ]
+  },
+  "kamatz-patach-3/q": {
+    "text": "מָה עָשָׂה הַגָּמָל?",
+    "hash": "cafc218563",
+    "file": "kamatz-patach-3-q.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.16
+      ],
+      [
+        0.24,
+        0.544
+      ],
+      [
+        0.552,
+        1.04
+      ]
+    ]
+  },
+  "kamatz-patach-4/1": {
+    "text": "אַבָּא בַּגַּן.",
+    "hash": "65cdedc48f",
+    "file": "kamatz-patach-4-1.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.293
+      ],
+      [
+        0.307,
+        0.76
+      ]
+    ]
+  },
+  "kamatz-patach-4/2": {
+    "text": "נָחָשׁ! נָחָשׁ!",
+    "hash": "55667c4210",
+    "file": "kamatz-patach-4-2.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.56
+      ],
+      [
+        1.36,
+        1.813
+      ]
+    ]
+  },
+  "kamatz-patach-4/3": {
+    "text": "אַבָּא בָּרַח!",
+    "hash": "6b50b3a46a",
+    "file": "kamatz-patach-4-3.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.288
+      ],
+      [
+        0.304,
+        0.747
+      ]
+    ]
+  },
+  "kamatz-patach-4/4": {
+    "text": "רַק זַחַל קָטָן!",
+    "hash": "93c2f8697a",
+    "file": "kamatz-patach-4-4.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.3
+      ],
+      [
+        0.32,
+        0.64
+      ],
+      [
+        0.8,
+        1.2
+      ]
+    ]
+  },
+  "kamatz-patach-4/q": {
+    "text": "מָה הָיָה בַּגַּן?",
+    "hash": "9721803787",
+    "file": "kamatz-patach-4-q.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.2
+      ],
+      [
+        0.22,
+        0.453
+      ],
+      [
+        0.467,
+        0.96
+      ]
+    ]
+  },
+  "kamatz-patach-5/1": {
+    "text": "אַבָּא אָפָה חַלָּה.",
+    "hash": "9219c16eef",
+    "file": "kamatz-patach-5-1.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.32
+      ],
+      [
+        0.48,
+        0.48
+      ],
+      [
+        0.48,
+        1.28
+      ]
+    ]
+  },
+  "kamatz-patach-5/2": {
+    "text": "חַלָּה חַמָּה לַשַּׁבָּת!",
+    "hash": "26047036bc",
+    "file": "kamatz-patach-5-2.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.373
+      ],
+      [
+        0.4,
+        0.64
+      ],
+      [
+        0.68,
+        1.28
+      ]
+    ]
+  },
+  "kamatz-patach-5/3": {
+    "text": "אָה! מָה קָרָה?",
+    "hash": "f9ba78eb3c",
+    "file": "kamatz-patach-5-3.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.4
+      ],
+      [
+        0.52,
+        0.68
+      ],
+      [
+        0.72,
+        1.013
+      ]
+    ]
+  },
+  "kamatz-patach-5/4": {
+    "text": "סַבָּא אָכַל!",
+    "hash": "27bb3a9028",
+    "file": "kamatz-patach-5-4.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.32
+      ],
+      [
+        0.4,
+        0.8
+      ]
+    ]
+  },
+  "kamatz-patach-5/q": {
+    "text": "מָה קָרָה לַחַלָּה?",
+    "hash": "41390cd145",
+    "file": "kamatz-patach-5-q.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.16
+      ],
+      [
+        0.24,
+        0.453
+      ],
+      [
+        0.467,
+        0.96
+      ]
+    ]
+  },
+  "kamatz-patach-6/1": {
+    "text": "סַבָּא שָׁר: לָה לָה!",
+    "hash": "021e50ea1c",
+    "file": "kamatz-patach-6-1.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.368
+      ],
+      [
+        0.384,
+        0.56
+      ],
+      [
+        0.8,
+        1.147
+      ],
+      [
+        1.173,
+        1.467
+      ]
+    ]
+  },
+  "kamatz-patach-6/2": {
+    "text": "הַצָּב בָּרַח!",
+    "hash": "17ff41d050",
+    "file": "kamatz-patach-6-2.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.56
+      ],
+      [
+        0.6,
+        1.28
+      ]
+    ]
+  },
+  "kamatz-patach-6/3": {
+    "text": "גַּם הַפָּרָה רָצָה!",
+    "hash": "db9c139fae",
+    "file": "kamatz-patach-6-3.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.28
+      ],
+      [
+        0.3,
+        0.8
+      ],
+      [
+        0.88,
+        1.28
+      ]
+    ]
+  },
+  "kamatz-patach-6/4": {
+    "text": "רַק אַבָּא מָחָא כַּף!",
+    "hash": "0a23ad36b0",
+    "file": "kamatz-patach-6-4.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.267
+      ],
+      [
+        0.28,
+        0.453
+      ],
+      [
+        0.467,
+        0.827
+      ],
+      [
+        0.88,
+        1.24
+      ]
+    ]
+  },
+  "kamatz-patach-6/q": {
+    "text": "מָה עָשָׂה הַצָּב?",
+    "hash": "eafa7573db",
+    "file": "kamatz-patach-6-q.mp3",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "words": [
+      [
+        0,
+        0.16
+      ],
+      [
+        0.24,
+        0.528
+      ],
+      [
+        0.544,
+        0.88
+      ]
+    ]
+  }
+}
