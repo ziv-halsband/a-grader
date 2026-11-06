@@ -97,3 +97,12 @@ The big map has 3 chapters, in the order a child learns:
 3. **B1–B4** (one paid month for the clone, then cancel if we want).
 4. **D1** (the listening experiment) → decide.
 5. **C3** (avatar) only if we need it.
+
+## G. Saving progress in the cloud (before the first pilot families)
+
+Today everything (children, progress, a recorded name) lives only in that device's browser (`localStorage`, `lib/store.ts`). Clearing the browser data erases it, and devices don't share anything.
+- [ ] **G1. Decide when** (founder): right after the meeting with mom, before 5 pilot families use it.
+- [ ] **G2. Supabase, free tier** (Claude): parent login by email link, one row per child, the progress synced; it keeps working offline like today. Store only the nickname and progress (no last names, photos or voices).
+- [ ] **G3. A short privacy page for parents** (what we save, why, how to delete), plus parental consent.
+- [ ] **G4. Later:** a small server function for listening (D), and for mom recording from home (A1 can start without it: the studio exports a file that Claude adds to the app).
+- [ ] **Decide:** should the 📄 worksheets tile on the kids' maps be hidden from kids? It opens the printing page, which isn't behind the parents' code.
