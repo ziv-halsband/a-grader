@@ -8,7 +8,7 @@ import timings from "@/content/story-audio.json";
 import { claimAudio } from "./audio";
 
 type Entry = { text: string; file: string; words: [number, number][] };
-const ENTRIES = timings as Record<string, Entry>;
+const ENTRIES = timings as unknown as Record<string, Entry>;
 
 /** The page's audio, if it was made from exactly this text. */
 export function pageAudio(key: string, text: string): Entry | null {

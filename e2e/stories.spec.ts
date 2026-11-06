@@ -58,7 +58,7 @@ test.describe("decodable stories (content/stories.ts)", () => {
 
   test("story audio timings, when there are any, match their pages", () => {
     const items = new Map(storyAudioItems().map((i) => [i.key, i.text]));
-    for (const [key, e] of Object.entries(timings as Record<string, { text: string; words: [number, number][] }>)) {
+    for (const [key, e] of Object.entries(timings as unknown as Record<string, { text: string; words: [number, number][] }>)) {
       expect(items.has(key), key).toBe(true);
       if (items.get(key) === e.text) expect(e.words, key).toHaveLength(storyWords(e.text).length);
     }

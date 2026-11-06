@@ -71,7 +71,7 @@ function Reader({ story, child }: { story: Story; child: Child }) {
   const page = at >= 0 && at < n ? story.pages[at] : null;
 
   return (
-    <div className="flex flex-1 flex-col items-center px-4 pt-2 pb-28">
+    <div className="flex flex-1 flex-col items-center justify-center px-4 pt-2 pb-28">
       {at === 0 && (
         <div className="mb-2 w-full">
           <Guide compact once lines={[line("read-yourself", child.gender)]} />
@@ -344,7 +344,7 @@ function Done({ story, child, star, firstRead, onAgain }: { story: Story; child:
   }, []);
 
   return (
-    <div className="flex w-full max-w-xl flex-1 flex-col items-center gap-6 pt-2">
+    <div className="flex w-full max-w-xl flex-col items-center gap-6 pt-2">
       <Confetti count={firstRead ? 70 : 40} />
       <Guide compact lines={[line("story-done", child.gender)]} />
       <div className="flex items-end gap-6">
@@ -367,7 +367,7 @@ function Done({ story, child, star, firstRead, onAgain }: { story: Story; child:
       </div>
       <p className="nikud text-3xl font-extrabold">{story.title}</p>
 
-      <div className="mt-auto flex w-full flex-col gap-3">
+      <div className="mt-4 flex w-full flex-col gap-3">
         {next && (
           <Link
             href={storyHref(next)}
