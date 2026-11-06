@@ -129,7 +129,7 @@ export function StationSteps({
     <>
       <nav
         aria-label="שלבי התחנה"
-        className="relative z-50 mx-auto mt-3 flex w-full max-w-xl items-start justify-center px-3"
+        className="relative z-50 mx-auto mt-3 flex w-full max-w-xl items-start justify-center px-5"
       >
         {steps.map((s, i) => {
           const isPrize = s.id === PRIZE;
@@ -142,7 +142,7 @@ export function StationSteps({
               {i > 0 && (
                 <span
                   aria-hidden
-                  className={`mt-7 h-2 min-w-1 flex-1 rounded-full transition-colors duration-500 sm:mt-8 ${
+                  className={`mt-5 h-2 min-w-1 flex-1 rounded-full transition-colors duration-500 sm:mt-7 ${
                     isDone(steps[i - 1]) && steps[i - 1].id !== PRIZE ? "bg-green-500" : "bg-white/60"
                   }`}
                 />
@@ -171,14 +171,14 @@ export function StationSteps({
                     isNow
                       ? "h-16 w-16 bg-white text-4xl shadow-[0_0_0_5px_var(--accent),0_8px_20px_rgb(0_0_0/0.2)] sm:h-20 sm:w-20 sm:text-5xl"
                       : done
-                        ? "h-14 w-14 bg-emerald-100 text-3xl shadow-[0_0_0_4px_#22c55e] sm:h-16 sm:w-16"
+                        ? "h-12 w-12 bg-emerald-100 text-2xl sm:text-3xl shadow-[0_0_0_4px_#22c55e] sm:h-16 sm:w-16"
                         : isPrize && ready
-                          ? "anim-prize-ready h-14 w-14 bg-amber-100 text-4xl shadow-[0_0_0_4px_#f59e0b,0_0_24px_#fbbf24] sm:h-16 sm:w-16"
+                          ? "anim-prize-ready h-12 w-12 bg-amber-100 text-3xl sm:text-4xl shadow-[0_0_0_4px_#f59e0b,0_0_24px_#fbbf24] sm:h-16 sm:w-16"
                           : isPrize
-                            ? "h-14 w-14 border-[3px] border-dashed border-amber-400 bg-amber-50/80 text-3xl shadow sm:h-16 sm:w-16"
+                            ? "h-12 w-12 border-[3px] border-dashed border-amber-400 bg-amber-50/80 text-2xl sm:text-3xl shadow sm:h-16 sm:w-16"
                             : open
-                              ? "h-14 w-14 bg-white/70 text-3xl shadow sm:h-16 sm:w-16"
-                              : "h-14 w-14 bg-white/40 text-3xl opacity-50 grayscale sm:h-16 sm:w-16"
+                              ? "h-12 w-12 bg-white/70 text-2xl sm:text-3xl shadow sm:h-16 sm:w-16"
+                              : "h-12 w-12 bg-white/40 text-2xl sm:text-3xl opacity-50 grayscale sm:h-16 sm:w-16"
                   } ${isPrize && nudge ? "anim-wiggle" : ""}`}
                 >
                   <span aria-hidden className={isPrize && showLock ? "opacity-70" : ""}>
@@ -210,7 +210,7 @@ export function StationSteps({
                   )}
                 </span>
                 {isPrize && !collected ? (
-                  <span ref={starRow} aria-hidden data-stars={stars} className={`${isNow ? "mt-2.5" : "mt-1"} flex gap-px rounded-full bg-amber-100/90 px-1.5 py-0.5 text-sm leading-none shadow-sm sm:text-base`}>
+                  <span ref={starRow} aria-hidden data-stars={stars} className={`${isNow ? "mt-2.5" : "mt-1"} flex gap-px rounded-full bg-amber-100/90 px-1.5 py-0.5 text-[11px] leading-none shadow-sm sm:text-base`}>
                     {work.map((w, k) => (
                       <span
                         key={w.id}
