@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { PRIZE, prizeLocked, StationSteps, type Step } from "@/components/StationSteps";
+import { PRIZE, prizeLocked, StationSteps, stepAfter, type Step } from "@/components/StationSteps";
 import { WorldShell } from "@/components/WorldShell";
 import { LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
 import { shuffle } from "@/lib/random";
@@ -62,10 +62,8 @@ export function StationPlayer({ stationId }: { stationId: string }) {
   };
   /** A step was completed (not just left): mark it ✓ and move on. */
   const finish = (from: string, to: string) => {
-    const now = markDone(from);
-    // Steps skipped in practice mode come before the prize: go to the first one not done yet.
-    const missing = STEPS.find((st) => st.id !== PRIZE && !now.includes(st.id));
-    go(to === PRIZE && missing && !collectedBefore ? missing.id : to);
+    // All done → the prize; steps skipped in practice mode come before the prize.
+    go(stepAfter(STEPS, markDone(from), to, collectedBefore));
   };
   const go = (id: string) => {
     const i = STEPS.findIndex((s) => s.id === id);

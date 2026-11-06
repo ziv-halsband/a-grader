@@ -19,6 +19,18 @@ export function prizeLocked(steps: Step[], finished: string[], collectedBefore: 
 }
 
 /**
+ * Where a station goes after a finished step (`to` is the step after it). Every step done in this visit → straight
+ * to the 🎁 (it is earned now). Heading to the 🎁 with a step still missing (practice mode skips around) → that
+ * step first. A replay of a collected station just goes on.
+ */
+export function stepAfter(steps: Step[], finished: string[], to: string, collectedBefore: boolean): string {
+  if (collectedBefore) return to;
+  const missing = steps.find((s) => s.id !== PRIZE && !finished.includes(s.id));
+  if (!missing) return PRIZE;
+  return to === PRIZE ? missing.id : to;
+}
+
+/**
  * The station's steps as a path the child can read without words: the step now is big and lit, finished steps
  * are green ✓, the ones ahead are soft. Every finished step drops a ⭐ into the 🎁 at the end (★★☆☆); the 🎁 has a
  * 🔒 until every other step is done. Tapped early: it wiggles, knocks, and the 👆 points at the next step to do.
@@ -126,7 +138,7 @@ export function StationSteps({
           const isNow = i === at;
           const done = !isPrize && isDone(s);
           return (
-            <div key={s.id} className="flex min-w-0 flex-1 items-start">
+            <div key={s.id} className={`flex min-w-0 items-start ${i === 0 ? "flex-none" : "flex-1"}`}>
               {i > 0 && (
                 <span
                   aria-hidden
@@ -198,7 +210,7 @@ export function StationSteps({
                   )}
                 </span>
                 {isPrize && !collected ? (
-                  <span ref={starRow} aria-hidden data-stars={stars} className="mt-1 flex gap-px rounded-full bg-amber-100/90 px-1.5 py-0.5 text-sm leading-none shadow-sm sm:text-base">
+                  <span ref={starRow} aria-hidden data-stars={stars} className={`${isNow ? "mt-2.5" : "mt-1"} flex gap-px rounded-full bg-amber-100/90 px-1.5 py-0.5 text-sm leading-none shadow-sm sm:text-base`}>
                     {work.map((w, k) => (
                       <span
                         key={w.id}
@@ -210,7 +222,7 @@ export function StationSteps({
                   </span>
                 ) : (
                   <span
-                    className={`nikud mt-1 whitespace-nowrap text-xs leading-tight ${isNow ? "font-extrabold" : "font-bold opacity-80"}`}
+                    className={`nikud whitespace-nowrap text-xs leading-tight ${isNow ? "mt-2 font-extrabold" : "mt-1 font-bold opacity-80"}`}
                   >
                     {s.label}
                   </span>
