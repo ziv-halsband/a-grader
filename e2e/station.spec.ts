@@ -87,7 +87,8 @@ test("letters: every finished step adds a ⭐; one game counts for 🎮; the �
   await expect(stars(page)).toHaveAttribute("data-stars", "1");
   // A short splash of the next step, tap to skip.
   const splash = page.locator("[data-splash]");
-  if (await splash.count()) await splash.click();
+  // It closes by itself after ~1.4s: tap it only if it is still there.
+  await splash.click({ timeout: 1500 }).catch(() => {});
   await expect(page.locator('[aria-current="step"]')).toContainText("מוֹצְאִים");
 
   await solveAll(page);
