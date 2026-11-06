@@ -164,3 +164,21 @@ export function applauseSound() {
 export function tickSound() {
   tone(1500, 0, 0.03, { type: "square", gain: 0.05 });
 }
+
+/** A ⭐ lands in the prize (a step finished): a soft bright "ting". */
+export function starSound() {
+  tone(1319, 0, 0.18, { type: "triangle", gain: 0.12 });
+  tone(1760, 0.08, 0.3, { type: "triangle", gain: 0.1 });
+}
+
+/** The prize is still locked: a soft wooden "knock-knock" (not a "wrong" sound). */
+export function lockedSound() {
+  tone(330, 0, 0.09, { type: "square", to: 260, gain: 0.05 });
+  tone(330, 0.14, 0.09, { type: "square", to: 260, gain: 0.05 });
+}
+
+/** The lock pops off the prize: a little click, then notes going up. */
+export function unlockSound() {
+  tone(1800, 0, 0.04, { type: "square", gain: 0.05 });
+  [523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, 0.08 + i * 0.06, 0.25, { type: "triangle", gain: 0.11 }));
+}

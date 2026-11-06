@@ -398,3 +398,54 @@ body {
     margin: 0;
   }
 }
+
+/* The prize path (StationSteps / StationDone): stars into the prize, the lock pops off, the 🎁 bounces. */
+@keyframes prize-ready {
+  0%, 100% { transform: translateY(0) scale(1) rotate(0); }
+  20% { transform: translateY(-22%) scale(1.12) rotate(-8deg); }
+  40% { transform: translateY(0) scale(1.05, 0.92) rotate(0); }
+  55% { transform: translateY(-10%) scale(1.06) rotate(6deg); }
+  70% { transform: translateY(0) scale(1); }
+}
+.anim-prize-ready {
+  animation: prize-ready 1.4s ease-in-out infinite;
+}
+@keyframes unlock {
+  0% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
+  30% { transform: translate(-6px, -18px) rotate(-25deg) scale(1.4); opacity: 1; }
+  100% { transform: translate(-28px, 36px) rotate(-120deg) scale(0.6); opacity: 0; }
+}
+.anim-unlock {
+  animation: unlock 900ms ease-in forwards;
+}
+@keyframes burst {
+  0% { transform: scale(0.2); opacity: 0; }
+  40% { transform: scale(1.8); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.anim-burst {
+  animation: burst 900ms ease-out forwards;
+}
+@keyframes bar-fill {
+  from { width: var(--from); }
+  to { width: var(--to); }
+}
+.anim-bar-fill {
+  animation: bar-fill 700ms 250ms ease-out both;
+}
+/* StationDone: each collected ⭐ drops into the chest/egg. --x is where the star starts (px, from the center). */
+@keyframes star-in {
+  0% { transform: translate(var(--x), 0) scale(1); opacity: 1; }
+  60% { transform: translate(calc(var(--x) * 0.3), -30px) scale(1.4); opacity: 1; }
+  100% { transform: translate(0, 130px) scale(0.3); opacity: 0; }
+}
+.anim-star-in {
+  animation: star-in 650ms ease-in both;
+}
+@keyframes chest-bump {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(1.12, 0.9); }
+}
+.anim-chest-bump {
+  animation: chest-bump 300ms ease;
+}

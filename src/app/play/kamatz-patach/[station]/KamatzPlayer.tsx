@@ -3,10 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import { StationDone } from "@/components/StationDone";
-import { StationSteps, type Step } from "@/components/StationSteps";
+import { prizeLocked, StationSteps, stepAfter, type Step } from "@/components/StationSteps";
 import { WorldShell } from "@/components/WorldShell";
 import { KAMATZ, KAMATZ_STATIONS, READ_WORD_BY_ID, SYLLABLE_BY_ID } from "@/content/kamatz";
-import { say, wrongSound } from "@/lib/audio";
 import { useRequiredChild } from "@/lib/useChild";
 import { ReadGame } from "./ReadGame";
 import { SyllableFind, SyllableStarts } from "./SyllableGames";
@@ -50,9 +49,8 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
     const now = finished.includes(id) ? finished : [...finished, id];
     setFinished(now);
     const to = order[order.indexOf(id) + 1];
-    // Steps skipped in practice mode come before the prize: go to the first one not done yet.
-    const missing = steps.find((st) => st.id !== "done" && !now.includes(st.id));
-    go(to === "done" && missing && !child.done.includes(key) ? missing.id : to);
+    // All done → the prize; steps skipped in practice mode come before it.
+    go(stepAfter(steps, now, to, child.done.includes(key)));
   };
   const nextStation = KAMATZ_STATIONS[index + 1];
 
@@ -67,10 +65,6 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
         locked={
           child.done.includes(key) || steps.every((s) => s.id === "done" || finished.includes(s.id)) ? [] : ["done"]
         }
-        onLocked={() => {
-          wrongSound();
-          say("locked");
-        }}
         onPick={go}
       />
       <div key={run} className="flex flex-1 flex-col">
@@ -88,7 +82,7 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
         {phase === "find" && <SyllableFind stationId={stationId} child={child} onDone={after("find")} />}
         {phase === "starts" && <SyllableStarts stationId={stationId} child={child} onDone={after("starts")} />}
         {phase === "read" && <ReadGame wordIds={station.itemIds} child={child} onDone={after("read")} />}
-        {phase === "done" && (
+        {phase === "done" && !prizeLocked(steps, finished, child.done.includes(key)) && (
           <StationDone
             child={child}
             stationKey={key}
@@ -98,6 +92,7 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
                 : { id, label: SYLLABLE_BY_ID[id].base + KAMATZ },
             )}
             mapHref="/play/kamatz-patach"
+            stars={steps.length - 1}
             onReplay={() => go("learn")}
             next={
               <Link
