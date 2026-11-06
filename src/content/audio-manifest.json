@@ -54,21 +54,21 @@
     "check": "match"
   },
   "champ-m": {
-    "text": "אַלּוּף!",
-    "hash": "1421bc3666",
+    "text": "אֵיזֶה אַלּוּף!",
+    "hash": "40006f4df1",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "champ-m.mp3",
-    "heard": "אלוף",
+    "heard": "איזה אלוף!",
     "check": "match"
   },
   "champ-f": {
-    "text": "אַלּוּפָה!",
-    "hash": "529ab7b7a9",
+    "text": "אֵיזוֹ אַלּוּפָה!",
+    "hash": "6c0ab22c1e",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "champ-f.mp3",
-    "heard": "אלופה!",
+    "heard": "איזו אלופה!",
     "check": "match"
   },
   "station-done-m": {
@@ -117,12 +117,12 @@
     "check": "match"
   },
   "praise-1": {
-    "text": "יֹפִי!",
-    "hash": "9fb0c513aa",
+    "text": "אֵיזֶה יֹפִי!",
+    "hash": "9d6a1c9340",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "praise-1.mp3",
-    "heard": "יופי",
+    "heard": "איזה יופי",
     "check": "match"
   },
   "praise-2": {
@@ -144,12 +144,12 @@
     "check": "match"
   },
   "locked": {
-    "text": "עוֹד סָגוּר!",
-    "hash": "23f2bb76ae",
+    "text": "עוֹד מְעַט זֶה יִפָּתַח!",
+    "hash": "8e2765971c",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "locked.mp3",
-    "heard": "עוד סגור",
+    "heard": "עוד מעט זה יפתח",
     "check": "match"
   },
   "letter-alef": {
@@ -1188,21 +1188,21 @@
     "check": "match"
   },
   "praise-4": {
-    "text": "וָאוּ!",
-    "hash": "f940c92ba7",
+    "text": "וָאוּ, מַמָּשׁ טוֹב!",
+    "hash": "ca0af28be9",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "praise-4.mp3",
-    "heard": "Wow",
-    "check": "differs"
+    "heard": "וואו, ממש טוב",
+    "check": "match"
   },
   "praise-5": {
-    "text": "בְּדִיּוּק!",
-    "hash": "0f21670516",
+    "text": "בְּדִיּוּק כָּכָה!",
+    "hash": "b16993c279",
     "status": "generated",
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "praise-5.mp3",
-    "heard": "בדיוק",
+    "heard": "בדיוק ככה",
     "check": "match"
   },
   "write-watch": {
@@ -2076,6 +2076,150 @@
     "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
     "file": "hunt-icecream.mp3",
     "heard": "גלדה",
+    "check": "match"
+  },
+  "go-next-m": {
+    "text": "בּוֹא לַתַּחֲנָה הַבָּאָה!",
+    "hash": "ff9dfff3a2",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "go-next-m.mp3",
+    "heard": "בוא לתחנה הבאה",
+    "check": "match"
+  },
+  "go-next-f": {
+    "text": "בּוֹאִי לַתַּחֲנָה הַבָּאָה!",
+    "hash": "2cf13ae662",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "go-next-f.mp3",
+    "heard": "בואי לתחנה הבאה",
+    "check": "match"
+  },
+  "world-done-m": {
+    "text": "סִיַּמְתָּ אֶת כָּל הָעוֹלָם!",
+    "hash": "a6ed2e1b8b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "world-done-m.mp3",
+    "heard": "סיימת את כל העולם",
+    "check": "match"
+  },
+  "world-done-f": {
+    "text": "סִיַּמְתְּ אֶת כָּל הָעוֹלָם!",
+    "hash": "334c85adca",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "world-done-f.mp3",
+    "heard": "סיימתי את כל העולם",
+    "check": "match"
+  },
+  "room-dress-m": {
+    "text": "בּוֹא נַלְבִּישׁ אֶת הֶחָבֵר!",
+    "hash": "9c8952d607",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "room-dress-m.mp3",
+    "heard": "בוא נלביש את החבר",
+    "check": "match"
+  },
+  "room-dress-f": {
+    "text": "בּוֹאִי נַלְבִּישׁ אֶת הֶחָבֵר!",
+    "hash": "bd6ffd7a14",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "room-dress-f.mp3",
+    "heard": "בואי נלביש את החבר",
+    "check": "match"
+  },
+  "read-yourself-m": {
+    "text": "קְרָא לְבַד!",
+    "hash": "e4e9c2ab8b",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "read-yourself-m.mp3",
+    "heard": "קרא לבד",
+    "check": "match"
+  },
+  "read-yourself-f": {
+    "text": "קִרְאִי לְבַד!",
+    "hash": "141a3baeb1",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "read-yourself-f.mp3",
+    "heard": "קראי לבד",
+    "check": "match"
+  },
+  "story-done-m": {
+    "text": "קָרָאתָ סִפּוּר!",
+    "hash": "42f30858cc",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "story-done-m.mp3",
+    "heard": "קראת הסיפור?",
+    "check": "differs"
+  },
+  "story-done-f": {
+    "text": "קָרָאתְ סִפּוּר!",
+    "hash": "d42bb3e805",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "story-done-f.mp3",
+    "heard": "קראת סיפור?",
+    "check": "match"
+  },
+  "praise-6": {
+    "text": "נָכוֹן מְאוֹד!",
+    "hash": "296cef7176",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "praise-6.mp3",
+    "heard": "נכון מאוד",
+    "check": "match"
+  },
+  "praise-7": {
+    "text": "יֹפִי שֶׁל עֲבוֹדָה!",
+    "hash": "143e1b243d",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "praise-7.mp3",
+    "heard": "יופי של עבודה",
+    "check": "match"
+  },
+  "room-empty": {
+    "text": "הַמַּתָּנוֹת מְחַכּוֹת בַּתַּחֲנוֹת!",
+    "hash": "c6a8b2780f",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "room-empty.mp3",
+    "heard": "המתנות מחכות בתחנות.",
+    "check": "match"
+  },
+  "more-stars": {
+    "text": "אוֹסְפִים עוֹד כּוֹכָבִים!",
+    "hash": "b5289a1e69",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "more-stars.mp3",
+    "heard": "אוספים עוד כוכבים",
+    "check": "match"
+  },
+  "prize-ready": {
+    "text": "הַהַפְתָּעָה מְחַכָּה!",
+    "hash": "cb68e554ee",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "prize-ready.mp3",
+    "heard": "ההפתעה מחכה",
+    "check": "match"
+  },
+  "stories-shelf": {
+    "text": "מָה נִקְרָא הַיּוֹם?",
+    "hash": "6d3b1e9b64",
+    "status": "generated",
+    "source": "elevenlabs:eleven_v3:EXAVITQu4vr4xnSDxMaL",
+    "file": "stories-shelf.mp3",
+    "heard": "מה נקרא היום?",
     "check": "match"
   }
 }
