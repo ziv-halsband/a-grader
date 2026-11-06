@@ -80,6 +80,16 @@ for everything that changes often. **Spend as little money as possible:** free f
 - [ ] Look together at the drafts: example words, nikud worlds, stories, how strict the writing check is, the prize flow.
 - [ ] How much time can she give per week (recording sessions, reviewing)?
 
+## F. The app's structure (decided 6 Nov, being built)
+
+The big map has 3 chapters, in the order a child learns:
+1. 🔤 **אוֹתִיּוֹת**
+2. 🔊 **נִקּוּד:** 6 worlds. Each one goes syllables → reading words → short stories, then a 🌈 "כָּל הַנִּקּוּד" card at the end.
+3. 📗 **אֲנִי קוֹרֵא:** a library of little books, stages א׳–ה׳.
+
+"מִלִּים רִאשׁוֹנוֹת", "מִשְׁפָּטִים" and the separate 📚 "סִפּוּרִים" are gone from the big map; they live inside each nikud world.
+- [ ] Ask mom: does this match how she teaches (letters → vowels with words and sentences inside → free reading)?
+
 ## Suggested order (cheapest first)
 
 1. **A1 + C2** (Claude, free) → **A2 + A3 + C1** (mom records and films) → the app already "has mom in it".
