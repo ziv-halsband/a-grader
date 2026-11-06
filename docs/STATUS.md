@@ -1,4 +1,4 @@
-# Status: where we are (5 Nov 2026, evening)
+# Status: where we are (6 Nov 2026)
 
 ## The product today
 **Audience:** גן חובה children (age 5–6) and their parents. **Goal:** reading before grade 1. **Partner:** the founder's mom, a veteran grade-1 teacher.
@@ -22,15 +22,18 @@
 - **Real mastery (`lib/mastery.ts`, draft rule):** a letter "knows" = right on the first try on 2 different days, in 2 kinds of question. The 🎲 daily practice brings back weak letters first, then letters due after ~1, 3, 7 days, and asks a letter a kind it hasn't had.
 - **🌱 Letter garden (`/play/letters/garden`):** every letter is a plant (seed → sprout → flower; coconut → palm on the island), a first-bloom celebration, 💧/☀️ for each day played this week (nothing lost on a missed day). A preview card on the letters map.
 - **✍️ Write my name (`/play/letters/write/name`):** the nickname letter by letter (finals at the end of each word), then the whole name re-drawn in the child's own ink; the signature shows on the home card and in "my room".
-- **Kamatz/patach world** (`/play/kamatz-patach`, inside nikud): 4 syllable stations (builder, hear-and-find, first sound) + reading words alone. **Paused**: founder: "we really need to improve it", with mom.
 - **📚 Stories (`/play/stories`, the big map's 📚; `/play/stories/[world]` per nikud world), DRAFT for mom:** 36 decodable read-along stories, 6 per vowel world, using only the vowels taught so far (`content/stories.ts`, checked by `lib/decodable.ts` in `e2e/stories.spec.ts`). Recurring friends: דָּנָה, אַבָּא, the turtle, the dog, מִיצִי the cat. One sentence per page under an emoji scene; tap a word to hear it, 🔊 reads the page and lights each word (karaoke); a picture question at the end, a sticker on the shelf (✓, ⭐ if right first try). Audio: `npm run audio:stories` (ElevenLabs with timestamps → one mp3 per page + word times in `content/story-audio.json`); without it the reader is text only.
 - **Nikud: all 6 vowel worlds** (`/play/nikud`, one engine, content in `content/nikud.ts`, all DRAFT for mom): קָמָץ/פַּתָּח → צֵירֵה/סֶגּוֹל → חִירִיק → חוֹלָם → שׁוּרוּק/קֻבּוּץ → שְׁוָא, each with its own color, stickers, gifts and a hero (🐳 🐆 🦒 🐨 🐙 🦓). A syllables station: 📖 meet the vowel + build (tap the mark, it jumps under the letter, then a word that starts with it) → 🐢/🐇 blend slow then fast → 👂 hear and find → 🖼️ first sound of a picture → 🎁 (locked until all done). The last station of each world: read together (syllable chips, slow/fast) → read alone (picture choice) → 🎁, then a 📚 stories tile (`/play/stories/<world>`). A big step splash before each step. Reading words use only vowels learned so far (checked by `e2e/nikud.spec.ts`). The shva world only teaches the "closing" shva (מַ + זְ → מַזְ). `/play/kamatz-patach` redirects.
+- **🎁 Prizes (shared `StationSteps`/`StationDone`, every world):** each finished step flies a ⭐ into the 🎁; the 🎁 shows 🔒 and ★★☆☆ until every other step is done (tapped early: it wiggles, knocks, the 👆 points at the next step); the last ⭐ pops the lock; the stars drop into the chest/egg, then a big reveal (sticker + gift). A replay shows "✓ כְּבָר בָּאוֹסֶף". Rule: `prizeLocked` / `stepAfter`.
+- **✍️ Writing:** a grade-1 notebook board (paper, letter band, baseline, a line below for finals, pink margin), thinner crayon ink, a "polish" moment (the neat letter draws over the child's) + ⭐ stamp. Free writing is checked strictly (`scoreFreehand` in `content/writing.ts`): size/place normalized, every stroke covered, no stray ink, lookalike rules (ד/ר, ה/ח, ו/ז, ב/כ, finals below the line). Measured on synthetic letters: right ≈ 90% pass, wrong ≈ 2%, scribble ≈ 4% (`scripts/tune-writing.ts`). Not yet watched with real kids.
+- **Look (6 Nov):** one call to action at a time (only the next station glows, with 👆 and the buddy), the map path is a road that turns solid where walked, world backgrounds (beach / hills), a ⭐ counter in the header, warmer shorter voice lines, no dead ends.
 - **Parents (`/parents`, code 17):** progress grids (letters green/yellow/gray by the mastery rule, days played this week), a next-step suggestion, settings (nickname, grammar, world, "open all worlds", record the name, reset), 🖨️ printable writing pages (`/print`).
 - **Studio (`/studio`):** every voice line with play + the automatic-ear transcript, and all 27 letters' writing strokes for mom to review.
 
 ### Tech
 - Next.js 16 (App Router, Turbopack, React 19, React Compiler) + Tailwind 4. RTL, Rubik font. Local-first (localStorage), no backend yet.
-- Voice: ElevenLabs `eleven_v3`, stock voice "Sarah", pre-generated MP3s in `public/audio` (about 200 lines). No live AI at play time.
+- Voice: ElevenLabs `eleven_v3`, stock voice "Sarah", pre-generated MP3s in `public/audio`. No live AI at play time.
+  **Credits ran out on 6 Nov** (free plan, 10k/month). Missing: 154 nikud lines (`npm run audio:eleven -- --retakes 3`, ≈ 1,300 credits) and 30 stories (`npm run audio:stories`, ≈ 2,800). Until then, lines without a recording are said by the device's Hebrew voice (`speechSynthesis` in `lib/audio.ts`, only if the device has a Hebrew voice; never waits past the line). The six kamatz/patach stories have real audio with word timings.
 - Deploy: GitHub `ziv-halsband/a-grader` → Vercel (auto on push). Free ElevenLabs plan = non-commercial.
 
 ## Decisions made (with the founder)
@@ -49,6 +52,8 @@
 5. Silent letters א/ע, בּ/ב with and without the dot, a memory story per letter, the kamatz/patach method.
 6. What the kids call her (the guide is "הַמּוֹרָה" for now). Her voice clone + avatar.
 7. **New (5 Nov evening), all drafts:** the mastery rule (2 days + 2 kinds; should a later miss take "knows" away? should writing count?), review gaps 1/3/7 days, the pajamas story, wording of "אֵיזוֹ אוֹת? תַּגִּיד בְּקוֹל!", is "which letter does אַרְיֵה start with?" fair for silent א/ע, name writing (watch → trace → free; finals in a name before finals are taught; the ׳ in ג׳וני is dropped), the hunt scenes' words (`content/scenes.ts`).
+
+8. **New (6 Nov), all drafts:** every nikud world's letters, words and mark descriptions (`content/nikud.ts`), the order of the vowels (note: a published graded series the founder showed teaches שְׁוָא together with קָמָץ/פַּתָּח, then חוֹלָם, חִירִיק, צֵירֵה/סֶגּוֹל), the 36 stories' Hebrew and decodability rules (final ה / silent א allowed; no "וְ" before shva), how strict free writing should be, and the prize flow.
 
 ## Next ideas (not started)
 - From `docs/07-letters-research.md`: teach the letter sound (once mom decides); one off-screen idea per letter for parents; picture mnemonics drawn into the letter.
