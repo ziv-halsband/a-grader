@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { StationSteps, type Step } from "@/components/StationSteps";
+import { PRIZE, prizeLocked, StationSteps, type Step } from "@/components/StationSteps";
 import { WorldShell } from "@/components/WorldShell";
 import { LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
 import { shuffle } from "@/lib/random";
-import { say, wrongSound } from "@/lib/audio";
 import { useRequiredChild } from "@/lib/useChild";
 import { GamePicker } from "./GamePicker";
 import { LetterWall } from "./LetterWall";
@@ -54,13 +53,19 @@ export function StationPlayer({ stationId }: { stationId: string }) {
     ? STEPS.length - 1
     : (reached ?? (child.done.includes(`letters/${stationId}`) ? STEPS.length - 2 : 0));
 
+  const collectedBefore = child.done.includes(`letters/${stationId}`);
+  /** A step was completed: it gets a ✓ and drops a ⭐ into the prize (without moving on). */
+  const markDone = (id: string) => {
+    const now = finished.includes(id) ? finished : [...finished, id];
+    setFinished(now);
+    return now;
+  };
   /** A step was completed (not just left): mark it ✓ and move on. */
   const finish = (from: string, to: string) => {
-    const now = finished.includes(from) ? finished : [...finished, from];
-    setFinished(now);
+    const now = markDone(from);
     // Steps skipped in practice mode come before the prize: go to the first one not done yet.
-    const missing = STEPS.find((st) => st.id !== "done" && !now.includes(st.id));
-    go(to === "done" && missing && !child.done.includes(`letters/${stationId}`) ? missing.id : to);
+    const missing = STEPS.find((st) => st.id !== PRIZE && !now.includes(st.id));
+    go(to === PRIZE && missing && !collectedBefore ? missing.id : to);
   };
   const go = (id: string) => {
     const i = STEPS.findIndex((s) => s.id === id);
@@ -77,13 +82,7 @@ export function StationPlayer({ stationId }: { stationId: string }) {
         reached={furthest}
         finished={finished}
         // The prize is earned: it opens only after every other step (or if the station was finished before).
-        locked={
-          child.done.includes(`letters/${stationId}`) || STEPS.every((s) => s.id === "done" || finished.includes(s.id)) ? [] : ["done"]
-        }
-        onLocked={() => {
-          wrongSound();
-          say("locked");
-        }}
+        locked={prizeLocked(STEPS, finished, collectedBefore) ? [PRIZE] : []}
         onPick={go}
       />
 
@@ -97,14 +96,22 @@ export function StationPlayer({ stationId }: { stationId: string }) {
         {phase === "quiz" && <LetterQuiz build={() => buildQuizItems(stationId)} child={child} onDone={() => finish("quiz", "write")} />}
         {phase === "write" && <WriteStep letterIds={writeIds} child={child} onDone={() => finish("write", "play")} />}
         {phase === "play" && (
-          <GamePicker stationId={stationId} letterIds={station.letterIds} child={child} onFinish={() => finish("play", "done")} />
+          <GamePicker
+            stationId={stationId}
+            letterIds={station.letterIds}
+            child={child}
+            // One game played = the 🎮 step is done (its ⭐ flies now; more games are a bonus).
+            onPlayed={() => markDone("play")}
+            onFinish={() => finish("play", PRIZE)}
+          />
         )}
-        {phase === "done" && (
+        {phase === PRIZE && !prizeLocked(STEPS, finished, collectedBefore) && (
           <StationDone
             child={child}
             stationKey={`letters/${stationId}`}
             items={station.mix ? [] : letters.map((l) => ({ id: l.id, label: l.char }))}
             mapHref="/play/letters"
+            stars={STEPS.length - 1}
             onReplay={() => go("meet")}
             next={
               LETTER_STATIONS[index + 1] ? (

@@ -87,6 +87,9 @@ const neutral: Record<string, string> = {
   "write-free-almost": "כִּמְעַט! עוֹד פַּעַם",
   notebook: "אֵיזוֹ אוֹת נִכְתֹּב?",
   "chest-what": "מָה יֵשׁ בִּפְנִים?",
+  // The prize in the steps bar (5 Nov night): each finished step drops a ⭐ into it.
+  "more-stars": "אוֹסְפִים עוֹד כּוֹכָבִים!",
+  "prize-ready": "הַהַפְתָּעָה מְחַכָּה!",
   "review-intro": "יוֹצְאִים לָאִמּוּן הַיּוֹמִי!",
   // Greeting by time of day, then the child's name (recorded by a parent, on the device only).
   "good-morning": "בֹּקֶר טוֹב!",

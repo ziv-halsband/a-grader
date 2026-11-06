@@ -63,11 +63,14 @@ export function GamePicker({
   stationId,
   letterIds,
   child,
+  onPlayed,
   onFinish,
 }: {
   stationId: string;
   letterIds: string[];
   child: Child;
+  /** A game was played to the end (the 🎮 step counts as finished after one game). */
+  onPlayed?: () => void;
   onFinish: () => void;
 }) {
   const [menu] = useState(() => GAMES.filter((g) => gamesFor(stationId).includes(g.id)));
@@ -77,6 +80,7 @@ export function GamePicker({
   const back = () => {
     setPlayed((p) => (game && !p.includes(game) ? [...p, game] : p));
     setGame(null);
+    onPlayed?.();
   };
 
   if (game === "bubbles") return <BubblesGame key={round} stationId={stationId} gender={child.gender} onDone={back} />;

@@ -6,7 +6,6 @@ import { StationDone } from "@/components/StationDone";
 import { StationSteps, type Step } from "@/components/StationSteps";
 import { WorldShell } from "@/components/WorldShell";
 import { KAMATZ, KAMATZ_STATIONS, READ_WORD_BY_ID, SYLLABLE_BY_ID } from "@/content/kamatz";
-import { say, wrongSound } from "@/lib/audio";
 import { useRequiredChild } from "@/lib/useChild";
 import { ReadGame } from "./ReadGame";
 import { SyllableFind, SyllableStarts } from "./SyllableGames";
@@ -67,10 +66,6 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
         locked={
           child.done.includes(key) || steps.every((s) => s.id === "done" || finished.includes(s.id)) ? [] : ["done"]
         }
-        onLocked={() => {
-          wrongSound();
-          say("locked");
-        }}
         onPick={go}
       />
       <div key={run} className="flex flex-1 flex-col">
@@ -98,6 +93,7 @@ export function KamatzPlayer({ stationId }: { stationId: string }) {
                 : { id, label: SYLLABLE_BY_ID[id].base + KAMATZ },
             )}
             mapHref="/play/kamatz-patach"
+            stars={steps.length - 1}
             onReplay={() => go("learn")}
             next={
               <Link

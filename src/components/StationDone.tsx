@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { BuddyAvatar } from "@/components/BuddyAvatar";
 import { Confetti } from "@/components/Confetti";
 import { Guide } from "@/components/Guide";
@@ -10,7 +10,7 @@ import { ACCESSORY_BY_ID, type Hero } from "@/content/buddies";
 import { rewardFor } from "@/content/rewards";
 import { line } from "@/content/voice";
 import { WORLDS } from "@/content/worlds";
-import { sparkleSound } from "@/lib/audio";
+import { sparkleSound, starSound } from "@/lib/audio";
 import { cheer } from "@/lib/buddy";
 import { actions, type Child } from "@/lib/store";
 
@@ -26,6 +26,7 @@ export function StationDone({
   mapHref,
   onReplay,
   next,
+  stars = 3,
 }: {
   child: Child;
   stationKey: string;
@@ -34,10 +35,15 @@ export function StationDone({
   mapHref: string;
   onReplay: () => void;
   next: ReactNode;
+  /** How many ⭐ were collected on the way (one per step): they drop into the chest/egg before it opens. */
+  stars?: number;
 }) {
   // Read once, before completing, so a replay doesn't pretend to give a new sticker.
   const [isNew] = useState(() => !child.done.includes(stationKey));
   const [stage, setStage] = useState<"closed" | "opening" | "open">(isNew ? "closed" : "open");
+  /** Stars already inside the chest (they drop in one by one, then the 👆 shows it can be opened). */
+  const [inside, setInside] = useState(0);
+  const filled = inside >= stars;
   const [heroArrives, setHeroArrives] = useState(false);
   const world = WORLDS[child.worldId];
   const g = child.gender;
@@ -51,8 +57,22 @@ export function StationDone({
     if (!isNew) cheer("party");
   }, [isNew]);
 
+  // The collected stars drop in: one every ~0.4s, each with a "ting" and a bump of the chest.
+  useEffect(() => {
+    if (!isNew || stage !== "closed" || filled) return;
+    const t = setTimeout(
+      () => {
+        starSound();
+        setInside((n) => n + 1);
+      },
+      inside === 0 ? 700 : 420,
+    );
+    return () => clearTimeout(t);
+  }, [isNew, stage, filled, inside]);
+
   const open = () => {
     if (stage !== "closed") return;
+    setInside(stars);
     setStage("opening");
     sparkleSound();
     setTimeout(() => {
@@ -65,24 +85,50 @@ export function StationDone({
 
   if (stage !== "open") {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-6 px-6 py-6">
+      <div className="flex flex-1 flex-col items-center justify-center gap-2 px-6 py-6">
         <Guide compact lines={["chest-what"]} />
+        {/* The stars collected on the way, waiting above the chest; each drops in. */}
+        <div aria-hidden className="relative mt-4 h-16 w-full max-w-sm">
+          {Array.from({ length: stars }, (_, k) => (
+            <span
+              key={k}
+              className={`absolute top-0 left-1/2 -ml-7 inline-block w-14 text-center text-5xl ${k < inside ? "anim-star-in" : ""}`}
+              style={{ "--x": `${(k - (stars - 1) / 2) * 64}px`, transform: `translateX(${(k - (stars - 1) / 2) * 64}px)` } as CSSProperties}
+            >
+              <span className={`inline-block ${k < inside ? "" : "anim-bob"}`} style={{ animationDelay: `${k * 300}ms` }}>
+                ⭐
+              </span>
+            </span>
+          ))}
+        </div>
         <button
+          key={stage === "closed" && !filled ? `bump-${inside}` : stage}
           onClick={open}
           aria-label={world.surprise.label}
+          data-filled={filled ? "yes" : "no"}
           className={`relative flex h-56 w-56 items-center justify-center text-[10rem] leading-none drop-shadow-xl ${
-            stage === "opening" ? "anim-chest" : "anim-bob"
+            stage === "opening" ? "anim-chest" : filled ? "anim-prize-ready" : inside > 0 ? "anim-chest-bump" : ""
           }`}
         >
           {world.surprise.closed}
-          {stage === "closed" && <PointHand className="-bottom-2 -left-2" />}
+          {inside > 0 && (
+            <span
+              key={inside}
+              aria-hidden
+              className="anim-pop absolute -top-2 -right-2 flex items-center gap-1 rounded-full border-4 border-white bg-amber-400 px-3 py-1 text-2xl font-extrabold text-white shadow-lg"
+            >
+              ⭐{inside}
+            </span>
+          )}
+          {stage === "closed" && filled && <PointHand className="-bottom-2 -left-2" />}
         </button>
       </div>
     );
   }
 
+  const giftEmoji = ACCESSORY_BY_ID[gift]?.emoji ?? "⭐";
   return (
-    <div className="flex flex-1 flex-col items-center gap-6 px-6 py-6">
+    <div className="flex flex-1 flex-col items-center gap-5 px-6 py-6">
       {isNew && <Confetti count={60} />}
       <Guide
         compact
@@ -90,40 +136,60 @@ export function StationDone({
       />
 
       {isNew ? (
-        <div className="flex items-end gap-6">
-          <div className="anim-fly flex h-40 w-40 items-center justify-center rounded-full border-8 border-white bg-[var(--card)] text-[6rem] shadow-2xl">
-            {sticker}
+        // What was won, big and simple: a sticker for my room + a gift the buddy is already wearing.
+        <div className="flex flex-wrap items-stretch justify-center gap-4" data-reveal="new">
+          <div className="anim-fly flex w-44 flex-col items-center gap-2 rounded-[2rem] bg-white/85 p-4 shadow-xl">
+            <span className="flex h-32 w-32 items-center justify-center rounded-full border-8 border-white bg-[var(--card)] text-[5.5rem] shadow-lg">
+              {sticker}
+            </span>
+            <span className="nikud text-xl font-extrabold">מַדְבֵּקָה חֲדָשָׁה</span>
           </div>
           <div
-            className="anim-fly flex h-28 w-28 items-center justify-center rounded-full border-4 border-white bg-white/80 text-6xl shadow-xl"
-            style={{ animationDelay: "250ms" }}
+            className="anim-fly flex w-44 flex-col items-center gap-2 rounded-[2rem] bg-white/85 p-4 shadow-xl"
+            style={{ animationDelay: "350ms" }}
             aria-label="מתנה לחבר"
           >
-            {ACCESSORY_BY_ID[gift].emoji}
+            <span className="flex h-32 items-end justify-center gap-1">
+              <span className="anim-bob mb-6 inline-block text-5xl">{giftEmoji}</span>
+              <span aria-hidden className="mb-10 text-2xl opacity-60">
+                ←
+              </span>
+              {child.buddy && (
+                <span className="anim-dance-loop inline-block origin-bottom">
+                  <BuddyAvatar buddy={child.buddy} wearing={[gift]} size={84} />
+                </span>
+              )}
+            </span>
+            <span className="nikud text-xl font-extrabold">מַתָּנָה לֶחָבֵר</span>
           </div>
         </div>
       ) : (
         // Replay: what this station gave, already in the collection, and the buddy dancing.
-        <div className="flex items-end gap-6">
-          <div className="anim-sticker relative flex h-40 w-40 items-center justify-center rounded-full border-8 border-white bg-[var(--card)] text-[6rem] shadow-2xl">
-            {sticker}
-            <span
-              className="absolute -top-1 -left-1 flex h-12 w-12 items-center justify-center rounded-full border-4 border-white bg-green-500 text-2xl font-extrabold text-white shadow"
-              aria-label="כבר אספת"
-            >
-              ✓
-            </span>
+        <div className="flex flex-col items-center gap-3" data-reveal="collected">
+          <div className="flex items-end gap-6">
+            <div className="anim-sticker relative flex h-36 w-36 items-center justify-center rounded-full border-8 border-white bg-[var(--card)] text-[5.5rem] shadow-2xl">
+              {sticker}
+              <span
+                className="absolute -top-1 -left-1 flex h-12 w-12 items-center justify-center rounded-full border-4 border-white bg-green-500 text-2xl font-extrabold text-white shadow"
+                aria-label="כבר אספת"
+              >
+                ✓
+              </span>
+            </div>
+            {child.buddy && (
+              <span className="anim-dance-loop inline-block origin-bottom">
+                <BuddyAvatar buddy={child.buddy} wearing={child.wearing} size={100} />
+              </span>
+            )}
+            {hero && child.buddy !== hero.id && (
+              <span className="anim-dance-loop inline-block origin-bottom" style={{ animationDelay: "300ms" }}>
+                <BuddyAvatar buddy={hero.id} size={80} />
+              </span>
+            )}
           </div>
-          {child.buddy && (
-            <span className="anim-dance-loop inline-block origin-bottom">
-              <BuddyAvatar buddy={child.buddy} wearing={child.wearing} size={100} />
-            </span>
-          )}
-          {hero && child.buddy !== hero.id && (
-            <span className="anim-dance-loop inline-block origin-bottom" style={{ animationDelay: "300ms" }}>
-              <BuddyAvatar buddy={hero.id} size={80} />
-            </span>
-          )}
+          <span className="nikud rounded-full bg-green-500 px-5 py-1 text-xl font-extrabold text-white shadow">
+            ✓ כְּבָר בָּאוֹסֶף
+          </span>
         </div>
       )}
 
