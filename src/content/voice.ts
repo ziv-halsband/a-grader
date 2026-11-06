@@ -29,6 +29,8 @@ const gendered: Record<string, { m: string; f: string }> = {
   "station-done": { m: "סִיַּמְתָּ! כָּל הַכָּבוֹד!", f: "סִיַּמְתְּ! כָּל הַכָּבוֹד!" },
   // Free writing (🖍️ round), followed by the letter's name.
   "write-free": { m: "כְּתֹב אֶת הָאוֹת", f: "כִּתְבִי אֶת הָאוֹת" },
+  // Free writing "not yet" for a lookalike (ד written like ר): the telling part lights up.
+  "write-look-here": { m: "תִּרְאֶה כָּאן!", f: "תִּרְאִי כָּאן!" },
   // ✍️ Write my name: the intro, then at the end "you wrote the name!" + the child's name (if we have it).
   "name-intro": { m: "כְּתֹב אֶת הַשֵּׁם שֶׁלְּךָ!", f: "כִּתְבִי אֶת הַשֵּׁם שֶׁלָּךְ!" },
   "name-done": { m: "כָּתַבְתָּ אֶת הַשֵּׁם!", f: "כָּתַבְתְּ אֶת הַשֵּׁם!" },
@@ -100,6 +102,8 @@ const neutral: Record<string, string> = {
   "write-alone": "עַכְשָׁו לְבַד!",
   "write-start-here": "מַתְחִילִים כָּאן!",
   "write-free-almost": "כִּמְעַט! עוֹד פַּעַם",
+  // Free writing passed: the neat letter draws itself over the child's (the "polish" moment).
+  "write-pretty": "אֵיזוֹ אוֹת יָפָה!",
   notebook: "אֵיזוֹ אוֹת נִכְתֹּב?",
   "chest-what": "מָה יֵשׁ בִּפְנִים?",
   // The prize in the steps bar (5 Nov night): each finished step drops a ⭐ into it.

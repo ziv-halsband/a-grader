@@ -1,14 +1,22 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { Confetti } from "@/components/Confetti";
 import { Guide } from "@/components/Guide";
 import { PointHand } from "@/components/PointHand";
 import { LETTER_BY_ID } from "@/content/letters";
 import { PRAISE, line } from "@/content/voice";
-import { scoreFreehand, smoothPath, strokesFor, toPoints, type Pt } from "@/content/writing";
+import {
+  scoreFreehand,
+  smoothPath,
+  softenInk,
+  strokesFor,
+  toPoints,
+  type FreehandScore,
+  type Pt,
+} from "@/content/writing";
 import type { Gender } from "@/content/worlds";
-import { popSound, rightSound, say, sparkleSound, wrongSound } from "@/lib/audio";
+import { hasAudio, popSound, rightSound, say, sparkleSound, wrongSound } from "@/lib/audio";
 import { cheer } from "@/lib/buddy";
 import { pick } from "@/lib/random";
 
@@ -37,15 +45,22 @@ const NEAR = 16;
 const LOOKAHEAD = 40;
 /** Lifting the finger after this much of a stroke counts as finishing it. */
 const LIFT_DONE = 0.8;
-/** Free writing: after this many "not yet"s, offer going back to tracing (and moving on). */
+/** Free writing: after this many "not yet"s, offer going back to tracing (and moving on), and check more gently. */
 const OFFER_HELP_AFTER = 2;
+/** Ink widths in the 100×100 box: a nice marker on a ~26rem board (about 4 mm), not a fat blob. */
+const INK_W = 4.1;
+const TRACK_W = 11;
+/** How long the "not yet" hint stays (ms). */
+const HINT_MS = 3400;
 
 /**
  * Writing one letter, four rounds: 👀 watch the pencil write it → ✏️ trace it (green start dot, arrows,
  * numbers) → ✍️ write it alone (only a faint shape) → 🖍️ write it freely (empty notebook lines, real ink).
  * In the first three the ink only grows forward along the right stroke, in the right direction, so a shaky
  * finger still makes a neat letter, but the order and direction are learned. In the last one the ink is the
- * child's own; "סִיַּמְתִּי" checks it against the letter (scoreFreehand) and shows the letter over it.
+ * child's own; "סִיַּמְתִּי" checks it against the letter (scoreFreehand). Passed: the neat letter draws itself
+ * over the child's (same place, same size, same crayon) and gets a star stamp. Not yet: the letter shows faintly,
+ * the part to fix glows, 👆 points where to start. The board is a notebook row (NotebookLines) on paper.
  */
 export function LetterWriter({
   letterId,
@@ -99,7 +114,10 @@ export function LetterWriter({
 
   // 🖍️ Free writing: the child's own strokes, the "not yet" hint (which letter points were missed) and the result.
   const [ink, setInk] = useState<{ color: string; pts: Pt[] }[]>([]);
-  const [hint, setHint] = useState<boolean[][] | null>(null);
+  const [hint, setHint] = useState<FreehandScore | null>(null);
+  /** Passed free writing: how the ink sat on the model (for the "polish" moment). */
+  const [passed, setPassed] = useState<FreehandScore | null>(null);
+  const uid = useId().replace(/:/g, "");
   const [freeMisses, setFreeMisses] = useState(0);
   const [backToTrace, setBackToTrace] = useState(false);
   const [free, setFree] = useState<FreeResult | null>(null);
@@ -114,6 +132,7 @@ export function LetterWriter({
     setMissedStarts(0);
     setInk([]);
     setHint(null);
+    setPassed(null);
     setReady(false);
     pointer.current = null;
   };
@@ -121,7 +140,7 @@ export function LetterWriter({
   // The "not yet" hint shows for a moment, then the board is the child's again.
   useEffect(() => {
     if (!hint) return;
-    const t = setTimeout(() => setHint(null), 2600);
+    const t = setTimeout(() => setHint(null), HINT_MS);
     return () => clearTimeout(t);
   }, [hint]);
 
@@ -231,20 +250,25 @@ export function LetterWriter({
     const score = scoreFreehand(
       letterId,
       ink.map((s) => s.pts),
+      { easier: freeMisses >= OFFER_HELP_AFTER },
     );
     if (score.pass) {
       setFree((f) => f ?? { result: freeMisses || backToTrace ? "withHelp" : "firstTry", misses: freeMisses });
       setHint(null);
+      setPassed(score);
       setMode("done");
       sparkleSound();
       cheer("party");
-      say(`letter-${letterId}`, line(pick(PRAISE), gender));
+      const pretty = line("write-pretty", gender);
+      say(`letter-${letterId}`, hasAudio(pretty) ? pretty : line(pick(PRAISE), gender));
     } else {
       setFreeMisses((n) => n + 1);
-      setHint(score.covered);
+      setHint(score);
       wrongSound();
       cheer("oops");
-      say("write-free-almost");
+      // A lookalike or a missing tail: "look here!" (the telling part lights up); else "almost, once more".
+      const look = line("write-look-here", gender);
+      say(score.miss === "lookalike" || score.miss === "below" ? (hasAudio(look) ? look : "write-free-almost") : "write-free-almost");
     }
   };
 
@@ -327,7 +351,7 @@ export function LetterWriter({
     // Another finger or a palm lifting: the writing finger keeps going.
     if (pointer.current !== null && pointer.current !== e.pointerId) return;
     if (mode === "free" && pointer.current !== null && ink.length) {
-      setReady(scoreFreehand(letterId, ink.map((s) => s.pts)).pass);
+      setReady(scoreFreehand(letterId, ink.map((s) => s.pts), { easier: freeMisses >= OFFER_HELP_AFTER }).pass);
     }
     pointer.current = null;
     // Lifted near the end of a stroke (a small finger rarely lands on the exact end): count it as done.
@@ -386,7 +410,7 @@ export function LetterWriter({
         <svg
           ref={svgRef}
           viewBox="0 0 100 100"
-          className="aspect-square w-full touch-none rounded-[2.5rem] bg-white shadow-xl select-none"
+          className="paper-board aspect-square w-full touch-none rounded-[2.5rem] shadow-xl select-none"
           onPointerDown={onDown}
           onPointerMove={onMove}
           onPointerUp={onUp}
@@ -395,19 +419,28 @@ export function LetterWriter({
           role="img"
           aria-label={`כתיבת האות ${letter.name}`}
         >
-          {/* Writing lines, like a first-grade notebook. */}
-          <line x1="6" x2="94" y1="22" y2="22" stroke="#e2e8f0" strokeWidth="0.6" strokeDasharray="2 2" />
-          <line x1="6" x2="94" y1="80" y2="80" stroke="#cbd5e1" strokeWidth="0.8" />
+          <defs>
+            {/* A crayon's waxy grain and a slightly rough edge (the same ink in every round). */}
+            <filter id={`crayon-${uid}`} filterUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+              <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n" />
+              <feDisplacementMap in="SourceGraphic" in2="n" scale="0.7" xChannelSelector="R" yChannelSelector="G" result="d" />
+              <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -0.9 1.3" result="g" />
+              <feComposite in="d" in2="g" operator="in" />
+            </filter>
+          </defs>
+
+          <NotebookLines letterId={letterId} />
 
           {/* The letter's track (free writing has none: only the notebook lines). */}
           {!freehand &&
             strokes.map((pts, i) => (
               <polyline
                 key={`track-${i}`}
+                data-track=""
                 points={toPoints(pts)}
                 fill="none"
-                stroke={mode === "alone" ? "#f1f5f9" : "#e9eef5"}
-                strokeWidth="13"
+                stroke={mode === "alone" ? "#eef2f7" : "#e3e9f2"}
+                strokeWidth={TRACK_W}
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -422,14 +455,14 @@ export function LetterWriter({
                     points={toPoints(pts)}
                     fill="none"
                     stroke="#94a3b8"
-                    strokeWidth="1.4"
-                    strokeDasharray="0.1 4"
+                    strokeWidth="1.2"
+                    strokeDasharray="0.1 3.6"
                     strokeLinecap="round"
                   />
                   {arrows(pts).map((a, k) => (
                     <path
                       key={k}
-                      d="M -2.6 -2.2 L 2.6 0 L -2.6 2.2 Z"
+                      d="M -2.2 -1.9 L 2.4 0 L -2.2 1.9 Z"
                       fill="var(--accent)"
                       transform={`translate(${a.x} ${a.y}) rotate(${a.deg})`}
                     />
@@ -438,51 +471,65 @@ export function LetterWriter({
               ),
             )}
 
-          {/* Passed free writing: the letter fades in under the child's ink. */}
-          {mode === "done" &&
-            freehand &&
-            strokes.map((pts, i) => (
-              <polyline
-                key={`model-${i}`}
-                points={toPoints(pts)}
-                fill="none"
-                stroke="var(--accent)"
-                strokeOpacity="0.3"
-                strokeWidth="13"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="anim-fade"
-              />
-            ))}
+          {/* Free ink: the child's own strokes, each in the crayon it was written with (a passed letter fades
+              back so its neat version can draw itself on top). */}
+          {freehand && (
+            <g
+              filter={`url(#crayon-${uid})`}
+              className="transition-opacity duration-1000"
+              opacity={passed ? 0.32 : 1}
+            >
+              {ink.map((s, i) => (
+                <path
+                  key={`free-${i}`}
+                  d={smoothPath(softenInk(s.pts))}
+                  fill="none"
+                  stroke={s.color}
+                  strokeWidth={INK_W}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              ))}
+            </g>
+          )}
 
-          {/* Free ink: the child's own strokes, each in the crayon it was written with. */}
-          {freehand &&
-            ink.map((s, i) => (
-              <path
-                key={`free-${i}`}
-                d={smoothPath(s.pts)}
-                fill="none"
-                stroke={s.color}
-                strokeWidth="8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            ))}
+          {/* ✨ Polish: the same letter, neat, drawn right where (and as big as) the child wrote it. */}
+          {mode === "done" && passed && (
+            <g filter={`url(#crayon-${uid})`} style={{ pointerEvents: "none" }}>
+              {strokes.map((pts, i) => (
+                <polyline
+                  key={`neat-${i}`}
+                  points={toPoints(pts.map((p) => ({ x: (p.x - passed.fit.tx) / passed.fit.sx, y: (p.y - passed.fit.ty) / passed.fit.sy })))}
+                  pathLength={1}
+                  fill="none"
+                  stroke={ink[ink.length - 1]?.color ?? color}
+                  strokeWidth={INK_W + 0.6}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="anim-ink"
+                  style={{ animationDelay: `${450 + i * 380}ms` }}
+                />
+              ))}
+            </g>
+          )}
 
-          {/* Not yet: the letter faintly over the ink, the parts still missing in the accent color. */}
+          {/* Not yet: the letter faintly over the ink; what to fix (a missed part, a lookalike's telling part)
+              glows in the accent color. */}
           {mode === "free" && hint && (
             <g className="anim-fade" style={{ pointerEvents: "none" }}>
               {strokes.flatMap((pts, i) =>
-                runs(pts, hint[i]).map((r, k) => (
+                runs(pts, hint.covered[i]).map((r, k) => (
                   <polyline
                     key={`miss-${i}-${k}`}
                     points={toPoints(r.pts)}
                     fill="none"
                     stroke={r.covered ? "#94a3b8" : "var(--accent)"}
-                    strokeOpacity={r.covered ? 0.4 : 0.85}
-                    strokeWidth={r.covered ? 4 : 6}
+                    strokeOpacity={r.covered ? 0.45 : 0.9}
+                    strokeWidth={r.covered ? 2.2 : 4.4}
+                    strokeDasharray={r.covered ? "0.1 3" : undefined}
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    className={r.covered ? "" : "anim-glow-soft"}
                   />
                 )),
               )}
@@ -490,23 +537,26 @@ export function LetterWriter({
           )}
 
           {/* Ink: finished strokes + the current one up to the finger. */}
-          {!freehand &&
-            strokes.map((pts, i) => {
-              const upto = i < stroke ? pts.length : i === stroke ? progress + 1 : 0;
-              if (upto < 2) return null;
-              return (
-                <polyline
-                  key={`ink-${i}`}
-                  points={toPoints(pts.slice(0, upto))}
-                  fill="none"
-                  stroke={mode === "done" ? "var(--accent)" : color}
-                  strokeWidth="9"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className={mode === "done" ? "transition-colors duration-700" : ""}
-                />
-              );
-            })}
+          {!freehand && (
+            <g filter={`url(#crayon-${uid})`}>
+              {strokes.map((pts, i) => {
+                const upto = i < stroke ? pts.length : i === stroke ? progress + 1 : 0;
+                if (upto < 2) return null;
+                return (
+                  <polyline
+                    key={`ink-${i}`}
+                    points={toPoints(pts.slice(0, upto))}
+                    fill="none"
+                    stroke={mode === "done" ? "var(--accent)" : color}
+                    strokeWidth={INK_W + 0.6}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={mode === "done" ? "transition-colors duration-700" : ""}
+                  />
+                );
+              })}
+            </g>
+          )}
 
           {/* Start dots with the stroke number. */}
           {showHints &&
@@ -514,26 +564,36 @@ export function LetterWriter({
               i < stroke || (i === stroke && progress > 0) ? null : (
                 <g key={`start-${i}`} transform={`translate(${pts[0].x} ${pts[0].y})`}>
                   <circle
-                    r="5.5"
+                    r="4.6"
                     fill={i === stroke ? "#22c55e" : "#fb923c"}
+                    stroke="white"
+                    strokeWidth="0.9"
                     className={i === stroke ? "anim-glow" : ""}
                   />
-                  <text textAnchor="middle" dominantBaseline="central" fontSize="6.5" fontWeight="800" fill="white">
+                  <text textAnchor="middle" dominantBaseline="central" fontSize="5.4" fontWeight="800" fill="white">
                     {i + 1}
                   </text>
                 </g>
               ),
             )}
           {mode === "alone" && showStart && progress === 0 && (
-            <circle cx={strokes[stroke][0].x} cy={strokes[stroke][0].y} r="4.5" fill="#22c55e" className="anim-glow" />
+            <circle
+              cx={strokes[stroke][0].x}
+              cy={strokes[stroke][0].y}
+              r="3.8"
+              fill="#22c55e"
+              stroke="white"
+              strokeWidth="0.8"
+              className="anim-glow"
+            />
           )}
 
           {/* The pencil, at the tip of the ink. */}
           {(mode === "watch" || isDrawing) && strokes[stroke]?.[progress] && (
             <text
-              x={strokes[stroke][progress].x + 2}
-              y={strokes[stroke][progress].y - 2}
-              fontSize="12"
+              x={strokes[stroke][progress].x + 1.5}
+              y={strokes[stroke][progress].y - 1.5}
+              fontSize="11"
               aria-hidden
               style={{ pointerEvents: "none" }}
             >
@@ -550,9 +610,32 @@ export function LetterWriter({
             👆
           </span>
         )}
+        {/* Not yet: the hand shows where to start again (the first stroke that needs work). */}
+        {mode === "free" && hint && (
+          <span
+            aria-hidden
+            className="anim-point pointer-events-none absolute text-5xl drop-shadow-md"
+            style={{
+              left: `${strokes[hint.hintStroke][0].x}%`,
+              top: `${strokes[hint.hintStroke][0].y + 4}%`,
+            }}
+          >
+            👆
+          </span>
+        )}
         {mode === "done" && (
           <span className="anim-sticker absolute -top-4 -left-4 flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-[var(--card)] text-5xl shadow-lg">
             {letter.emoji}
+          </span>
+        )}
+        {/* A teacher's star stamp on a neat letter. */}
+        {mode === "done" && passed && (
+          <span
+            aria-label="כוכב"
+            className="anim-stamp absolute bottom-4 left-5 flex h-16 w-16 items-center justify-center rounded-full border-[3px] border-dashed border-amber-400 bg-amber-50/90 text-4xl"
+            style={{ animationDelay: `${600 + strokes.length * 380}ms` }}
+          >
+            ⭐
           </span>
         )}
       </div>
@@ -667,4 +750,25 @@ function runs(pts: Pt[], covered: boolean[]) {
     }
   });
   return out;
+}
+
+/**
+ * A first-grade notebook row: a soft band between the top line and the (stronger) bottom line where the letter
+ * sits, a dotted line below for the letters that go down (finals, ק) and above for ל's neck, and a margin on
+ * the right like a Hebrew notebook. The model letters are drawn to fit exactly this band (writing.ts).
+ */
+export function NotebookLines({ letterId }: { letterId: string }) {
+  const pts = strokesFor(letterId).flat();
+  const down = pts.some((p) => p.y > 85);
+  const up = pts.some((p) => p.y < 15);
+  return (
+    <g aria-hidden style={{ pointerEvents: "none" }}>
+      <rect x="0" y="22" width="100" height="58" fill="#e6f0fb" opacity="0.6" />
+      <line x1="90" x2="90" y1="0" y2="100" stroke="#f9a8a8" strokeWidth="0.45" />
+      <line x1="0" x2="100" y1="22" y2="22" stroke="#9cbde6" strokeWidth="0.5" />
+      <line x1="0" x2="100" y1="80" y2="80" stroke="#5f8fd1" strokeWidth="0.85" />
+      <line x1="0" x2="100" y1="96" y2="96" stroke="#9cbde6" strokeWidth="0.5" strokeDasharray="1.2 1.6" opacity={down ? 1 : 0.4} />
+      {up && <line x1="0" x2="100" y1="6" y2="6" stroke="#9cbde6" strokeWidth="0.5" strokeDasharray="1.2 1.6" />}
+    </g>
+  );
 }

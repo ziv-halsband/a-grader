@@ -11,7 +11,7 @@ import { WorldShell } from "@/components/WorldShell";
 import { canWriteName, nameText, nameWords } from "@/content/myName";
 import { nameLineId } from "@/content/names";
 import { line } from "@/content/voice";
-import { smoothPath, strokesFor } from "@/content/writing";
+import { smoothPath, softenInk, strokesFor } from "@/content/writing";
 import { audioUrl, registerLine, sparkleSound } from "@/lib/audio";
 import { cheer } from "@/lib/buddy";
 import { readNameRecording } from "@/lib/nameRecording";
@@ -96,10 +96,10 @@ function NameWriter({ child }: { child: Child }) {
                     {ink.map((s, j) => (
                       <path
                         key={j}
-                        d={smoothPath(s.pts)}
+                        d={smoothPath(softenInk(s.pts))}
                         fill="none"
                         stroke={s.color}
-                        strokeWidth="9"
+                        strokeWidth="6"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
@@ -120,7 +120,7 @@ function NameWriter({ child }: { child: Child }) {
     return (
       <div className="flex flex-1 flex-col items-center gap-5 px-4 py-4">
         <Guide compact lines={[line("name-done", g), "child-name"]} cue={take} />
-        <div className="anim-rise relative w-full max-w-3xl rounded-[2.5rem] bg-white px-4 py-6 shadow-xl sm:px-8">
+        <div className="paper-board anim-rise relative w-full max-w-3xl rounded-[2.5rem] px-4 py-6 shadow-xl sm:px-8">
           <NameSignature signature={{ name, letters: inks }} animate lines className="mx-auto h-auto max-h-[45dvh] w-full" />
           <span className="anim-sticker absolute -top-5 -left-4 flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-[var(--card)] text-5xl shadow-lg">
             ✍️

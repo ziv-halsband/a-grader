@@ -1,4 +1,5 @@
-import { smoothPath } from "@/content/writing";
+import { useId } from "react";
+import { smoothPath, softenInk } from "@/content/writing";
 import type { NameSignature as Signature } from "@/lib/store";
 
 /** Space between letters, between words and around the name (in the letters' 100-unit writing box). */
@@ -22,6 +23,7 @@ export function NameSignature({
   lines?: boolean;
   className?: string;
 }) {
+  const fid = `sig-crayon-${useId().replace(/:/g, "")}`;
   const words = signature.name.split(" ").map((w) => [...w].length);
   const count = words.reduce((a, b) => a + b, 0);
   const letters = signature.letters.slice(0, count).map((l) => l.filter((s) => s.pts.length));
@@ -48,22 +50,32 @@ export function NameSignature({
   const firstStroke = letters.map((_, i) => letters.slice(0, i).reduce((a, l) => a + l.length, 0));
   return (
     <svg viewBox={`0 6 ${width} 94`} className={className} role="img" aria-label={`השם ${signature.name} בכתב היד שלי`}>
+      <defs>
+        {/* The same crayon grain as the writing board. */}
+        <filter id={fid} x="-5%" y="-5%" width="110%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n" />
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="0.7" xChannelSelector="R" yChannelSelector="G" result="d" />
+          <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -0.9 1.3" result="g" />
+          <feComposite in="d" in2="g" operator="in" />
+        </filter>
+      </defs>
       {lines && (
         <>
-          <line x1="4" x2={width - 4} y1="22" y2="22" stroke="#e2e8f0" strokeWidth="0.8" strokeDasharray="2 2" />
-          <line x1="4" x2={width - 4} y1="80" y2="80" stroke="#cbd5e1" strokeWidth="1" />
+          <rect x="0" y="22" width={width} height="58" fill="#e6f0fb" opacity="0.5" />
+          <line x1="0" x2={width} y1="22" y2="22" stroke="#9cbde6" strokeWidth="0.6" />
+          <line x1="0" x2={width} y1="80" y2="80" stroke="#5f8fd1" strokeWidth="1" />
         </>
       )}
       {letters.map((strokes, i) => (
-        <g key={i} transform={`translate(${width - PAD - offsets[i] - spans[i].max} 0)`}>
+        <g key={i} filter={`url(#${fid})`} transform={`translate(${width - PAD - offsets[i] - spans[i].max} 0)`}>
           {strokes.map((s, j) => (
             <path
               key={j}
-              d={smoothPath(s.pts)}
+              d={smoothPath(softenInk(s.pts))}
               pathLength={animate ? 1 : undefined}
               fill="none"
               stroke={s.color}
-              strokeWidth="8"
+              strokeWidth="5.2"
               strokeLinecap="round"
               strokeLinejoin="round"
               className={animate ? "anim-ink" : undefined}

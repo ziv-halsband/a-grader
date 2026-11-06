@@ -32,7 +32,7 @@ export async function strokesOnScreen(page: Page): Promise<{ x: number; y: numbe
   return page.evaluate(() => {
     const svg = document.querySelector('svg[aria-label^="כתיבת"]') as SVGSVGElement;
     const m = svg.getScreenCTM()!;
-    return [...svg.querySelectorAll('polyline[stroke-width="13"]')].map((pl) =>
+    return [...svg.querySelectorAll("polyline[data-track]")].map((pl) =>
       pl
         .getAttribute("points")!
         .split(" ")

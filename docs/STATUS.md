@@ -16,7 +16,7 @@
 - **Letters world (`/play/letters`):** 7 letter stations + 2 mixed review stations (🔀 א–ל, 🏆 all letters), a ✍️ notebook, the 🎲 daily practice and the 🌱 letter garden. Each station has 5 steps:
   1. 📖 **learn:** a big letter, its name, then its example word (draft words, starting with kamatz/patach) played back to back ("בֵּית… בַּיִת"), the letter highlighted inside the word. Then a 🗣️ "say it out loud, tap 👂 to check" round (no speech recognition). Mix stations show a wall of all letters instead.
   2. 🎯 **quiz**, 3 kinds mixed: "where is ב?", "what starts with ב?" and 👂 **by ear** (hear "בַּיִת", pick its first letter; the caption hides the word). A wrong answer is explained ("כִּמְעַט! קוֹף מַתְחִיל בָּאוֹת קוֹף"). Sound-alike letters (ט/ת, כּ/ק, א/ע) are never wrong options.
-  3. ✍️ **write:** 👀 watch → ✏️ trace (snapped ink, arrows) → ✍️ alone → 🖍️ free writing with a forgiving check. A resting palm no longer breaks the stroke.
+  3. ✍️ **write:** 👀 watch → ✏️ trace (snapped ink, arrows) → ✍️ alone → 🖍️ free writing. A notebook-row board (band, bottom line, a dotted line for finals) with crayon ink. Free writing is checked fairly strictly (lookalikes fail), with a gentle hint (the letter faintly, the part to fix glowing, 👆 where to start); after 2 tries the wobble rules relax. A good letter "polishes": the neat letter draws itself over the child's + a ⭐ stamp. A resting palm no longer breaks the stroke.
   4. 🎮 **games menu** (child picks, ≤ 6 per station, chosen per station): 🔍 **lookalike detective** (both letters drawn from the font; the glass lights up the ink only one of them has: ב's foot, ד's corner), 🛏️ **finals' pajamas** (s7, m2: a letter puts on its final form at the end of a word), 🔦 **letter hunt** in a scene (kitchen, park, sea), bubbles, memory, 📺 quiz show, 🎡 wheel, 🎁 boxes.
   5. 🎁 **surprise:** a chest/egg → sticker + gift (+ hero). **Locked until every other step is finished.**
 - **Real mastery (`lib/mastery.ts`, draft rule):** a letter "knows" = right on the first try on 2 different days, in 2 kinds of question. The 🎲 daily practice brings back weak letters first, then letters due after ~1, 3, 7 days, and asks a letter a kind it hasn't had.
@@ -57,7 +57,7 @@
 - Later: accounts (Supabase), payment, mom's avatar and live lessons, AI listening.
 
 ## Known limitations
-- Free-writing check can't tell lookalike letters apart (ד for ר passes), so writing doesn't count toward mastery.
+- Free-writing check (stricter since 6 Nov, `scoreFreehand` in `content/writing.ts`, tuned with `node scripts/tune-writing.ts`): tells ד/ר, ה/ח, ו/ז, ו/י/ן, ר/ך apart; ב/כ only mostly (a messy כ passes as ב ~1 in 8). Similar round shapes (ס/ם/ט) can still pass for each other. Tuned on synthetic letters: watch real kids on the iPad. Writing still doesn't count toward mastery.
 - The Playwright MCP browser draws ך and ן without their tails (a font quirk of that browser, not the app); check finals on a real iPad.
 - The voice is a generic AI voice; short lines can sound rushed. Check `/studio` → "לבדוק באוזן".
 - Kamatz world content and wording are drafts and paused.
