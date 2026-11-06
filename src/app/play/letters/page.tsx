@@ -67,6 +67,15 @@ export default function LettersWorldPage() {
                 {allDone && <PointHand className="-bottom-6 -left-4" />}
               </Link>
             )}
+            {/* 📄 Printable worksheets for this station (for the grown-up). */}
+            <Link
+              href={`/print?src=letters:${LETTER_STATIONS.find((s) => !child.done.includes(`letters/${s.id}`))?.id ?? "m2"}&type=all`}
+              className="btn-3d tile nikud col-span-2 flex items-center justify-center gap-2 px-3 py-2 text-lg font-bold"
+              data-worksheets-tile
+            >
+              <span aria-hidden className="text-2xl">📄</span>
+              דַּפֵּי עֲבוֹדָה
+            </Link>
           </div>
           <GardenPreview child={child} />
         </div>

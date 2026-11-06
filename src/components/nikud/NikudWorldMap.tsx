@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
+import { currentNikudSource, sourceKey } from "@/content/worksheets";
 import { AdventureMap, type MapStation } from "@/components/AdventureMap";
 import { Guide } from "@/components/Guide";
 import { WorldShell } from "@/components/WorldShell";
@@ -68,6 +70,15 @@ export function NikudWorldMap({ worldId }: { worldId: string }) {
             </span>
           </button>
           <h1 className="nikud text-center text-3xl font-extrabold drop-shadow-sm">{vw.mapTitle}</h1>
+          {/* 📄 Printable worksheets for this world (for the grown-up). */}
+          <Link
+            href={`/print?src=${encodeURIComponent(sourceKey(currentNikudSource(worldId, child.done)))}&type=all`}
+            className="btn-3d tile nikud flex items-center gap-2 px-4 py-1.5 text-base font-bold"
+            data-worksheets-tile
+          >
+            <span aria-hidden className="text-xl">📄</span>
+            דַּפֵּי עֲבוֹדָה
+          </Link>
         </div>
         <div className="mt-3">
           <Guide compact once lines={[`nw-${worldId}`]} />

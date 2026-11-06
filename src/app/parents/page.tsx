@@ -6,6 +6,7 @@ import { NIKUD_SYLLABLES, NIKUD_WORD_BY_ID, NIKUD_WORLDS, shownSyllable } from "
 import { LETTERS, LETTER_BY_ID, LETTER_STATIONS } from "@/content/letters";
 import { NameRecorder } from "@/components/NameRecorder";
 import { WORLDS } from "@/content/worlds";
+import { currentSource, sourceKey, sourceTitle } from "@/content/worksheets";
 import { daysThisWeek, masteryMissing, successDays, successKinds } from "@/lib/mastery";
 import { actions, itemMastery, letterMastery, useAppState, type Child, type LetterStat, type Mastery } from "@/lib/store";
 
@@ -135,6 +136,7 @@ function Dashboard() {
               </div>
             )}
             <Summary child={child} />
+            <Worksheets child={child} />
             <LetterGrid child={child} />
             {NIKUD_WORLDS.map((w) => (
               <NikudGrid key={w.id} child={child} worldId={w.id} />
@@ -148,7 +150,7 @@ function Dashboard() {
           כרגע קול זמני ממוחשב לבדיקה בלבד, עד שיוקלט הקול של המורה.
           <div className="mt-2">
             <Link href="/print" className="ml-4 font-medium text-indigo-700 underline">
-              🖨️ דפי כתיבה להדפסה
+              📄 דפי עבודה להדפסה
             </Link>
             <Link href="/studio" className="font-medium text-indigo-700 underline">
               לסטודיו של המורה: בדיקת תוכן וקול
@@ -157,6 +159,35 @@ function Dashboard() {
         </section>
       </main>
     </div>
+  );
+}
+
+/** 📄 Printable worksheets: a ready bundle for the child's current station, or pick anything in /print. */
+function Worksheets({ child }: { child: Child }) {
+  const src = currentSource(child.done);
+  return (
+    <section className="flex flex-wrap items-center gap-4 rounded-2xl bg-white p-5 shadow-sm" data-worksheets>
+      <span className="text-4xl" aria-hidden>
+        📄
+      </span>
+      <div className="min-w-48 flex-1">
+        <h2 className="text-lg font-bold">דפי עבודה להדפסה</h2>
+        <p className="text-sm text-slate-600">
+          כתיבת אותיות, מוצאים ומקיפים, תמונה ואות, צביעה, הברות, קריאה וגזירה. נבנים מהתוכן של המשחק, A4, גם כ-PDF.
+        </p>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        <Link
+          href={`/print?src=${encodeURIComponent(sourceKey(src))}&type=all`}
+          className="nikud rounded-full bg-indigo-600 px-5 py-2.5 font-bold text-white hover:bg-indigo-700"
+        >
+          📦 החבילה של {child.nickname}: {sourceTitle(src)}
+        </Link>
+        <Link href="/print" className="rounded-full bg-slate-100 px-5 py-2.5 font-bold hover:bg-slate-200">
+          לבחור דפים
+        </Link>
+      </div>
+    </section>
   );
 }
 
