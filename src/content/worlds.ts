@@ -35,11 +35,16 @@ export const WORLDS: Record<World["id"], World> = {
       "--sky": "#7dd3fc",
       "--sky-2": "#e0f2fe",
       "--ground": "#fde68a",
-      "--accent": "#f97316",
-      "--accent-2": "#0ea5e9",
+      // Orange 600 (not 500): white text on it stays readable (contrast ≥ 3:1 for big bold text).
+      "--accent": "#ea580c",
+      "--accent-2": "#0284c7",
       "--ink": "#0c4a6e",
       "--card": "#fffbeb",
       "--path": "#fb923c",
+      // The sea and the beach at the bottom of every screen, and the sun.
+      "--hill": "#38bdf8",
+      "--hill-2": "#fcd34d",
+      "--sun": "#fde047",
     },
   },
   garden: {
@@ -60,6 +65,10 @@ export const WORLDS: Record<World["id"], World> = {
       "--ink": "#581c87",
       "--card": "#fff7fb",
       "--path": "#f472b6",
+      // Two rolling green hills at the bottom of every screen, and the sun.
+      "--hill": "#86efac",
+      "--hill-2": "#4ade80",
+      "--sun": "#fde68a",
     },
   },
 };
